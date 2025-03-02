@@ -34,8 +34,9 @@
         #tile2 { width: 450px; height: 291px; background-image: url('https://lh3.googleusercontent.com/d/1DV9-E6emc0Zvn8kkmiKJ_CX8LlZ4TN15'); }
         #tile3 { width: 167px; height: 250px; background-image: url('https://lh3.googleusercontent.com/d/16pyN0N02bhYOJJIGlBfBI7dDDfuaY2Mt'); }
         #tile4 { width: 236px; height: 177px; background-image: url('https://lh3.googleusercontent.com/d/1DZV8lstpNt1vjKdQS0fQgU5n3uF4DKKk'); }
-        #tile5 { width: 250px; height: 250px; background-image: url('https://lh3.googleusercontent.com/d/1jZE2LEV3WCifZ8i-ffqIUa0vMVvTJxMf'); }
+        #tile5 { width: 200px; height: 200px; background-image: url('https://lh3.googleusercontent.com/d/1jZE2LEV3WCifZ8i-ffqIUa0vMVvTJxMf'); }
         #tile6 { width: 211px; height: 178px; background-image: url('https://lh3.googleusercontent.com/d/1_xAggQ95QUNL4gAg_G0Apkvzpzc-heVr'); }
+        #tile7 { width: 206px; height: 136px; background-image: url('https://lh3.googleusercontent.com/d/17sVMp3SHDA3DTdLP_ZI7Wpxp7sls91Iq'); }
     </style>
 </head>
 <body>
@@ -45,6 +46,7 @@
     <div id="tile4" class="tile"><span>OAS Oase Forckenbeckstrasse Wastewater Treatment House, Berlin, Germany - M.A. Thesis, UdK-Berlin</span></div>
     <div id="tile5" class="tile"><span>MOA Mill Owners' Association Building LiDAR Scanning, Ahmedabad, Gujarat - CEPT University CHC</span></div>
     <div id="tile6" class="tile"><span>DEM Robotic Brickwork with Demolition Rubble, Princeton SoA and ARG (Adel Research Group)</span></div>
+    <div id="tile7" class="tile"><span>OAS Oase Forckenbeckstrasse Wastewater Treatment House, Berlin, Germany - M.A. Thesis, UdK-Berlin</span></div>
     
     <script>
 
@@ -167,6 +169,7 @@
         tiles.push(new MovingTile(document.getElementById('tile4'), tiles));
         tiles.push(new MovingTile(document.getElementById('tile5'), tiles));
         tiles.push(new MovingTile(document.getElementById('tile6'), tiles));
+        tiles.push(new MovingTile(document.getElementById('tile7'), tiles));
         
         function collisionLoop() {
             for (let i = 0; i < tiles.length; i++) {
