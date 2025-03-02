@@ -30,6 +30,46 @@
             padding: 8px 16px;
             border-radius: 50px;
         }
+        .line {
+            position: absolute;
+            background: rgb(229, 229, 229);
+            height: 1px;
+            transform-origin: 0 0;
+            z-index: -1;
+        }
+
+        #nameContainer {
+            position: fixed;
+            top: 15px;
+            left: 20px;
+            font-size: 16px;
+            font-weight: regular;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        #name {
+            color: black;
+            background: rgba(255, 255, 255, 0);
+            padding: 5px 10px;
+            border-radius: 50px;
+            transition: opacity 0.3s;
+        }
+        #nameDescription {
+            display: none;
+            position: absolute;
+            top: 30px;
+            left: 0;
+            font-size: 12px;
+            font-weight: regular;
+            color: black;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 8px 12px;
+            border-radius: 10px;
+            width: 300px;
+            max-width: 90vw;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
         #tile1 { width: 262px; height: 147px; background-image: url('https://lh3.googleusercontent.com/d/13PeOgSdkZsJittnEKnShjZ6OaK0LK9NG'); }
         #tile2 { width: 450px; height: 291px; background-image: url('https://lh3.googleusercontent.com/d/1DV9-E6emc0Zvn8kkmiKJ_CX8LlZ4TN15'); }
         #tile3 { width: 167px; height: 250px; background-image: url('https://lh3.googleusercontent.com/d/16pyN0N02bhYOJJIGlBfBI7dDDfuaY2Mt'); }
@@ -37,6 +77,9 @@
         #tile5 { width: 150px; height: 150px; background-image: url('https://lh3.googleusercontent.com/d/1jZE2LEV3WCifZ8i-ffqIUa0vMVvTJxMf'); }
         #tile6 { width: 211px; height: 178px; background-image: url('https://lh3.googleusercontent.com/d/1_xAggQ95QUNL4gAg_G0Apkvzpzc-heVr'); }
         #tile7 { width: 205px; height: 295px; background-image: url('https://lh3.googleusercontent.com/d/1fhhRGuuPbxHo74pfiZ2YRGuzg2GefzCV'); }
+        #tile8 { width: 336px; height: 210px; background-image: url('https://lh3.googleusercontent.com/d/1doNtGEwbpbEJLYi9ZXH9z3FH75jrlTpG'); }
+        #tile9 { width: 89px; height: 118px; background-image: url('https://lh3.googleusercontent.com/d/1q60Qup65QotZqDmGdcuUHKK8pFMl8bVh'); }
+
     </style>
 </head>
 <body>
@@ -47,18 +90,31 @@
     <div id="tile5" class="tile"><span>MOA Mill Owners' Association Building LiDAR Scanning, Ahmedabad, Gujarat - CEPT University CHC</span></div>
     <div id="tile6" class="tile"><span>DEM Robotic Brickwork with Demolition Rubble, Princeton SoA and ARG (Adel Research Group)</span></div>
     <div id="tile7" class="tile"><span>OAS Oase Forckenbeckstrasse Wastewater Treatment House, Berlin, Germany - M.A. Thesis, UdK-Berlin</span></div>
+    <div id="tile8" class="tile"><span>HOLY COW, STRAY COW ! Exhibition Assembly Guide</span></div>
+    <div id="tile9" class="tile"><span>STP Inventory of Public Water, Ahmedabad, Gujarat - Stepwell Documentation</span></div>
     
+    <div id="nameContainer">
+        <span id="name">Pavan Vadgama</span>
+        <span id="nameDescription">Berlin and New York City-based architectural designer with 6+ years of professional experience in adaptive reuse, urban regeneration, and participatory design. Contributed to public discourse through exhibitions, talks, and writings on materiality and built heritage. As a graduate of Princeton's Post-Professional Master of Architecture program, received the Suzanne Kolarik Underwood Prize and the History and Theory Prize for research on advanced digital techniques in the activation of public space. Awarded the Howard Crosby Butler Fellowship for field research on stepwells in Ahmedabad, India. Earned a Master of Arts in Architecture from Berlin University of the Arts, with studies under Jean-Philippe Vassal, and a Bachelor of Arts in Architecture from UC Berkeley. Fluent in English and German, bringing a global perspective and a strong commitment to sustainable design.</span>
+    </div>
+
     <script>
+
+        document.getElementById("nameContainer").addEventListener("click", function () {
+            let description = document.getElementById("nameDescription");
+            description.style.display = description.style.display === "block" ? "none" : "block";
+        });
 
 
         class MovingTile {
-            constructor(element, tiles) {
+            constructor(element, tiles, updateLines) {
                 this.element = element;
                 this.dx = (Math.random() - 0.5) * 2;
                 this.dy = (Math.random() - 0.5) * 2;
                 this.moving = true;
                 this.dragging = false;
-                this.immovable = false; // New flag to track immovable tiles
+                this.immovable = false;
+                this.updateLines = updateLines;
                 this.initPosition(tiles);
                 this.move();
                 this.addEventListeners();
@@ -99,6 +155,7 @@
                 }
                 this.element.style.left = rect.left + this.dx + 'px';
                 this.element.style.top = rect.top + this.dy + 'px';
+                this.updateLines();
                 requestAnimationFrame(() => this.move());
             }
             
@@ -120,6 +177,7 @@
                     const onMouseMove = (event) => {
                         this.element.style.left = event.clientX - shiftX + 'px';
                         this.element.style.top = event.clientY - shiftY + 'px';
+                        this.updateLines();
                     };
                     
                     document.addEventListener('mousemove', onMouseMove);
@@ -162,14 +220,45 @@
             }
         }
         
+        let connections = [
+            ['tile2', 'tile3'],
+            ['tile4', 'tile7'],
+            ['tile5', 'tile1'],
+            ['tile1', 'tile9'],
+            ['tile3', 'tile8']
+        ];
+
+        let lines = {};
+        connections.forEach(([id1, id2], index) => {
+            let line = document.createElement('div');
+            line.className = 'line';
+            line.id = `line${index}`;
+            document.body.appendChild(line);
+            lines[`${id1}-${id2}`] = line;
+        });
+
+        function updateLines() {
+            connections.forEach(([id1, id2]) => {
+                let tile1 = document.getElementById(id1).getBoundingClientRect();
+                let tile2 = document.getElementById(id2).getBoundingClientRect();
+                let line = lines[`${id1}-${id2}`];
+                
+                let x1 = tile1.left + tile1.width / 2;
+                let y1 = tile1.top + tile1.height / 2;
+                let x2 = tile2.left + tile2.width / 2;
+                let y2 = tile2.top + tile2.height / 2;
+                
+                let length = Math.hypot(x2 - x1, y2 - y1);
+                let angle = Math.atan2(y2 - y1, x2 - x1) * (180 / Math.PI);
+                
+                line.style.width = length + 'px';
+                line.style.transform = `translate(${x1}px, ${y1}px) rotate(${angle}deg)`;
+            });
+        }
+
         let tiles = [];
-        tiles.push(new MovingTile(document.getElementById('tile1'), tiles));
-        tiles.push(new MovingTile(document.getElementById('tile2'), tiles));
-        tiles.push(new MovingTile(document.getElementById('tile3'), tiles));
-        tiles.push(new MovingTile(document.getElementById('tile4'), tiles));
-        tiles.push(new MovingTile(document.getElementById('tile5'), tiles));
-        tiles.push(new MovingTile(document.getElementById('tile6'), tiles));
-        tiles.push(new MovingTile(document.getElementById('tile7'), tiles));
+        let tileIds = ['tile1', 'tile2', 'tile3', 'tile4', 'tile5', 'tile6', 'tile7', 'tile8', 'tile9'];
+        tileIds.forEach(id => tiles.push(new MovingTile(document.getElementById(id), tiles, updateLines)));
         
         function collisionLoop() {
             for (let i = 0; i < tiles.length; i++) {
@@ -180,8 +269,8 @@
             requestAnimationFrame(collisionLoop);
         }
         collisionLoop();
-        
-        
+        updateLines();
+
     </script>
 </body>
 </html>
