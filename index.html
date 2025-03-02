@@ -3,362 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snake Game</title>
+    <title>Drifting Tiles</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: white;
+            font-family: Helvetica, sans-serif;
+        }
+        .tile {
+            position: absolute;
+            cursor: grab;
+            transition: opacity 0.2s;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .tile span {
+            display: none;
+            font-size: 12px;
+            font-weight: regular;
+            color: black;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 8px 16px;
+            border-radius: 50px;
+        }
+        #tile1 { width: 262px; height: 147px; background-image: url('https://lh3.googleusercontent.com/d/13PeOgSdkZsJittnEKnShjZ6OaK0LK9NG'); }
+        #tile2 { width: 450px; height: 291px; background-image: url('https://lh3.googleusercontent.com/d/1DV9-E6emc0Zvn8kkmiKJ_CX8LlZ4TN15'); }
+        #tile3 { width: 167px; height: 250px; background-image: url('https://lh3.googleusercontent.com/d/16pyN0N02bhYOJJIGlBfBI7dDDfuaY2Mt'); }
+        #tile4 { width: 236px; height: 177px; background-image: url('https://lh3.googleusercontent.com/d/1DZV8lstpNt1vjKdQS0fQgU5n3uF4DKKk'); }
+        #tile5 { width: 250px; height: 250px; background-image: url('https://lh3.googleusercontent.com/d/1jZE2LEV3WCifZ8i-ffqIUa0vMVvTJxMf'); }
+    </style>
 </head>
 <body>
+    <div id="tile1" class="tile"><span>STP Inventory of Public Water, Ahmedabad, Gujarat – Butler Traveling Fellowship, 2023</span></div>
+    <div id="tile2" class="tile"><span>COW Urban Bovine Reconvalescene Center, Ahmedabad, Gujarat – Princeton Post-Pro Thesis</span></div>
+    <div id="tile3" class="tile"><span>HOLY COW, STRAY COW ! Exhibition, Princeton SoA and Cheryl Hazan Gallery, Tribeca, NYC, March 2024</span></div>
+    <div id="tile4" class="tile"><span>OAS Oase Forckenbeckstrasse Wastewater Treatment House, Berlin, Germany - M.A. Thesis, UdK-Berlin</span></div>
+    <div id="tile5" class="tile"><span>MOA Mill Owners' Associaton Building LiDAR Scanning, Ahmedabad, Gujarat - CEPT University CHC</span></div>
+    
     <script>
 
-const canvas = document.createElement("canvas");
-const ctx = canvas.getContext("2d");
-document.body.appendChild(canvas);
 
-// Create a separate background layer for the canvas
-const canvasContainer = document.createElement("div");
-canvasContainer.style.position = "absolute";
-canvasContainer.style.top = "50%";
-canvasContainer.style.left = "50%";
-canvasContainer.style.transform = "translate(-50%, -50%)";
-canvasContainer.style.display = "block";
-canvasContainer.style.margin = "auto"; // Adds equal spacing from left, right, and top
-canvasContainer.style.width = "fit-content";
-document.body.appendChild(canvasContainer);
-canvasContainer.appendChild(canvas);
-
-const canvasBackground = document.createElement("div");
-canvasBackground.style.position = "absolute";
-canvasBackground.style.top = "0";
-canvasBackground.style.left = "0";
-canvasBackground.style.width = "100%";
-canvasBackground.style.height = "100%";
-canvasBackground.style.backgroundImage = "url('https://w0.peakpx.com/wallpaper/543/352/HD-wallpaper-warhol-flowers-3-art-warhol-pop-sixties-flowers-pop-art.jpg')";
-canvasBackground.style.backgroundSize = "cover";
-canvasBackground.style.backgroundRepeat = "no-repeat";
-canvasBackground.style.backgroundPosition = "center";
-canvasBackground.style.opacity = "0.1";
-canvasContainer.appendChild(canvasBackground);
-canvas.style.position = "relative";
-canvas.style.zIndex = "1";
-
-document.body.style.fontFamily = "Helvetica Neue, sans-serif";
-document.body.style.backgroundColor = "#CCCCCC";
-canvas.style.border = "none";
-canvas.style.margin = "0px auto 0 auto";
-
-typeof localStorage.highScore === "undefined" && (localStorage.highScore = 0);
-
-function resizeCanvas() {
-    canvas.width = Math.floor(window.innerWidth * 0.8 / gridSize) * gridSize;
-    canvas.height = Math.floor(window.innerHeight * 0.8 / gridSize) * gridSize;
-    canvas.style.display = "block";
-}
-
-const gridSize = 20;
-resizeCanvas();
-window.addEventListener("resize", resizeCanvas);
-
-function getSegmentCount() {
-    return parseInt(segmentInput.value) || 3;
-}
-
-// Create segment input button
-const segmentButton = document.createElement("div");
-segmentButton.style.display = "flex";
-segmentButton.style.alignItems = "center";
-segmentButton.style.padding = "0px 10px";
-segmentButton.style.fontSize = "15px";
-segmentButton.style.backgroundColor = "white";
-segmentButton.style.border = "none";
-segmentButton.style.borderRadius = "20px"; // Pill shape
-segmentButton.style.height = "40px";
-segmentButton.style.lineHeight = "20px";
-segmentButton.style.textAlign = "center";
-
-const segmentLabel = document.createElement("span");
-segmentLabel.innerText = "  Segments:";
-segmentLabel.style.marginLeft = "10px"
-segmentLabel.style.marginRight = "-5px";
-
-const segmentInput = document.createElement("input");
-segmentInput.type = "number";
-segmentInput.min = "1";
-segmentInput.value = "3";
-segmentInput.style.width = "50px";
-segmentInput.style.fontSize = "15px";
-segmentInput.style.textAlign = "center";
-segmentInput.style.border = "none";
-segmentInput.style.backgroundColor = "transparent";
-
-segmentButton.appendChild(segmentLabel);
-segmentButton.appendChild(segmentInput);
-
-function createButton(text, onClick, withShadow = false) {
-    const button = document.createElement("button");
-    button.innerText = text;
-    button.style.padding = "10px 20px";
-    button.style.fontSize = "15px";
-    button.style.backgroundColor = "white";
-    button.style.transition = "box-shadow 0.1s ease-in-out";
-    button.style.border = "none";
-    button.style.borderRadius = "20px"; // Pill shape
-    button.style.height = "40px";
-    button.style.lineHeight = "20px";
-    button.style.textAlign = "center";
-    
-    if (withShadow) {
-        button.addEventListener("click", () => {
-            button.style.boxShadow = "inset 3px 3px 5px rgba(0, 0, 0, 0.3)";
-            setTimeout(() => {
-                button.style.boxShadow = "none";
-            }, 100);
-            onClick();
-        });
-    } else {
-        button.addEventListener("click", onClick);
-    }
-    
-    return button;
-}
-
-function createSpeedSelector() {
-    const speedSelect = document.createElement("select");
-    speedSelect.style.fontSize = "15px";
-    speedSelect.style.border = "none";
-    speedSelect.style.borderRadius = "20px"; // Pill shape for the selector
-    speedSelect.style.height = "40px";
-    speedSelect.style.lineHeight = "20px";
-    speedSelect.style.padding = "5px 15px";
-    speedSelect.style.backgroundColor = "white";
-    speedSelect.style.cursor = "pointer";
-    
-    const speeds = { slow: 200, medium: 100, fast: 50 };
-    Object.keys(speeds).forEach(speed => {
-        let option = document.createElement("option");
-        option.value = speeds[speed];
-        option.innerText = speed.charAt(0).toUpperCase() + speed.slice(1);
-        speedSelect.appendChild(option);
-    });
-    speedSelect.value = speeds.fast;
-    speedSelect.addEventListener("change", () => {
-        gameSpeed = parseInt(speedSelect.value);
-        if (!isPaused) {
-            clearInterval(gameInterval);
-            gameInterval = setInterval(gameLoop, gameSpeed);
+        class MovingTile {
+            constructor(element, tiles) {
+                this.element = element;
+                this.dx = (Math.random() - 0.5) * 2;
+                this.dy = (Math.random() - 0.5) * 2;
+                this.moving = true;
+                this.dragging = false;
+                this.immovable = false; // New flag to track immovable tiles
+                this.initPosition(tiles);
+                this.move();
+                this.addEventListeners();
+            }
+            
+            initPosition(tiles) {
+                let overlapping;
+                do {
+                    overlapping = false;
+                    this.element.style.left = Math.random() * (window.innerWidth - this.element.clientWidth) + 'px';
+                    this.element.style.top = Math.random() * (window.innerHeight - this.element.clientHeight) + 'px';
+                    let rectA = this.element.getBoundingClientRect();
+                    for (let tile of tiles) {
+                        if (tile.element !== this.element) {
+                            let rectB = tile.element.getBoundingClientRect();
+                            if (
+                                rectA.left < rectB.right &&
+                                rectA.right > rectB.left &&
+                                rectA.top < rectB.bottom &&
+                                rectA.bottom > rectB.top
+                            ) {
+                                overlapping = true;
+                                break;
+                            }
+                        }
+                    }
+                } while (overlapping);
+            }
+            
+            move() {
+                if (!this.moving || this.dragging || this.immovable) return;
+                let rect = this.element.getBoundingClientRect();
+                if (rect.left + this.dx < 0 || rect.right + this.dx > window.innerWidth) {
+                    this.dx = -this.dx;
+                }
+                if (rect.top + this.dy < 0 || rect.bottom + this.dy > window.innerHeight) {
+                    this.dy = -this.dy;
+                }
+                this.element.style.left = rect.left + this.dx + 'px';
+                this.element.style.top = rect.top + this.dy + 'px';
+                requestAnimationFrame(() => this.move());
+            }
+            
+            addEventListeners() {
+                this.element.addEventListener('click', () => {
+                    this.immovable = !this.immovable;
+                    this.moving = !this.moving;
+                    this.element.style.opacity = this.immovable ? '0.5' : '1';
+                    let text = this.element.querySelector('span');
+                    text.style.display = this.immovable ? 'block' : 'none';
+                    if (!this.immovable) this.move();
+                });
+                
+                this.element.addEventListener('mousedown', (e) => {
+                    this.dragging = true;
+                    let shiftX = e.clientX - this.element.getBoundingClientRect().left;
+                    let shiftY = e.clientY - this.element.getBoundingClientRect().top;
+                    
+                    const onMouseMove = (event) => {
+                        this.element.style.left = event.clientX - shiftX + 'px';
+                        this.element.style.top = event.clientY - shiftY + 'px';
+                    };
+                    
+                    document.addEventListener('mousemove', onMouseMove);
+                    
+                    document.addEventListener('mouseup', () => {
+                        document.removeEventListener('mousemove', onMouseMove);
+                        this.dragging = false;
+                        if (this.moving) this.move();
+                    }, { once: true });
+                });
+            }
         }
-    });
-    return speedSelect;
-}
-
-function drawSnake() {
-    ctx.fillStyle = "blue";
-    snake.forEach((segment, index) => {
-        ctx.beginPath();
-        let x = segment.x;
-        let y = segment.y;
-        let size = gridSize;
-        let radius = size / 2;
         
-        if (index === 0) {
-            // Draw head as a larger pill-shaped rectangle
-            let radius = size / 2;
-            ctx.moveTo(x + radius, y);
-            ctx.lineTo(x + size - radius, y);
-            ctx.arcTo(x + size, y, x + size, y + radius, radius);
-            ctx.lineTo(x + size, y + size - radius);
-            ctx.arcTo(x + size, y + size, x + size - radius, y + size, radius);
-            ctx.lineTo(x + radius, y + size);
-            ctx.arcTo(x, y + size, x, y + size - radius, radius);
-            ctx.lineTo(x, y + radius);
-            ctx.arcTo(x, y, x + radius, y, radius);
-        } else if (index === snake.length - 1) {
-            // Draw tail as a smaller pill-shaped rectangle (0.8x the size of the head)
-            let tailSize = size * 0.9;
-            let tailOffset = (size - tailSize) / 2;
-            let radius = tailSize / 2;
-            ctx.moveTo(x + tailOffset + radius, y + tailOffset);
-            ctx.lineTo(x + tailOffset + tailSize - radius, y + tailOffset);
-            ctx.arcTo(x + tailOffset + tailSize, y + tailOffset, x + tailOffset + tailSize, y + tailOffset + radius, radius);
-            ctx.lineTo(x + tailOffset + tailSize, y + tailOffset + tailSize - radius);
-            ctx.arcTo(x + tailOffset + tailSize, y + tailOffset + tailSize, x + tailOffset + tailSize - radius, y + tailOffset + tailSize, radius);
-            ctx.lineTo(x + tailOffset + radius, y + tailOffset + tailSize);
-            ctx.arcTo(x + tailOffset, y + tailOffset + tailSize, x + tailOffset, y + tailOffset + tailSize - radius, radius);
-            ctx.lineTo(x + tailOffset, y + tailOffset + radius);
-            ctx.arcTo(x + tailOffset, y + tailOffset, x + tailOffset + radius, y + tailOffset, radius);
-        } else {
-            // Draw body segments as squares
-            ctx.fillRect(segment.x, segment.y, size, size);
+        function checkCollision(tileA, tileB) {
+            if (tileA.immovable && tileB.immovable) return;
+            
+            let rectA = tileA.element.getBoundingClientRect();
+            let rectB = tileB.element.getBoundingClientRect();
+            
+            if (
+                rectA.left < rectB.right &&
+                rectA.right > rectB.left &&
+                rectA.top < rectB.bottom &&
+                rectA.bottom > rectB.top
+            ) {
+                if (tileA.immovable) {
+                    tileB.dx = -tileB.dx;
+                    tileB.dy = -tileB.dy;
+                } else if (tileB.immovable) {
+                    tileA.dx = -tileA.dx;
+                    tileA.dy = -tileA.dy;
+                } else {
+                    let tempDx = tileA.dx;
+                    let tempDy = tileA.dy;
+                    tileA.dx = tileB.dx;
+                    tileA.dy = tileB.dy;
+                    tileB.dx = tempDx;
+                    tileB.dy = tempDy;
+                }
+            }
         }
-        ctx.fill();
-    });
-    
-    // Change composite operation to erase stroke (revealing background)
-    ctx.globalCompositeOperation = "destination-out";
-    ctx.lineWidth = 2;
-    snake.forEach(segment => {
-        ctx.strokeStyle = "rgba(0, 0, 0, 1)"; // Fully erases border
-        ctx.strokeRect(segment.x, segment.y, gridSize, gridSize);
-    });
-    
-    // Restore normal drawing mode
-    ctx.globalCompositeOperation = "source-over";
-}
-
-let foodRotation = 0;
-
-function drawFood() {
-    ctx.save();
-    ctx.translate(food.x + gridSize / 2, food.y + gridSize / 2);
-    ctx.rotate(foodRotation);
-    ctx.fillStyle = "yellow";
-    let size = gridSize * 0.4;
-    
-    ctx.beginPath();
-    for (let i = 0; i < 5; i++) {
-        let angle = (i * 2 * Math.PI) / 5;
-        let petalX = Math.cos(angle) * size;
-        let petalY = Math.sin(angle) * size;
-        ctx.arc(petalX, petalY, size * 0.8, 0, Math.PI * 2);
-    }
-    ctx.fill();
-    ctx.restore();
-    
-    foodRotation += 0.05; // Adjust rotation speed
-}
-
-
-
-function generateFoodPosition() {
-    let newFood;
-    do {
-        newFood = {
-            x: Math.floor(Math.random() * ((canvas.width - gridSize * 2) / gridSize)) * gridSize + gridSize,
-            y: Math.floor(Math.random() * ((canvas.height - gridSize * 2) / gridSize)) * gridSize + gridSize
-        };
-    } while (snake.some(segment => segment.x === newFood.x && segment.y === newFood.y));
-    return newFood;
-}
-
-function updateScores() {
-    scoreButton.innerText = "Score: " + score;
-    highScoreButton.innerText = "High Score: " + localStorage.highScore;
-}
-
-let score = 0;
-const scoreButton = createButton("Score: " + score, () => {});
-const highScoreButton = createButton("High Score: " + localStorage.highScore, () => {});
-
-function moveSnake() {
-    if (isPaused) return;
-    let head = { ...snake[0] };
-    if (direction === "right") head.x += gridSize;
-    if (direction === "left") head.x -= gridSize;
-    if (direction === "up") head.y -= gridSize;
-    if (direction === "down") head.y += gridSize;
-    
-    if (head.x === food.x && head.y === food.y) {
-        food = generateFoodPosition();
-        const segmentCount = getSegmentCount(); // Get the latest segment count
-        for (let i = 0; i < segmentCount; i++) {
-            snake.push({ ...snake[snake.length - 1] });
+        
+        let tiles = [];
+        tiles.push(new MovingTile(document.getElementById('tile1'), tiles));
+        tiles.push(new MovingTile(document.getElementById('tile2'), tiles));
+        tiles.push(new MovingTile(document.getElementById('tile3'), tiles));
+        tiles.push(new MovingTile(document.getElementById('tile4'), tiles));
+        tiles.push(new MovingTile(document.getElementById('tile5'), tiles));
+        
+        function collisionLoop() {
+            for (let i = 0; i < tiles.length; i++) {
+                for (let j = i + 1; j < tiles.length; j++) {
+                    checkCollision(tiles[i], tiles[j]);
+                }
+            }
+            requestAnimationFrame(collisionLoop);
         }
-        score += segmentCount;
-        if (score > localStorage.highScore) {
-            localStorage.highScore = score;
-        }
-    } else {
-        snake.pop();
-    }
-    
-    if (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height || snake.some(segment => segment.x === head.x && segment.y === head.y)) {
-        clearInterval(gameInterval);
-        alert("Game Over!");
-        return;
-    }
-    
-    snake.unshift(head);
-    updateScores();
-}
-
-function gameLoop() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawFood();
-    moveSnake();
-    drawSnake();
-}
-
-let snake = [{ x: 200, y: 200 }];
-let direction = "right";
-let food = generateFoodPosition();
-let gameSpeed = 50;
-let isPaused = false;
-let gameInterval;
-
-drawSnake();
-drawFood();
-//gameInterval = setInterval(gameLoop, gameSpeed);
-
-const buttonContainer = document.createElement("div");
-buttonContainer.style.display = "flex";
-buttonContainer.style.borderRadius = "40px";
-buttonContainer.style.border = "none"; // Pill shape
-buttonContainer.style.padding = "10px";
-buttonContainer.style.width = "fit-content"; // Adds margin inside the bounding box
-buttonContainer.style.backgroundColor = "#BBBBBB";
-buttonContainer.style.justifyContent = "center";
-buttonContainer.style.alignItems = "center";
-buttonContainer.style.margin = "20px auto";
-buttonContainer.style.gap = "20px";
-buttonContainer.style.marginTop = "20px";
-document.body.appendChild(buttonContainer);
-canvasContainer.appendChild(canvas);
-//buttonContainer.style.margin = "20px auto 0 auto";
-//buttonContainer.style.flexWrap = "wrap";
-
-document.addEventListener("keydown", (event) => {
-    if (event.key === "ArrowUp" && direction !== "down") direction = "up";
-    if (event.key === "ArrowDown" && direction !== "up") direction = "down";
-    if (event.key === "ArrowLeft" && direction !== "right") direction = "left";
-    if (event.key === "ArrowRight" && direction !== "left") direction = "right";
-});
-
-const restartButton = createButton("Restart", () => {
-    clearInterval(gameInterval);
-    snake = [{ x: 200, y: 200 }];
-    direction = "right";
-    food = generateFoodPosition();
-    score = 0;
-    isPaused = false;
-    gameInterval = setInterval(gameLoop, gameSpeed);
-    updateScores();
-}, true);
-
-const togglePlayPauseButton = createButton("Play!", () => {
-    if (!gameInterval) {
-        gameInterval = setInterval(gameLoop, gameSpeed);
-        isPaused = false;
-        togglePlayPauseButton.innerText = "Pause";
-    } else {
-        isPaused = !isPaused;
-        togglePlayPauseButton.innerText = isPaused ? "Play" : "Pause";
-        if (isPaused) {
-            clearInterval(gameInterval);
-            gameInterval = null;
-        } else {
-            gameInterval = setInterval(gameLoop, gameSpeed);
-        }
-    }
-}, true);
-
-const speedSelector = createSpeedSelector();
-buttonContainer.appendChild(togglePlayPauseButton);
-buttonContainer.appendChild(restartButton);
-buttonContainer.appendChild(segmentButton); // Add segment input button
-buttonContainer.appendChild(speedSelector);
-buttonContainer.appendChild(highScoreButton);
-buttonContainer.appendChild(scoreButton);
-document.body.appendChild(buttonContainer);
-
-
-
+        collisionLoop();
+        
+        
     </script>
 </body>
 </html>
