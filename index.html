@@ -35,6 +35,7 @@
         #tile3 { width: 167px; height: 250px; background-image: url('https://lh3.googleusercontent.com/d/16pyN0N02bhYOJJIGlBfBI7dDDfuaY2Mt'); }
         #tile4 { width: 236px; height: 177px; background-image: url('https://lh3.googleusercontent.com/d/1DZV8lstpNt1vjKdQS0fQgU5n3uF4DKKk'); }
         #tile5 { width: 250px; height: 250px; background-image: url('https://lh3.googleusercontent.com/d/1jZE2LEV3WCifZ8i-ffqIUa0vMVvTJxMf'); }
+        #tile6 { width: 211px; height: 178px; background-image: url('https://lh3.googleusercontent.com/d/1_xAggQ95QUNL4gAg_G0Apkvzpzc-heVr'); }
     </style>
 </head>
 <body>
@@ -43,6 +44,7 @@
     <div id="tile3" class="tile"><span>HOLY COW, STRAY COW ! Exhibition, Princeton SoA and Cheryl Hazan Gallery, Tribeca, NYC, March 2024</span></div>
     <div id="tile4" class="tile"><span>OAS Oase Forckenbeckstrasse Wastewater Treatment House, Berlin, Germany - M.A. Thesis, UdK-Berlin</span></div>
     <div id="tile5" class="tile"><span>MOA Mill Owners' Association Building LiDAR Scanning, Ahmedabad, Gujarat - CEPT University CHC</span></div>
+    <div id="tile6" class="tile"><span>DEM Robotic Brickwork with Demolition Rubble, Princeton SoA and ARG (Adel Research Group)</span></div>
     
     <script>
 
@@ -164,6 +166,7 @@
         tiles.push(new MovingTile(document.getElementById('tile3'), tiles));
         tiles.push(new MovingTile(document.getElementById('tile4'), tiles));
         tiles.push(new MovingTile(document.getElementById('tile5'), tiles));
+        tiles.push(new MovingTile(document.getElementById('tile6'), tiles));
         
         function collisionLoop() {
             for (let i = 0; i < tiles.length; i++) {
