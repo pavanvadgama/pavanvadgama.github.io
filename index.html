@@ -79,12 +79,13 @@
         #tile7 { width: 205px; height: 295px; background-image: url('https://lh3.googleusercontent.com/d/1fhhRGuuPbxHo74pfiZ2YRGuzg2GefzCV'); }
         #tile8 { width: 336px; height: 210px; background-image: url('https://lh3.googleusercontent.com/d/1doNtGEwbpbEJLYi9ZXH9z3FH75jrlTpG'); }
         #tile9 { width: 89px; height: 118px; background-image: url('https://lh3.googleusercontent.com/d/1q60Qup65QotZqDmGdcuUHKK8pFMl8bVh'); }
+        #tile10 { width: 170px; height: 107px; background-image: url('https://lh3.googleusercontent.com/d/10TykZZ-j1Q7ZNQVytwPACXOWucxC07o6'); }
 
     </style>
 </head>
 <body>
     <div id="tile1" class="tile"><span>STP Inventory of Public Water, Ahmedabad, Gujarat – Butler Traveling Fellowship, 2023</span></div>
-    <div id="tile2" class="tile"><span>COW Urban Bovine Reconvalescene Center, Ahmedabad, Gujarat – Princeton Post-Pro Thesis</span></div>
+    <div id="tile2" class="tile"><span>COW Urban Bovine Welfare Center + Sanctuary, Ahmedabad, Gujarat – Princeton Post-Pro Thesis</span></div>
     <div id="tile3" class="tile"><span>HOLY COW, STRAY COW ! Exhibition, Princeton SoA and Cheryl Hazan Gallery, Tribeca, NYC, March 2024</span></div>
     <div id="tile4" class="tile"><span>OAS Oase Forckenbeckstrasse Wastewater Treatment House, Berlin, Germany - M.A. Thesis, UdK-Berlin</span></div>
     <div id="tile5" class="tile"><span>MOA Mill Owners' Association Building LiDAR Scanning, Ahmedabad, Gujarat - CEPT University CHC</span></div>
@@ -92,10 +93,11 @@
     <div id="tile7" class="tile"><span>OAS Oase Forckenbeckstrasse Wastewater Treatment House, Berlin, Germany - M.A. Thesis, UdK-Berlin</span></div>
     <div id="tile8" class="tile"><span>HOLY COW, STRAY COW ! Exhibition Assembly Guide</span></div>
     <div id="tile9" class="tile"><span>STP Inventory of Public Water, Ahmedabad, Gujarat - Stepwell Documentation</span></div>
+    <div id="tile10" class="tile"><span>COWview, Video (traversing the urban street through the cow‘s perspective) http://tiny.cc/CowView</span></div>
     
     <div id="nameContainer">
         <span id="name">Pavan Vadgama</span>
-        <span id="nameDescription">Berlin and New York City-based architectural designer with 6+ years of professional experience in adaptive reuse, urban regeneration, and participatory design. Contributed to public discourse through exhibitions, talks, and writings on materiality and built heritage. As a graduate of Princeton's Post-Professional Master of Architecture program, received the Suzanne Kolarik Underwood Prize and the History and Theory Prize for research on advanced digital techniques in the activation of public space. Awarded the Howard Crosby Butler Fellowship for field research on stepwells in Ahmedabad, India. Earned a Master of Arts in Architecture from Berlin University of the Arts, with studies under Jean-Philippe Vassal, and a Bachelor of Arts in Architecture from UC Berkeley. Fluent in English and German, bringing a global perspective and a strong commitment to sustainable design.</span>
+        <span id="nameDescription">Berlin and New York City-based architectural designer with 6+ years of professional experience in adaptive reuse, urban regeneration, and participatory design, and 2+ years of teaching at the graduate and undergraduate levels. Contributed to public discourse through exhibitions, talks, and writings on materiality and built heritage. As a graduate of Princeton's Post-Professional Master of Architecture program, received the Suzanne Kolarik Underwood Prize and the History and Theory Prize for research on advanced digital techniques in the activation of public space. Awarded the Howard Crosby Butler Fellowship for field research on stepwells in Ahmedabad, India. Earned a Master of Arts in Architecture from Berlin University of the Arts, with studies under Jean-Philippe Vassal, and a Bachelor of Arts in Architecture from UC Berkeley. Fluent in English and German, bringing a global perspective and a strong commitment to sustainable design.</span>
     </div>
 
     <script>
@@ -225,7 +227,9 @@
             ['tile4', 'tile7'],
             ['tile5', 'tile1'],
             ['tile1', 'tile9'],
-            ['tile3', 'tile8']
+            ['tile3', 'tile8'],
+            ['tile10', 'tile2'],
+            ['tile10', 'tile3']
         ];
 
         let lines = {};
@@ -257,7 +261,7 @@
         }
 
         let tiles = [];
-        let tileIds = ['tile1', 'tile2', 'tile3', 'tile4', 'tile5', 'tile6', 'tile7', 'tile8', 'tile9'];
+        let tileIds = ['tile1', 'tile2', 'tile3', 'tile4', 'tile5', 'tile6', 'tile7', 'tile8', 'tile9', 'tile10'];
         tileIds.forEach(id => tiles.push(new MovingTile(document.getElementById(id), tiles, updateLines)));
         
         function collisionLoop() {
