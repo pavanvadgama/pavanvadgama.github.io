@@ -171,18 +171,39 @@
             
             move() {
                 if (!this.moving || this.dragging || this.immovable) return;
+
                 let rect = this.element.getBoundingClientRect();
+                let centerX = window.innerWidth / 2;
+                let centerY = window.innerHeight / 2;
+
+                // Gradually adjust velocity toward the center
+                let attractionStrength = 0.000005; // Controls how strongly tiles move toward the center
+                this.dx += (centerX - (rect.left + rect.width / 2)) * attractionStrength;
+                this.dy += (centerY - (rect.top + rect.height / 2)) * attractionStrength;
+
+                // Limit speed to prevent excessive acceleration
+                let speedLimit = 1;
+                let speed = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
+                if (speed > speedLimit) {
+                    this.dx = (this.dx / speed) * speedLimit;
+                    this.dy = (this.dy / speed) * speedLimit;
+                }
+
+                // Boundary collision check
                 if (rect.left + this.dx < 0 || rect.right + this.dx > window.innerWidth) {
                     this.dx = -this.dx;
                 }
                 if (rect.top + this.dy < 0 || rect.bottom + this.dy > window.innerHeight) {
                     this.dy = -this.dy;
                 }
+
                 this.element.style.left = rect.left + this.dx + 'px';
                 this.element.style.top = rect.top + this.dy + 'px';
                 this.updateLines();
+
                 requestAnimationFrame(() => this.move());
             }
+
             
             addEventListeners() {
                 this.element.addEventListener('click', () => {
@@ -218,32 +239,40 @@
         
         function checkCollision(tileA, tileB) {
             if (tileA.immovable && tileB.immovable) return;
-            
+
             let rectA = tileA.element.getBoundingClientRect();
             let rectB = tileB.element.getBoundingClientRect();
-            
+
             if (
                 rectA.left < rectB.right &&
                 rectA.right > rectB.left &&
                 rectA.top < rectB.bottom &&
                 rectA.bottom > rectB.top
             ) {
+                // Compute push direction
+                let dx = (rectB.left + rectB.width / 2) - (rectA.left + rectA.width / 2);
+                let dy = (rectB.top + rectB.height / 2) - (rectA.top + rectA.height / 2);
+                let distance = Math.sqrt(dx * dx + dy * dy) || 1;
+                let pushStrength = 1000; // Adjust push force on collision
+
+                dx = (dx / distance) * pushStrength;
+                dy = (dy / distance) * pushStrength;
+
                 if (tileA.immovable) {
-                    tileB.dx = -tileB.dx;
-                    tileB.dy = -tileB.dy;
+                    tileB.dx += dx;
+                    tileB.dy += dy;
                 } else if (tileB.immovable) {
-                    tileA.dx = -tileA.dx;
-                    tileA.dy = -tileA.dy;
+                    tileA.dx -= dx;
+                    tileA.dy -= dy;
                 } else {
-                    let tempDx = tileA.dx;
-                    let tempDy = tileA.dy;
-                    tileA.dx = tileB.dx;
-                    tileA.dy = tileB.dy;
-                    tileB.dx = tempDx;
-                    tileB.dy = tempDy;
+                    tileA.dx -= dx / 2;
+                    tileA.dy -= dy / 2;
+                    tileB.dx += dx / 2;
+                    tileB.dy += dy / 2;
                 }
             }
         }
+
         
         let connections = [
             ['tile2', 'tile3'],
