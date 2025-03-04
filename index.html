@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Pavan Vadgama</title>
     <link rel="icon" type="image/png" href="https://img.icons8.com/led/32/earth-planet.png">
     <style>
@@ -87,6 +87,23 @@
 
         #refreshIcon:hover {
             opacity: .7;
+        }
+
+        @media (max-width: 768px) {
+            #nameContainer {
+                top: 10px;
+                right: 10px;
+                font-size: 14px;
+            }
+            .tile span {
+                font-size: 10px;
+                padding: 6px 12px;
+            }
+            .tile {
+                width: auto;
+                max-width: 80vw;
+                max-height: 80vh;
+            }
         }
 
         #tile1 { width: 262px; height: 147px; background-image: url('https://lh3.googleusercontent.com/d/13PeOgSdkZsJittnEKnShjZ6OaK0LK9NG'); }
