@@ -102,13 +102,13 @@
                 padding: 6px 12px; /* Make touch targets larger */
             }
             .tile {
-                width: auto;
+                max-width: min(90vw, 15vh); /* Ensures proportional scaling within this frame */
+                max-height: min(90vh, 15vw); /* Ensures height fits within bounds */
+                width: auto; /* Keeps the original aspect ratio */
                 height: auto;
-                max-width: 20vh; /* Scale down proportionally within this frame */
-                max-height: 15vh; /* Ensures height is also constrained */
-                aspect-ratio: auto; /* Maintain the natural aspect ratio */
-                overflow: hidden; /* Prevent content from being cut off */
-
+                aspect-ratio: inherit; /* Correctly preserves the natural proportions */
+                overflow: hidden; /* Prevents content from spilling */
+                background-size: contain; /* Ensures full image visibility without cropping */
             }
             #refreshIcon {
                 width: 20px;
