@@ -210,12 +210,12 @@
                 let centerY = window.innerHeight / 2;
 
                 // Add slight attraction to the center
-                let attractionStrength = 0.00001;
+                let attractionStrength = 0.000005;
                 this.dx += (centerX - (rect.left + rect.width / 2)) * attractionStrength;
                 this.dy += (centerY - (rect.top + rect.height / 2)) * attractionStrength;
 
                 // Apply speed limit to avoid excessive acceleration
-                let speedLimit = 1.5;
+                let speedLimit = 1;
                 let speed = Math.hypot(this.dx, this.dy);
                 if (speed > speedLimit) {
                     this.dx = (this.dx / speed) * speedLimit;
