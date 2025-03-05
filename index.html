@@ -176,29 +176,27 @@
 
             // Initialize the tile position, avoiding overlap with others
             initPosition(tiles) {
-                let maxAttempts = 50; // Limit attempts to prevent infinite loops
-                for (let attempt = 0; attempt < maxAttempts; attempt++) {
-                    let left = Math.random() * (window.innerWidth - this.element.clientWidth);
-                    let top = Math.random() * (window.innerHeight - this.element.clientHeight);
-                    this.element.style.left = `${left}px`;
-                    this.element.style.top = `${top}px`;
-
-                    let overlapping = tiles.some(tile => this.isOverlapping(tile));
-                    if (!overlapping) return;
-                }
-            }
-
-            // Check if this tile is overlapping with another tile
-            isOverlapping(otherTile) {
-                if (otherTile.element === this.element) return false;
-                let rectA = this.element.getBoundingClientRect();
-                let rectB = otherTile.element.getBoundingClientRect();
-                return !(
-                    rectA.right < rectB.left ||
-                    rectA.left > rectB.right ||
-                    rectA.bottom < rectB.top ||
-                    rectA.top > rectB.bottom
-                );
+                let overlapping;
+                do {
+                    overlapping = false;
+                    this.element.style.left = Math.random() * (window.innerWidth - this.element.clientWidth) + 'px';
+                    this.element.style.top = Math.random() * (window.innerHeight - this.element.clientHeight) + 'px';
+                    let rectA = this.element.getBoundingClientRect();
+                    for (let tile of tiles) {
+                        if (tile.element !== this.element) {
+                            let rectB = tile.element.getBoundingClientRect();
+                            if (
+                                rectA.left < rectB.right &&
+                                rectA.right > rectB.left &&
+                                rectA.top < rectB.bottom &&
+                                rectA.bottom > rectB.top
+                            ) {
+                                overlapping = true;
+                                break;
+                            }
+                        }
+                    }
+                } while (overlapping);
             }
 
             // Move tile with smooth attraction towards center
