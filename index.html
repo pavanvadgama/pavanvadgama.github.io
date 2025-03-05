@@ -16,7 +16,8 @@
             position: absolute;
             cursor: grab;
             transition: opacity 0.2s;
-            background-size: cover;
+            background-size: contain;
+            background-position: center;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -100,8 +101,12 @@
                 padding: 6px 12px; /* Make touch targets larger */
             }
             .tile {
-                max-width: min(90vw, 15vh);
-                max-height: min(90vh, 15vw);
+                width: auto;
+                height: auto;
+                max-width: 15vh; /* Scale down proportionally within this frame */
+                max-height: 15vh; /* Ensures height is also constrained */
+                aspect-ratio: auto; /* Maintain the natural aspect ratio */
+                overflow: hidden; /* Prevent content from being cut off */
             }
             #refreshIcon {
                 width: 20px;
