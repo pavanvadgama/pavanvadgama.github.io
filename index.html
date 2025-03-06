@@ -98,8 +98,23 @@
                 font-size: 14px;
             }
             .tile span {
-                font-size: 10px; /* Increase text size */
-                padding: 6px 12px; /* Make touch targets larger */
+                display: none; /* Ensure text is visible */
+                font-size: 10px; /* Adjust font size for mobile */
+                padding: 4px 8px;
+                max-width: 120%; /* Allows text to extend beyond tile bounds */
+                white-space: normal; /* Allow text to wrap */
+                word-wrap: break-word;
+                position: absolute; /* Position text freely outside the tile */
+                top: 100%; /* Push text below the tile */
+                left: 50%;
+                transform: translateX(-50%); /* Center the text horizontally */
+                background: rgba(255, 255, 255, 0.9); /* Keep text readable */
+                border-radius: 5px;
+                z-index: 10; /* Ensure text stays above other elements */
+            }
+            .tile.clicked span {
+                display: block;
+                opacity: 1;
             }
             .tile {
                 max-width: min(90vw, 15vh); /* Ensures proportional scaling within this frame */
@@ -107,8 +122,12 @@
                 width: auto; /* Keeps the original aspect ratio */
                 height: auto;
                 aspect-ratio: inherit; /* Correctly preserves the natural proportions */
-                overflow: hidden; /* Prevents content from spilling */
-                background-size: contain; /* Ensures full image visibility without cropping */
+                overflow: visible; /* Allow elements to overflow outside the tile */
+                background-size: contain;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column; /* Ensures vertical alignment */
             }
             #refreshIcon {
                 width: 20px;
