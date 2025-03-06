@@ -238,7 +238,7 @@
                 this.dy += (centerY - (rect.top + rect.height / 2)) * attractionStrength;
 
                 // Apply speed limit to avoid excessive acceleration
-                let speedLimit = 1;
+                let speedLimit = window.innerWidth < 768 ? 0.3 : 1;
                 let speed = Math.hypot(this.dx, this.dy);
                 if (speed > speedLimit) {
                     this.dx = (this.dx / speed) * speedLimit;
