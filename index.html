@@ -188,6 +188,19 @@
         document.addEventListener("gesturestart", function (e) {
             e.preventDefault();
         });
+        
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".tile").forEach(tile => {
+                let img = new Image();
+                img.src = tile.style.backgroundImage.replace(/url\(["']?/, '').replace(/["']?\)$/, ''); // Extract URL
+
+                img.onload = function () {
+                    let aspectRatio = img.naturalWidth / img.naturalHeight;
+                    tile.style.width = `min(40vw, ${aspectRatio * 30}vh)`; // Scale based on viewport
+                    tile.style.aspectRatio = `${img.naturalWidth} / ${img.naturalHeight}`;
+                };
+            });
+        });
 
 
         class MovingTile {
