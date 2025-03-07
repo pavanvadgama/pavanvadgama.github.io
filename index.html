@@ -16,8 +16,6 @@
         }
         .tile {
             position: absolute;
-            cursor: grab;
-            transition: opacity 0.2s;
             background-size: contain;
             background-position: center;
             background-repeat: no-repeat;
@@ -93,6 +91,19 @@
             opacity: .7;
         }
 
+        #tile1 { width: 300px; height: 168px; background-image: url('https://lh3.googleusercontent.com/d/13PeOgSdkZsJittnEKnShjZ6OaK0LK9NG'); }
+        #tile2 { width: 450px; height: 291px; background-image: url('https://lh3.googleusercontent.com/d/1DV9-E6emc0Zvn8kkmiKJ_CX8LlZ4TN15'); }
+        #tile3 { width: 167px; height: 250px; background-image: url('https://lh3.googleusercontent.com/d/16pyN0N02bhYOJJIGlBfBI7dDDfuaY2Mt'); }
+        #tile4 { width: 236px; height: 177px; background-image: url('https://lh3.googleusercontent.com/d/1DZV8lstpNt1vjKdQS0fQgU5n3uF4DKKk'); }
+        #tile5 { width: 130px; height: 130px; background-image: url('https://lh3.googleusercontent.com/d/1wWLzenh85CuUI_1b0Cx0lQya4fGdSmaH'); }
+        #tile6 { width: 211px; height: 178px; background-image: url('https://lh3.googleusercontent.com/d/19QO7pxkTV4__PQTNNOZ-oI7vicjcXtiP'); }
+        #tile7 { width: 205px; height: 295px; background-image: url('https://lh3.googleusercontent.com/d/1fhhRGuuPbxHo74pfiZ2YRGuzg2GefzCV'); }
+        #tile8 { width: 336px; height: 210px; background-image: url('https://lh3.googleusercontent.com/d/1doNtGEwbpbEJLYi9ZXH9z3FH75jrlTpG'); }
+        #tile9 { width: 89px; height: 118px; background-image: url('https://lh3.googleusercontent.com/d/1q60Qup65QotZqDmGdcuUHKK8pFMl8bVh'); }
+        #tile10 { width: 187px; height: 105px; background-image: url('https://lh3.googleusercontent.com/d/1mpdBqdthxgYmSPUT0PtDx9y_3seN37p5'); }
+        #tile11 { width: 85px; height: 70px; background-image: url('https://lh3.googleusercontent.com/d/1kFcKWsL8d_1xA_bMQ1l6QKBoZ5nUJSyt'); }
+        #tile12 { width: 240px; height: 180px; background-image: url('https://lh3.googleusercontent.com/d/1T4KzUTt0ITaG84gJDHRaHQ8eKiLOkkf5'); }
+
         @media (max-width: 768px) {
             #nameContainer {
                 top: 10px;
@@ -118,39 +129,28 @@
                 display: block;
                 opacity: 1;
             }
-            .tile {
-                max-width: min(90vw, 15vh); /* Ensures proportional scaling within this frame */
-                max-height: min(90vh, 15vw); /* Ensures height fits within bounds */
-                width: auto; /* Keeps the original aspect ratio */
-                height: auto;
-                aspect-ratio: inherit; /* Correctly preserves the natural proportions */
-                overflow: visible; /* Allow elements to overflow outside the tile */
-                background-size: contain;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                flex-direction: column; /* Ensures vertical alignment */
-            }
+            
             #refreshIcon {
                 width: 16px;
                 height: 16px;
                 top: 10px;
                 left: 10px;
             }
-        }
 
-        #tile1 { width: 300px; height: 168px; background-image: url('https://lh3.googleusercontent.com/d/13PeOgSdkZsJittnEKnShjZ6OaK0LK9NG'); }
-        #tile2 { width: 450px; height: 291px; background-image: url('https://lh3.googleusercontent.com/d/1DV9-E6emc0Zvn8kkmiKJ_CX8LlZ4TN15'); }
-        #tile3 { width: 167px; height: 250px; background-image: url('https://lh3.googleusercontent.com/d/16pyN0N02bhYOJJIGlBfBI7dDDfuaY2Mt'); }
-        #tile4 { width: 236px; height: 177px; background-image: url('https://lh3.googleusercontent.com/d/1DZV8lstpNt1vjKdQS0fQgU5n3uF4DKKk'); }
-        #tile5 { width: 130px; height: 130px; background-image: url('https://lh3.googleusercontent.com/d/1wWLzenh85CuUI_1b0Cx0lQya4fGdSmaH'); }
-        #tile6 { width: 211px; height: 178px; background-image: url('https://lh3.googleusercontent.com/d/19QO7pxkTV4__PQTNNOZ-oI7vicjcXtiP'); }
-        #tile7 { width: 205px; height: 295px; background-image: url('https://lh3.googleusercontent.com/d/1fhhRGuuPbxHo74pfiZ2YRGuzg2GefzCV'); }
-        #tile8 { width: 336px; height: 210px; background-image: url('https://lh3.googleusercontent.com/d/1doNtGEwbpbEJLYi9ZXH9z3FH75jrlTpG'); }
-        #tile9 { width: 89px; height: 118px; background-image: url('https://lh3.googleusercontent.com/d/1q60Qup65QotZqDmGdcuUHKK8pFMl8bVh'); }
-        #tile10 { width: 187px; height: 105px; background-image: url('https://lh3.googleusercontent.com/d/1mpdBqdthxgYmSPUT0PtDx9y_3seN37p5'); }
-        #tile11 { width: 85px; height: 70px; background-image: url('https://lh3.googleusercontent.com/d/1kFcKWsL8d_1xA_bMQ1l6QKBoZ5nUJSyt'); }
-        #tile12 { width: 240px; height: 180px; background-image: url('https://lh3.googleusercontent.com/d/1T4KzUTt0ITaG84gJDHRaHQ8eKiLOkkf5'); }
+            #tile1 { width: 32vw !important; height: 20vh !important; }
+            #tile2 { width: 30vw !important; height: 17vh !important; }
+            #tile3 { width: 15vw !important; height: 20vh !important; }
+            #tile4 { width: 23vw !important; height: 16vh !important; }
+            #tile5 { width: 15vw !important; height: 15vw !important; } /* Square */
+            #tile6 { width: 25vw !important; height: 20vh !important; }
+            #tile7 { width: 17vw !important; height: 25vh !important; }
+            #tile8 { width: 30vw !important; height: 13vh !important; }
+            #tile9 { width: 10vw !important; height: 15vh !important; }
+            #tile10 { width: 15vw !important; height: 8vh !important; }
+            #tile11 { width: 8vw !important; height: 5vh !important; }
+            #tile12 { width: 20vw !important; height: 18vh !important; }
+            
+        }
 
     </style>
 </head>
@@ -188,7 +188,7 @@
         document.addEventListener("gesturestart", function (e) {
             e.preventDefault();
         });
-        
+
         document.addEventListener("DOMContentLoaded", function () {
             document.querySelectorAll(".tile").forEach(tile => {
                 let img = new Image();
