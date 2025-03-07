@@ -92,7 +92,7 @@
         }
 
         #tile1 { width: 300px; height: 168px; background-image: url('https://lh3.googleusercontent.com/d/13PeOgSdkZsJittnEKnShjZ6OaK0LK9NG'); }
-        #tile2 { width: 450px; height: 291px; background-image: url('https://lh3.googleusercontent.com/d/1DV9-E6emc0Zvn8kkmiKJ_CX8LlZ4TN15'); }
+        #tile2 { width: 400px; height: 259px; background-image: url('https://lh3.googleusercontent.com/d/1DV9-E6emc0Zvn8kkmiKJ_CX8LlZ4TN15'); }
         #tile3 { width: 167px; height: 250px; background-image: url('https://lh3.googleusercontent.com/d/16pyN0N02bhYOJJIGlBfBI7dDDfuaY2Mt'); }
         #tile4 { width: 236px; height: 177px; background-image: url('https://lh3.googleusercontent.com/d/1DZV8lstpNt1vjKdQS0fQgU5n3uF4DKKk'); }
         #tile5 { width: 130px; height: 130px; background-image: url('https://lh3.googleusercontent.com/d/1wWLzenh85CuUI_1b0Cx0lQya4fGdSmaH'); }
@@ -103,6 +103,8 @@
         #tile10 { width: 187px; height: 105px; background-image: url('https://lh3.googleusercontent.com/d/1mpdBqdthxgYmSPUT0PtDx9y_3seN37p5'); }
         #tile11 { width: 85px; height: 70px; background-image: url('https://lh3.googleusercontent.com/d/1kFcKWsL8d_1xA_bMQ1l6QKBoZ5nUJSyt'); }
         #tile12 { width: 240px; height: 180px; background-image: url('https://lh3.googleusercontent.com/d/1T4KzUTt0ITaG84gJDHRaHQ8eKiLOkkf5'); }
+        #tile13 { width: 150px; height: 106px; background-image: url('https://lh3.googleusercontent.com/d/1S5QnlwXCZHUVGLOrhor2NkuYT6dYUYWV'); }
+        #tile14 { width: 250px; height: 138px; background-image: url('https://lh3.googleusercontent.com/d/11--GOwMde7wbJEZkgVfDw1KNQefooyQQ'); }
 
         @media (max-width: 768px) {
             #nameContainer {
@@ -157,6 +159,8 @@
             #tile10 { width: 15vw !important; aspect-ratio: 187 / 105 !important; height: auto !important; } /* COWview */
             #tile11 { width: 8vw !important; aspect-ratio: 85 / 70 !important; height: auto !important; } /* DEM */
             #tile12 { width: 20vw !important; aspect-ratio: 240 / 180 !important; height: auto !important; } /* PSY */
+            #tile13 { width: 15vw !important; aspect-ratio: 150 / 106 !important; height: auto !important; } /* ZHC */
+            #tile14 { width: 25vw !important; aspect-ratio: 256 / 138 !important; height: auto !important; } /* SSZ */
 
             
         }
@@ -177,8 +181,10 @@
     <div id="tile9" class="tile"><span>STP Inventory of Public Water, Ahmedabad, Gujarat - Stepwell Documentation, 2023</span></div>
     <div id="tile10" class="tile"><span>COWview, Video (traversing the urban street through the cow‘s perspective) http://tiny.cc/CowView</span></div>
     <div id="tile11" class="tile"><span>DEM robotically fabricated structure - Princeton SoA and ARG, 2023</span></div>
-    <div id="tile12" class="tile"><span>PSY Psychotherapy Association of Berlin, with STP Architekten, 2022</span></div>
-    
+    <div id="tile12" class="tile"><span>PSY Psychotherapy Association of Berlin - Professional work with STP Architekten, 2022</span></div>
+    <div id="tile13" class="tile"><span>ZHC Zum Hechtgraben Community Center, Berlin-Hohenschönhausen – Initiative with Friederike Schwalbe Architektur, 2019</span></div>    
+    <div id="tile14" class="tile"><span>SSZ Strahlenschutzzentrum Adaptive Reuse, Berlin-Lichtenberg - Professional work with ZOOMARCHITEKTEN, 2024-</span></div>
+
     <div id="nameContainer">
         <span id="name">Pavan Vadgama</span>
         <span id="nameDescription">Berlin and New York City-based architectural designer with 6+ years of professional experience in housing collectives, adaptive reuse, and participatory design, and 2+ years of teaching at the graduate and undergraduate levels. Contributed to public discourse through exhibitions, talks, and writings on materiality, built heritage, and multi-actant architectural forms. As a graduate of Princeton's Post-Professional Master of Architecture program, received the Suzanne Kolarik Underwood Prize and the SoA History and Theory Prize for research on multispecies urbanism and non-human agency in design. Awarded the Howard Crosby Butler Travel Fellowship for field research on water infrastructures and urban cowsheds in Ahmedabad, India. Earned a Master of Arts in Architecture from Berlin University of the Arts, with studies under Jean-Philippe Vassal, and a Bachelor of Arts in Architecture from UC Berkeley. Fluent in English and German, bringing a global perspective and interdisciplinary approach to material reuse systems and speculative spatial practices.</span>
@@ -430,7 +436,7 @@
         }
 
         let tiles = [];
-        let tileIds = ['tile1', 'tile2', 'tile3', 'tile4', 'tile5', 'tile6', 'tile7', 'tile8', 'tile9', 'tile10', 'tile11', 'tile12'];
+        let tileIds = ['tile1', 'tile2', 'tile3', 'tile4', 'tile5', 'tile6', 'tile7', 'tile8', 'tile9', 'tile10', 'tile11', 'tile12', 'tile13', 'tile14'];
         tileIds.forEach(id => tiles.push(new MovingTile(document.getElementById(id), tiles, updateLines)));
         
         function collisionLoop() {
