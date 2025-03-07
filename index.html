@@ -12,6 +12,7 @@
             background-color: white;
             font-family: Helvetica, sans-serif;
             touch-action: manipulation; /* Prevents pinch zooming */
+            overflow: hidden;
         }
         .tile {
             position: absolute;
@@ -183,6 +184,9 @@
 
         document.getElementById("refreshIcon").addEventListener("click", function () {
             location.reload();
+        });
+        document.addEventListener("gesturestart", function (e) {
+            e.preventDefault();
         });
 
 
