@@ -113,12 +113,15 @@
             .tile {
                 display: block !important; /* Ensure proper block rendering */
                 height: auto !important; /* Clear inherited desktop height */
+                z-index: 1;
+                position: absolute;
             }
             .tile span {
                 display: none; /* Ensure text is visible */
                 font-size: 10px; /* Adjust font size for mobile */
                 padding: 4px 8px;
-                max-width: 120%; /* Allows text to extend beyond tile bounds */
+                min-width: 120%;
+                max-width: 200px; /* Allows text to extend beyond tile bounds */
                 white-space: normal; /* Allow text to wrap */
                 word-wrap: break-word;
                 position: absolute; /* Position text freely outside the tile */
@@ -127,7 +130,8 @@
                 transform: translateX(-50%); /* Center the text horizontally */
                 background: rgba(255, 255, 255, 0.9); /* Keep text readable */
                 border-radius: 5px;
-                z-index: 10; /* Ensure text stays above other elements */
+                z-index: 9999 !important; /* Ensure text stays above other elements */
+                pointer-events: none;
             }
             .tile.clicked span {
                 display: block;
