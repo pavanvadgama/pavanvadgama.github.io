@@ -256,6 +256,7 @@
                 if (!this.moving || this.dragging || this.immovable) return;
 
                 let rect = this.element.getBoundingClientRect();
+                
                 let centerX = window.innerWidth / 2;
                 let centerY = window.innerHeight / 2;
 
@@ -323,7 +324,7 @@
                     document.removeEventListener("touchmove", onMove);
                     this.dragging = false;
                     // ✅ Reset Speed When Dragging Stops
-                   this.dx = (Math.random() - 0.5) * 0.5;
+                    this.dx = (Math.random() - 0.5) * 0.5;
                     this.dy = (Math.random() - 0.5) * 0.5;
                     if (this.moving) this.move();
                 };
