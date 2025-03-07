@@ -110,6 +110,10 @@
                 right: 10px;
                 font-size: 14px;
             }
+            .tile {
+                display: block !important; /* Ensure proper block rendering */
+                height: auto !important; /* Clear inherited desktop height */
+            }
             .tile span {
                 display: none; /* Ensure text is visible */
                 font-size: 10px; /* Adjust font size for mobile */
@@ -137,18 +141,18 @@
                 left: 10px;
             }
 
-            #tile1 { width: 32vw !important; aspect-ratio: 300 / 168 !important; min-height: 10vh !important; } /* STP */
-            #tile2 { width: 30vw !important; aspect-ratio: 450 / 291 !important; min-height: 10vh !important; } /* COW */
-            #tile3 { width: 15vw !important; aspect-ratio: 167 / 250 !important; min-height: 10vh !important; } /* HOLY COW */
-            #tile4 { width: 23vw !important; aspect-ratio: 236 / 177 !important; min-height: 10vh !important; } /* OAS */
-            #tile5 { width: 15vw !important; aspect-ratio: 130 / 130 !important; min-height: 10vh !important; } /* MOA */
-            #tile6 { width: 25vw !important; aspect-ratio: 211 / 178 !important; min-height: 10vh !important; } /* DEM */
-            #tile7 { width: 17vw !important; aspect-ratio: 205 / 295 !important; min-height: 10vh !important; } /* OAS Model */
-            #tile8 { width: 30vw !important; aspect-ratio: 336 / 210 !important; min-height: 10vh !important; } /* HOLY COW Sheet */
-            #tile9 { width: 10vw !important; aspect-ratio: 89 / 118 !important; min-height: 10vh !important; } /* STP */
-            #tile10 { width: 15vw !important; aspect-ratio: 187 / 105 !important; min-height: 10vh !important; } /* COWview */
-            #tile11 { width: 8vw !important; aspect-ratio: 85 / 70 !important; min-height: 10vh !important; } /* DEM */
-            #tile12 { width: 20vw !important; aspect-ratio: 240 / 180 !important; min-height: 10vh !important; } /* PSY */
+            #tile1 { width: 32vw !important; aspect-ratio: 300 / 168 !important; height: auto !important; } /* STP */
+            #tile2 { width: 30vw !important; aspect-ratio: 450 / 291 !important; height: auto !important; } /* COW */
+            #tile3 { width: 15vw !important; aspect-ratio: 167 / 250 !important; height: auto !important; } /* HOLY COW */
+            #tile4 { width: 23vw !important; aspect-ratio: 236 / 177 !important; height: auto !important; } /* OAS */
+            #tile5 { width: 15vw !important; aspect-ratio: 130 / 130 !important; height: auto !important; } /* MOA */
+            #tile6 { width: 25vw !important; aspect-ratio: 211 / 178 !important; height: auto !important; } /* DEM */
+            #tile7 { width: 17vw !important; aspect-ratio: 205 / 295 !important; height: auto !important; } /* OAS Model */
+            #tile8 { width: 30vw !important; aspect-ratio: 336 / 210 !important; height: auto !important; } /* HOLY COW Sheet */
+            #tile9 { width: 10vw !important; aspect-ratio: 89 / 118 !important; height: auto !important; } /* STP */
+            #tile10 { width: 15vw !important; aspect-ratio: 187 / 105 !important; height: auto !important; } /* COWview */
+            #tile11 { width: 8vw !important; aspect-ratio: 85 / 70 !important; height: auto !important; } /* DEM */
+            #tile12 { width: 20vw !important; aspect-ratio: 240 / 180 !important; height: auto !important; } /* PSY */
 
             
         }
