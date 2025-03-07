@@ -322,6 +322,9 @@
                     document.removeEventListener("mousemove", onMove);
                     document.removeEventListener("touchmove", onMove);
                     this.dragging = false;
+                    // ✅ Reset Speed When Dragging Stops
+                   this.dx = (Math.random() - 0.5) * 0.5;
+                    this.dy = (Math.random() - 0.5) * 0.5;
                     if (this.moving) this.move();
                 };
 
