@@ -104,13 +104,28 @@
         #tile11 { width: 85px; height: 70px; background-image: url('https://lh3.googleusercontent.com/d/1kFcKWsL8d_1xA_bMQ1l6QKBoZ5nUJSyt'); }
         #tile12 { width: 240px; height: 180px; background-image: url('https://lh3.googleusercontent.com/d/1T4KzUTt0ITaG84gJDHRaHQ8eKiLOkkf5'); }
         #tile13 { width: 150px; height: 106px; background-image: url('https://lh3.googleusercontent.com/d/1S5QnlwXCZHUVGLOrhor2NkuYT6dYUYWV'); }
-        #tile14 { width: 250px; height: 138px; background-image: url('https://lh3.googleusercontent.com/d/11--GOwMde7wbJEZkgVfDw1KNQefooyQQ'); }
+        #tile14 { width: 92px; height: 67px; background-image: url('https://lh3.googleusercontent.com/d/1ykr3twnj0j98jRH9Cr_fz1BJbFAWdwjx'); }
+        #tile15 { width: 250px; height: 138px; background-image: url('https://lh3.googleusercontent.com/d/11--GOwMde7wbJEZkgVfDw1KNQefooyQQ'); }
 
         @media (max-width: 768px) {
             #nameContainer {
                 top: 10px;
                 right: 10px;
                 font-size: 14px;
+            }
+            #nameDescription {
+                position: fixed !important; /* Keep it centered regardless of scrolling */
+                top: 20% !important; /* Move it to the middle of the screen */
+                left: 50% !important;
+                transform: translate(-50%, -50%) !important; /* Ensure it is truly centered */
+                width: 80vw !important; /* Limit the width for readability */
+                max-width: 90vw !important;
+                text-align: center !important; /* Center the text */
+                background: rgba(255, 255, 255, 0.95) !important; /* Ensure readability */
+                padding: 12px 16px !important; /* Add some padding */
+                border-radius: 10px !important;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important; /* Add a slight shadow */
+                z-index: 10000 !important; /* Ensure it stays on top */
             }
             .tile {
                 display: block !important; /* Ensure proper block rendering */
@@ -160,7 +175,8 @@
             #tile11 { width: 8vw !important; aspect-ratio: 85 / 70 !important; height: auto !important; } /* DEM */
             #tile12 { width: 20vw !important; aspect-ratio: 240 / 180 !important; height: auto !important; } /* PSY */
             #tile13 { width: 15vw !important; aspect-ratio: 150 / 106 !important; height: auto !important; } /* ZHC */
-            #tile14 { width: 25vw !important; aspect-ratio: 250 / 138 !important; height: auto !important; } /* SSZ */
+            #tile14 { width: 9vw !important; aspect-ratio: 921 / 670 !important; height: auto !important; } /* SSZ */
+            #tile15 { width: 25vw !important; aspect-ratio: 250 / 138 !important; height: auto !important; } /* SSZ */            
 
             
         }
@@ -183,7 +199,8 @@
     <div id="tile11" class="tile"><span>DEM robotically fabricated structure - Princeton SoA and ARG, 2023</span></div>
     <div id="tile12" class="tile"><span>PSY Psychotherapy Association of Berlin - Professional work with STP Architekten, 2022</span></div>
     <div id="tile13" class="tile"><span>ZHC Zum Hechtgraben Community Center, Berlin-Hohenschönhausen – Initiative with Friederike Schwalbe Architektur, 2019</span></div>    
-    <div id="tile14" class="tile"><span>SSZ Strahlenschutzzentrum Adaptive Reuse, Berlin-Lichtenberg - Professional work with ZOOMARCHITEKTEN, 2024-</span></div>
+    <div id="tile14" class="tile"><span>POE "The Poiesis of Miesian Corners" in Pidgin Magazine, no. 32, 2024-</span></div>
+    <div id="tile15" class="tile"><span>SSZ Strahlenschutzzentrum Adaptive Reuse, Berlin-Lichtenberg - Professional work with ZOOMARCHITEKTEN, 2024</span></div>
 
     <div id="nameContainer">
         <span id="name">Pavan Vadgama</span>
@@ -269,7 +286,7 @@
                 let centerY = window.innerHeight / 2;
 
                 // Add slight attraction to the center
-                let attractionStrength = 0.000004;
+                let attractionStrength = 0.0000025;
                 this.dx += (centerX - (rect.left + rect.width / 2)) * attractionStrength;
                 this.dy += (centerY - (rect.top + rect.height / 2)) * attractionStrength;
 
@@ -398,7 +415,7 @@
                 let dx = (rectB.left + rectB.width / 2) - (rectA.left + rectA.width / 2);
                 let dy = (rectB.top + rectB.height / 2) - (rectA.top + rectA.height / 2);
                 let distance = Math.sqrt(dx * dx + dy * dy) || 1;
-                let pushStrength = 1000; // Adjust push force on collision
+                let pushStrength = 1500; // Adjust push force on collision
 
                 dx = (dx / distance) * pushStrength;
                 dy = (dy / distance) * pushStrength;
@@ -459,7 +476,7 @@
         }
 
         let tiles = [];
-        let tileIds = ['tile1', 'tile2', 'tile3', 'tile4', 'tile5', 'tile6', 'tile7', 'tile8', 'tile9', 'tile10', 'tile11', 'tile12', 'tile13', 'tile14'];
+        let tileIds = ['tile1', 'tile2', 'tile3', 'tile4', 'tile5', 'tile6', 'tile7', 'tile8', 'tile9', 'tile10', 'tile11', 'tile12', 'tile13', 'tile14', 'tile15'];
         tileIds.forEach(id => tiles.push(new MovingTile(document.getElementById(id), tiles, updateLines)));
         
         function collisionLoop() {
