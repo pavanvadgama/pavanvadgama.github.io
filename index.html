@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Pavan Vadgama</title>
     <link rel="icon" type="image/png" href="https://img.icons8.com/led/32/earth-planet.png">
+
     <style>
         body {
             margin: 0;
@@ -94,9 +95,42 @@
             opacity: 1.0;
             transition: opacity 0.2s;
         }
-
         #refreshIcon:hover {
             opacity: .7;
+        }
+        #magnifyIcon {
+            position: fixed;
+            top: 15px;
+            left: 50px; /* Adjust position next to refresh button */
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            z-index: 1000;
+            opacity: 1.0;
+            transition: opacity 0.2s;
+        }
+        #magnifyIcon:hover {
+            opacity: 0.7;
+        }
+        /* 🔍 Magnification Effect */
+        .magnifier {
+            position: absolute;
+            width: 200px; /* Size of magnifying glass */
+            height: 200px;
+            border-radius: 50%;
+            border: 2px solid rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            background-repeat: no-repeat;
+            background-size: 300%; /* Zoom effect */
+            pointer-events: none; /* Prevent interference */
+            display: none; /* Hidden until activated */
+            z-index: 10000; /* Ensure it stays on top */
+            overflow: hidden;
+        }
+        .magnifier-content {
+            position: absolute;
+            transform: scale(2); /* Adjust magnification level */
+            transform-origin: center;
         }
 
         #tile1 { width: 280px; height: 157px; background-image: url('https://lh3.googleusercontent.com/d/13PeOgSdkZsJittnEKnShjZ6OaK0LK9NG'); }
@@ -172,6 +206,12 @@
                 top: 10px;
                 left: 10px;
             }
+            #magnifyIcon {
+                top: 10px;
+                left: 50px; /* Adjust position next to refresh button */
+                width: 18px;
+                height: 18px;
+            }
 
             #tile1 { width: 25vw !important; aspect-ratio: 300 / 168 !important; height: auto !important; } /* STP */
             #tile2 { width: 30vw !important; aspect-ratio: 450 / 291 !important; height: auto !important; } /* COW */
@@ -196,6 +236,8 @@
 </head>
 <body>
     <img id="refreshIcon" src="https://img.icons8.com/ios-filled/50/update-left-rotation.png" alt="Refresh">
+    <img id="magnifyIcon" src="https://img.icons8.com/ios-filled/50/search.png" alt="Magnify">
+
 
     <div id="tile1" class="tile"><span>STP Inventory of Public Water in Ahmedabad, Gujarat – Butler Traveling Fellowship, 2023</span></div>
     <div id="tile2" class="tile"><span>COW Urban Bovine Welfare Center + Sanctuary, Ahmedabad, Gujarat – Post-Pro Thesis, Princeton SoA, 2024</span></div>
@@ -408,6 +450,61 @@
         }
 
         let currentlyPausedTile = null; // Tracks which tile is paused
+
+        let magnifyMode = false;
+        let magnifier = document.createElement("div");
+        magnifier.classList.add("magnifier");
+        document.body.appendChild(magnifier);
+
+        let magnifierContent = document.createElement("div");
+        magnifierContent.classList.add("magnifier-content");
+        magnifier.appendChild(magnifierContent);
+
+        document.getElementById("magnifyIcon").addEventListener("click", function () {
+            magnifyMode = !magnifyMode;
+
+            if (magnifyMode) {
+                document.body.style.cursor = "none"; // Hide default cursor
+                magnifier.style.display = "block";
+            } else {
+                document.body.style.cursor = "default";
+                magnifier.style.display = "none"; // Hide magnifier when disabled
+            }
+        });
+
+        document.addEventListener("mousemove", function (e) {
+            if (!magnifyMode) return;
+
+            let tile = document.elementFromPoint(e.clientX, e.clientY);
+            if (tile && tile.classList.contains("tile")) {
+                let rect = tile.getBoundingClientRect();
+                let zoomFactor = 2; // Adjust magnification level
+
+                // Position the magnifier
+                let magnifierSize = 200;
+                let offsetX = e.clientX - magnifierSize / 2;
+                let offsetY = e.clientY - magnifierSize / 2;
+                magnifier.style.left = `${offsetX}px`;
+                magnifier.style.top = `${offsetY}px`;
+
+                // Set the magnifier content to be the zoomed tile
+                magnifierContent.innerHTML = "";
+                let clonedTile = tile.cloneNode(true);
+                clonedTile.style.transform = `scale(${zoomFactor})`;
+                clonedTile.style.transformOrigin = `${((e.clientX - rect.left) / rect.width) * 100}% ${((e.clientY - rect.top) / rect.height) * 100}%`;
+                clonedTile.style.position = "absolute";
+                clonedTile.style.left = `-${(e.clientX - rect.left) * (zoomFactor - 1)}px`;
+                clonedTile.style.top = `-${(e.clientY - rect.top) * (zoomFactor - 1)}px`;
+
+                magnifierContent.appendChild(clonedTile);
+                magnifier.style.display = "block";
+            } else {
+                magnifier.style.display = "none";
+            }
+        });
+
+
+
 
         
         function checkCollision(tileA, tileB) {
