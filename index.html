@@ -115,8 +115,8 @@
         /* 🔍 Magnification Effect */
         .magnifier {
             position: absolute;
-            width: 200px; /* Size of magnifying glass */
-            height: 200px;
+            width: 300px; /* Size of magnifying glass */
+            height: 300px;
             border-radius: 50%;
             border: 2px solid rgba(0, 0, 0, 0.2);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -505,10 +505,27 @@
             let tile = document.elementFromPoint(clientX, clientY);
             if (tile && tile.classList.contains("tile")) {
                 let rect = tile.getBoundingClientRect();
-                let zoomFactor = 2; // Adjust magnification level
+                let zoomFactor = 2.5; // Adjust magnification level
+
+                // ✅ PAUSE TILE MOVEMENT
+                if (!tile.dataset.paused || tile.dataset.paused === "false") {
+                    tile.dataset.paused = "true"; // Mark tile as paused
+                    tile.style.animationPlayState = "paused"; // Pause CSS animations if any
+
+                    // If the tile has a movement function, stop it
+                    if (tile.moving !== undefined) {
+                        tile.moving = false;
+                    }
+
+                    // If the tile has an interval or requestAnimationFrame, clear it
+                    if (tile.moveInterval) {
+                        clearInterval(tile.moveInterval);
+                        tile.moveInterval = null;
+                    }
+                }
 
                 // Position the magnifier
-                let magnifierSize = 200;
+                let magnifierSize = 300;
                 let offsetX = clientX - magnifierSize / 2;
                 let offsetY = clientY - magnifierSize / 2;
                 magnifier.style.left = `${offsetX}px`;
@@ -533,6 +550,32 @@
                 magnifier.style.display = "block";
             } else {
                 magnifier.style.display = "none";
+
+                // ✅ RESUME TILE MOVEMENT WHEN LEAVING
+                document.querySelectorAll(".tile").forEach(tile => {
+                    if (tile.dataset.paused === "true") {
+                        tile.dataset.paused = "false";
+                        tile.style.animationPlayState = "running"; // Resume CSS animations
+
+                        // If the tile was manually stopped, restart its movement logic
+                        if (tile.moving !== undefined) {
+                            tile.moving = true;
+                        }
+
+                        // If the tile has a movement function, restart it
+                        if (!tile.moveInterval) {
+                            tile.moveInterval = setInterval(() => {
+                                if (tile.moving) {
+                                    let left = parseInt(tile.style.left || "0") + (Math.random() - 0.5) * 2;
+                                    let top = parseInt(tile.style.top || "0") + (Math.random() - 0.5) * 2;
+                                    tile.style.left = `${left}px`;
+                                    tile.style.top = `${top}px`;
+                                }
+                            }, 30);
+                        }
+                    }
+                });
+
             }
 
         }
