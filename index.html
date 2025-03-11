@@ -126,11 +126,13 @@
             display: none; /* Hidden until activated */
             z-index: 10000; /* Ensure it stays on top */
             overflow: hidden;
+            background-color: white !important; /* Ensure magnifier background is white */
         }
         .magnifier-content {
             position: absolute;
             transform: scale(2); /* Adjust magnification level */
             transform-origin: center;
+            background-color: white !important;
         }
 
         #tile1 { width: 280px; height: 157px; background-image: url('https://lh3.googleusercontent.com/d/13PeOgSdkZsJittnEKnShjZ6OaK0LK9NG'); }
@@ -208,7 +210,7 @@
             }
             #magnifyIcon {
                 top: 10px;
-                left: 50px; /* Adjust position next to refresh button */
+                left: 40px; /* Adjust position next to refresh button */
                 width: 18px;
                 height: 18px;
             }
@@ -463,12 +465,26 @@
         magnifierContent.classList.add("magnifier-content");
         magnifier.appendChild(magnifierContent);
 
+        // Disable tile movement when magnifying
+        function disableTileDragging() {
+            document.querySelectorAll(".tile").forEach(tile => {
+                tile.style.touchAction = "none"; // Prevents dragging
+            });
+        }
+
+        // Enable tile movement after magnifying
+        function enableTileDragging() {
+            document.querySelectorAll(".tile").forEach(tile => {
+                tile.style.touchAction = ""; // Restore default behavior
+            });
+        }
+
         document.getElementById("magnifyIcon").addEventListener("click", function () {
             magnifyMode = !magnifyMode;
 
             if (magnifyMode) {
-                document.body.style.cursor = isMobile ? "default" : "none"; // Hide cursor only on desktop
-                if (!isMobile) magnifier.style.display = "block"; // Show immediately on desktop
+                document.body.style.cursor = isMobile ? "default" : "none"; // Hide cursor on desktop
+                magnifier.style.display = "block"; // Show immediately on desktop
             } else {
                 disableMagnifier();
             }
@@ -479,6 +495,7 @@
             magnifyMode = false;
             document.body.style.cursor = "default";
             magnifier.style.display = "none";
+            enableTileDragging(); // Re-enable dragging after magnifying stops
         }
 
         // Function to update magnifier position and content
@@ -503,14 +520,21 @@
                 clonedTile.style.transform = `scale(${zoomFactor})`;
                 clonedTile.style.transformOrigin = `${((clientX - rect.left) / rect.width) * 100}% ${((clientY - rect.top) / rect.height) * 100}%`;
                 clonedTile.style.position = "absolute";
-                clonedTile.style.left = `-${(clientX - rect.left) * (zoomFactor - 1)}px`;
-                clonedTile.style.top = `-${(clientY - rect.top) * (zoomFactor - 1)}px`;
+
+                // ✅ Adjust left and top so content is properly centered
+                clonedTile.style.left = `-${(clientX - rect.left) * (zoomFactor - 1) / 2}px`;
+                clonedTile.style.top = `-${(clientY - rect.top) * (zoomFactor - 1) / 2}px`;
+
+                clonedTile.style.backgroundColor = "white";
+                clonedTile.style.boxShadow = "0 0 0 white"; // Prevent any transparency issues
+
 
                 magnifierContent.appendChild(clonedTile);
                 magnifier.style.display = "block";
             } else {
                 magnifier.style.display = "none";
             }
+
         }
 
         // Desktop: Activate on mouse move
@@ -536,6 +560,7 @@
 
             let touch = e.touches[0];
             isDragging = true; // Now dragging
+            disableTileDragging(); // Prevent tiles from moving while zooming
             updateMagnifier(touch.clientX, touch.clientY);
         });
 
@@ -544,6 +569,7 @@
 
             isDragging = false;
             magnifier.style.display = "none"; // Hide magnifier when drag ends
+            enableTileDragging(); // Allow tile movement again
         });
 
 
