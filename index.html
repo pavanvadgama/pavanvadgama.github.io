@@ -452,6 +452,9 @@
         let currentlyPausedTile = null; // Tracks which tile is paused
 
         let magnifyMode = false;
+        let isDragging = false;
+        let isMobile = /Mobi|Android/i.test(navigator.userAgent); // Detect mobile
+
         let magnifier = document.createElement("div");
         magnifier.classList.add("magnifier");
         document.body.appendChild(magnifier);
@@ -464,26 +467,33 @@
             magnifyMode = !magnifyMode;
 
             if (magnifyMode) {
-                document.body.style.cursor = "none"; // Hide default cursor
-                magnifier.style.display = "block";
+                document.body.style.cursor = isMobile ? "default" : "none"; // Hide cursor only on desktop
+                if (!isMobile) magnifier.style.display = "block"; // Show immediately on desktop
             } else {
-                document.body.style.cursor = "default";
-                magnifier.style.display = "none"; // Hide magnifier when disabled
+                disableMagnifier();
             }
         });
 
-        document.addEventListener("mousemove", function (e) {
-            if (!magnifyMode) return;
+        // Function to disable magnifier
+        function disableMagnifier() {
+            magnifyMode = false;
+            document.body.style.cursor = "default";
+            magnifier.style.display = "none";
+        }
 
-            let tile = document.elementFromPoint(e.clientX, e.clientY);
+        // Function to update magnifier position and content
+        function updateMagnifier(clientX, clientY) {
+            if (!magnifyMode || (isMobile && !isDragging)) return;
+
+            let tile = document.elementFromPoint(clientX, clientY);
             if (tile && tile.classList.contains("tile")) {
                 let rect = tile.getBoundingClientRect();
                 let zoomFactor = 2; // Adjust magnification level
 
                 // Position the magnifier
                 let magnifierSize = 200;
-                let offsetX = e.clientX - magnifierSize / 2;
-                let offsetY = e.clientY - magnifierSize / 2;
+                let offsetX = clientX - magnifierSize / 2;
+                let offsetY = clientY - magnifierSize / 2;
                 magnifier.style.left = `${offsetX}px`;
                 magnifier.style.top = `${offsetY}px`;
 
@@ -491,16 +501,49 @@
                 magnifierContent.innerHTML = "";
                 let clonedTile = tile.cloneNode(true);
                 clonedTile.style.transform = `scale(${zoomFactor})`;
-                clonedTile.style.transformOrigin = `${((e.clientX - rect.left) / rect.width) * 100}% ${((e.clientY - rect.top) / rect.height) * 100}%`;
+                clonedTile.style.transformOrigin = `${((clientX - rect.left) / rect.width) * 100}% ${((clientY - rect.top) / rect.height) * 100}%`;
                 clonedTile.style.position = "absolute";
-                clonedTile.style.left = `-${(e.clientX - rect.left) * (zoomFactor - 1)}px`;
-                clonedTile.style.top = `-${(e.clientY - rect.top) * (zoomFactor - 1)}px`;
+                clonedTile.style.left = `-${(clientX - rect.left) * (zoomFactor - 1)}px`;
+                clonedTile.style.top = `-${(clientY - rect.top) * (zoomFactor - 1)}px`;
 
                 magnifierContent.appendChild(clonedTile);
                 magnifier.style.display = "block";
             } else {
                 magnifier.style.display = "none";
             }
+        }
+
+        // Desktop: Activate on mouse move
+        document.addEventListener("mousemove", function (e) {
+            if (!isMobile) updateMagnifier(e.clientX, e.clientY);
+        });
+
+        // Desktop: Disable magnifier on click
+        document.addEventListener("mousedown", function () {
+            if (!isMobile && magnifyMode) {
+                disableMagnifier();
+            }
+        });
+
+        // Mobile: Activate magnifier only when dragging
+        document.addEventListener("touchstart", function () {
+            if (!magnifyMode) return;
+            isDragging = false; // Reset dragging flag
+        });
+
+        document.addEventListener("touchmove", function (e) {
+            if (!magnifyMode) return;
+
+            let touch = e.touches[0];
+            isDragging = true; // Now dragging
+            updateMagnifier(touch.clientX, touch.clientY);
+        });
+
+        document.addEventListener("touchend", function () {
+            if (!magnifyMode) return;
+
+            isDragging = false;
+            magnifier.style.display = "none"; // Hide magnifier when drag ends
         });
 
 
