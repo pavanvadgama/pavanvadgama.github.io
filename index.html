@@ -35,6 +35,14 @@
             position: relative; /* Ensures it stays above the transparent tile */
             z-index: 2;
         }
+        .tile span a {
+            color: black; /* Match text color */
+            text-decoration: none; /* Remove underline */
+            font-weight: bold;
+        }
+        .tile span a:hover {
+            text-decoration: underline; /* Add underline on hover */
+        }
         .line {
             position: absolute;
             background: rgb(229, 229, 229);
@@ -195,7 +203,7 @@
     <div id="tile7" class="tile"><span>OAS Oase Forckenbeckstrasse Wastewater Treatment House - Model for Exhibition @ Eingangshalle UdK-Berlin, October 2019</span></div>
     <div id="tile8" class="tile"><span>HOLY COW, STRAY COW ! Exhibition Assembly Guide, 2024</span></div>
     <div id="tile9" class="tile"><span>STP Inventory of Public Water, Ahmedabad, Gujarat - Stepwell Documentation, 2023</span></div>
-    <div id="tile10" class="tile"><span>COWview, Video (traversing the urban street through the cow‘s perspective) http://tiny.cc/CowView</span></div>
+    <div id="tile10" class="tile"><span>COWview: Traversing the urban street through the cow‘s perspective, <a href="http://tiny.cc/CowView" target="_blank"> VIDEO </a></span></div>
     <div id="tile11" class="tile"><span>DEM robotically fabricated structure - Princeton SoA and ARG, 2023</span></div>
     <div id="tile12" class="tile"><span>PSY Psychotherapy Association of Berlin - Professional work with STP Architekten, 2022</span></div>
     <div id="tile13" class="tile"><span>ZHC Zum Hechtgraben Community Center, Berlin-Hohenschönhausen – Initiative with Friederike Schwalbe Architektur, 2019</span></div>    
@@ -415,7 +423,7 @@
                 let dx = (rectB.left + rectB.width / 2) - (rectA.left + rectA.width / 2);
                 let dy = (rectB.top + rectB.height / 2) - (rectA.top + rectA.height / 2);
                 let distance = Math.sqrt(dx * dx + dy * dy) || 1;
-                let pushStrength = 1500; // Adjust push force on collision
+                let pushStrength = 1000; // Adjust push force on collision
 
                 dx = (dx / distance) * pushStrength;
                 dy = (dy / distance) * pushStrength;
