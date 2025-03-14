@@ -174,7 +174,7 @@
         #tile15 { width: 89px; height: 118px; background-image: url('https://lh3.googleusercontent.com/d/1TC4z9cnKzc5FTOA8TjGIQdobZIe76xw6'); }  /* NEU */
         #tile16 { width: 250px; height: 138px; background-image: url('https://lh3.googleusercontent.com/d/11--GOwMde7wbJEZkgVfDw1KNQefooyQQ'); }  /* SSZ */ 
 
-        @media (max-width: 768px) {
+        @media (max-width: 768px) and (orientation: portrait) {
             #nameContainer {
                 top: 10px;
                 right: 10px;
@@ -264,6 +264,18 @@
 
             
         }
+        @media (max-width: 1180px) and (max-height: 820px) and (orientation: landscape) {
+            .tile {
+                width: min(15vw, 200px); /* Scale down width */
+                height: auto;
+                max-width: 20vw;
+                max-height: 15vh; /* Reduce height */
+            }
+            .tile span {
+                font-size: min(3vw, 11px); /* Adjust text size */
+                max-width: 25vw;
+            }
+        }
         
         * {
             user-select: none;
@@ -304,11 +316,23 @@
 
     <script>
 
+        function checkViewportSize() {
+            let isSmallScreen = window.innerWidth < 1180 || window.innerHeight < 820;
+            if (isSmallScreen) {
+                document.body.classList.add("mobile-mode");
+            } else {
+                document.body.classList.remove("mobile-mode");
+            }
+        }
+        /* Detect changes on resize and page load */
+        window.addEventListener("resize", checkViewportSize);
+        document.addEventListener("DOMContentLoaded", checkViewportSize);
         document.getElementById("nameContainer").addEventListener("click", function () {
             let description = document.getElementById("nameDescription");
             description.style.display = description.style.display === "block" ? "none" : "block";
         });
 
+        
         document.getElementById("refreshIcon").addEventListener("click", function () {
             location.reload();
         });
