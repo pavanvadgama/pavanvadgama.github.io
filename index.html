@@ -199,6 +199,7 @@
                 height: auto !important; /* Clear inherited desktop height */
                 z-index: 1;
                 position: absolute;
+                touch-action: manipulation;
             }
             .tile span {
                 display: none; /* Ensure text is visible */
@@ -215,7 +216,7 @@
                 background: rgba(255, 255, 255, .9); /* Keep text readable */
                 border-radius: 5px;
                 z-index: 9999 !important; /* Ensure text stays above other elements */
-                pointer-events: none;
+                pointer-events: auto !important;
             }
             .tile.clicked span {
                 display: block;
@@ -807,19 +808,53 @@
             }
         });
         document.querySelectorAll(".tile").forEach(tile => {
+            let text = tile.querySelector("span");
+            if (!text) return;
+
+            // ✅ Standard click event for toggling spans (Desktop & Mobile)
             tile.addEventListener("click", function (e) {
-                if (magnifyMode || isDragging) return; // ✅ Ignore click if magnifying or dragging
+                if (magnifyMode || isDragging) return; // ✅ Ignore if magnifying or dragging
 
                 e.stopPropagation();
-                let text = this.querySelector("span");
                 let isVisible = text.style.display === "block";
 
                 document.querySelectorAll(".tile span").forEach(span => span.style.display = "none");
-                
-                hideAllSpans(); // Hide all other spans first
+
+                hideAllSpans(); // ✅ Hide all other spans first
                 text.style.display = isVisible ? "none" : "block";
             });
+
+            // ✅ Fix for mobile: Prevent spans from closing when clicking links inside them
+            text.addEventListener("click", function (e) {
+                let link = e.target.closest("a");
+                if (link) {
+                    e.stopPropagation(); // ✅ Prevent the tile event from closing the span
+                    link.click();        // ✅ Manually trigger the link opening
+                }
+            });
+
+            // ✅ Extra Fix for Mobile: Prevent span closing when tapping a link (for touch events)
+            text.addEventListener("touchend", function (e) {
+                let link = e.target.closest("a");
+                if (link) {
+                    e.stopPropagation(); // ✅ Prevent the span from closing
+                    e.preventDefault();  // ✅ Ensure the link opens properly
+                    link.click();        // ✅ Manually trigger the link click
+                }
+            });
         });
+
+        // ✅ Prevent spans from being closed globally in Pause Mode
+        document.addEventListener("click", function (event) {
+            if (isPaused) return; // ✅ Skip hiding spans if paused
+
+            if (!event.target.closest(".tile")) {
+                document.querySelectorAll(".tile span").forEach(span => span.style.display = "none");
+            }
+        });
+
+
+
 
         function forceShowSpan(tile) {
             let text = tile.querySelector("span");
