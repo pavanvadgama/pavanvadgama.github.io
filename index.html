@@ -13,7 +13,6 @@
             background-color: white;
             font-family: Helvetica, sans-serif;
             touch-action: manipulation; /* Prevents pinch zooming */
-            overflow: hidden;
         }
         .tile {
             position: absolute;
@@ -27,19 +26,26 @@
         }
         .tile span {
             display: none; /* Initially hidden */
+            position: absolute;
+            top: 100%; /* ✅ Moves the text right below the tile */
+            left: 50%; /* ✅ Centers the text under the tile */
+            transform: translateX(-50%); /* ✅ Ensures proper centering */
+            min-width: 100%;
+            max-width: 150px; /* Allows text to extend beyond tile bounds */
+            white-space: normal; /* Allow text to wrap */
+            word-wrap: break-word;
             font-size: 12px;
             font-weight: regular;
             color: black;
-            background: rgba(255, 255, 255, 1); /* Ensure text is readable */
+            background: rgba(255, 255, 255, 0.9); /* Ensure text is readable */
             padding: 8px 16px;
             border-radius: 50px;
-            position: relative; /* Ensures it stays above the transparent tile */
             z-index: 2;
         }
         .tile span a {
-            color: black; /* Match text color */
             text-decoration: none; /* Remove underline */
             font-weight: bold;
+            color: black;
         }
         .tile span a:hover {
             text-decoration: underline; /* Add underline on hover */
@@ -112,6 +118,21 @@
         #magnifyIcon:hover {
             opacity: 0.7;
         }
+
+        #pauseButton {
+            position: fixed;
+            top: 15px;
+            left: 76px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            z-index: 1000;
+            transition: opacity 0.2s;
+        }
+        #pauseButton:hover {
+            opacity: 0.7;
+        }
+
         /* 🔍 Magnification Effect */
         .magnifier {
             position: absolute;
@@ -127,6 +148,7 @@
             z-index: 10000; /* Ensure it stays on top */
             overflow: hidden;
             background-color: white !important; /* Ensure magnifier background is white */
+            
         }
         .magnifier-content {
             position: absolute;
@@ -149,7 +171,8 @@
         #tile12 { width: 240px; height: 180px; background-image: url('https://lh3.googleusercontent.com/d/1T4KzUTt0ITaG84gJDHRaHQ8eKiLOkkf5'); }  /* PSY */
         #tile13 { width: 150px; height: 90px; background-image: url('https://lh3.googleusercontent.com/d/12pfLTBN4kT6vCfC75lAunA_JuLv3DpCI'); }  /* ZHC */
         #tile14 { width: 100px; height: 73px; background-image: url('https://lh3.googleusercontent.com/d/1RI1CQeZaQ3zV3aGVoPr4r5tw7lR-JVUq'); }  /* POE */
-        #tile15 { width: 250px; height: 138px; background-image: url('https://lh3.googleusercontent.com/d/11--GOwMde7wbJEZkgVfDw1KNQefooyQQ'); }  /* SSZ */ 
+        #tile15 { width: 89px; height: 118px; background-image: url('https://lh3.googleusercontent.com/d/1TC4z9cnKzc5FTOA8TjGIQdobZIe76xw6'); }  /* NEU */
+        #tile16 { width: 250px; height: 138px; background-image: url('https://lh3.googleusercontent.com/d/11--GOwMde7wbJEZkgVfDw1KNQefooyQQ'); }  /* SSZ */ 
 
         @media (max-width: 768px) {
             #nameContainer {
@@ -165,7 +188,7 @@
                 width: 80vw !important; /* Limit the width for readability */
                 max-width: 90vw !important;
                 text-align: center !important; /* Center the text */
-                background: rgba(255, 255, 255, 0.95) !important; /* Ensure readability */
+                background: rgba(255, 255, 255, .95) !important; /* Ensure readability */
                 padding: 12px 16px !important; /* Add padding for better appearance */
                 border-radius: 10px !important;
                 box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important; /* Add a slight shadow */
@@ -189,7 +212,7 @@
                 top: 100%; /* Push text below the tile */
                 left: 50%;
                 transform: translateX(-50%); /* Center the text horizontally */
-                background: rgba(255, 255, 255, 0.9); /* Keep text readable */
+                background: rgba(255, 255, 255, .9); /* Keep text readable */
                 border-radius: 5px;
                 z-index: 9999 !important; /* Ensure text stays above other elements */
                 pointer-events: none;
@@ -214,6 +237,12 @@
                 width: 18px;
                 height: 18px;
             }
+            #pauseButton {
+                top: 10px;
+                left: 70px; /* Adjust position next to refresh button */
+                width: 18px;
+                height: 18px;
+            }
 
             #tile1 { width: 25vw !important; aspect-ratio: 300 / 168 !important; height: auto !important; } /* STP */
             #tile2 { width: 33vw !important; aspect-ratio: 450 / 291 !important; height: auto !important; } /* COW */
@@ -229,9 +258,15 @@
             #tile12 { width: 22vw !important; aspect-ratio: 240 / 180 !important; height: auto !important; } /* PSY */
             #tile13 { width: 17vw !important; aspect-ratio: 150 / 90 !important; height: auto !important; } /* ZHC */
             #tile14 { width: 9vw !important; aspect-ratio: 921 / 670 !important; height: auto !important; } /* POE */
-            #tile15 { width: 25vw !important; aspect-ratio: 250 / 138 !important; height: auto !important; } /* SSZ */            
+            #tile15 { width: 10vw !important; aspect-ratio: 99 / 132 !important; height: auto !important; } /* NEU */
+            #tile16 { width: 25vw !important; aspect-ratio: 250 / 138 !important; height: auto !important; } /* SSZ */            
 
             
+        }
+        
+        * {
+            user-select: none;
+            -webkit-user-select: none;
         }
 
     </style>
@@ -239,6 +274,7 @@
 <body>
     <img id="refreshIcon" src="https://img.icons8.com/ios-filled/50/update-left-rotation.png" alt="Refresh">
     <img id="magnifyIcon" src="https://img.icons8.com/ios-glyphs/30/zoom-in--v1.png" alt="Magnify">
+    <img id="pauseButton" src="https://img.icons8.com/sf-regular/48/hand.png" alt="Pause" title="Pause Movement">
 
 
     <div id="tile1" class="tile"><span>STP Inventory of Public Water in Ahmedabad, Gujarat – Butler Traveling Fellowship, 2023</span></div>
@@ -255,7 +291,8 @@
     <div id="tile12" class="tile"><span>PSY Psychotherapy Association of Berlin - Professional work with STP Architekten, 2022</span></div>
     <div id="tile13" class="tile"><span>ZHC Zum Hechtgraben Community Center, Berlin-Hohenschönhausen – Initiative with Friederike Schwalbe Architektur, 2019 <a href="https://friederikeschwalbe.de/zum-hechtgraben" target="_blank" class="tap-link">(friederikeschwalbe.de/zum-hechtgraben)</a></span></div>    
     <div id="tile14" class="tile"><span>POE "The Poiesis of Miesian Corners" in Pidgin Magazine, no. 32, 2024</span></div>
-    <div id="tile15" class="tile"><span>SSZ Strahlenschutzzentrum Adaptive Reuse, Berlin-Lichtenberg - Professional work with ZOOMARCHITEKTEN, 2024-</span></div>
+    <div id="tile15" class="tile"><span>NEU Berlin-Neukölln Apartment Renovation, 2025</span></div>
+    <div id="tile16" class="tile"><span>SSZ Strahlenschutzzentrum Adaptive Reuse, Berlin-Lichtenberg - Professional work with ZOOMARCHITEKTEN, 2024-</span></div>
 
     <div id="nameContainer">
         <span id="name">Pavan Vadgama</span>
@@ -283,22 +320,27 @@
                 let img = new Image();
                 img.src = tile.style.backgroundImage.replace(/url\(["']?/, '').replace(/["']?\)$/, ''); // Extract URL
 
-                img.onload = function () {
-                    let aspectRatio = img.naturalWidth / img.naturalHeight;
-                    tile.style.width = `min(40vw, ${aspectRatio * 30}vh)`; // Scale based on viewport
+                img.onload = () => {
                     tile.style.aspectRatio = `${img.naturalWidth} / ${img.naturalHeight}`;
+                    tile.style.width = `min(40vw, ${img.naturalWidth / img.naturalHeight * 30}vh)`;
                 };
             });
         });
 
+        let isDragging = false;
+        let isPaused = false;
+        let magnifyMode = false;
+        let currentlyPausedTile = null; // Tracks which tile is paused
+        let isMobile = /Mobi|Android/i.test(navigator.userAgent); // Detect mobile
 
         class MovingTile {
             constructor(element, tiles, updateLines) {
                 this.element = element;
-                this.dx = (Math.random() - 0.5) * 1.5;
-                this.dy = (Math.random() - 0.5) * 1.5;
+                this.dx = (Math.random() - 0.5) * .4;
+                this.dy = (Math.random() - 0.5) * .4;
                 this.moving = true;
                 this.dragging = false;
+                this.dragMoved = false; // ✅ Track if tile was moved
                 this.immovable = false;
                 this.updateLines = updateLines;
                 this.initPosition(tiles);
@@ -341,12 +383,12 @@
                 let centerY = window.innerHeight / 2;
 
                 // Add slight attraction to the center
-                let attractionStrength = 0.0000025;
+                let attractionStrength = isMobile ? 0.000000025 : 0.0000005;
                 this.dx += (centerX - (rect.left + rect.width / 2)) * attractionStrength;
                 this.dy += (centerY - (rect.top + rect.height / 2)) * attractionStrength;
 
-                // Apply speed limit to avoid excessive acceleration
-                let speedLimit = window.innerWidth < 768 ? 0.3 : 0.5;
+                // Apply speed limit to avoid excessive acceleration <<< MOBILE ADJUSTMENT HERE >>>
+                let speedLimit = isMobile ? 0.15 : 0.4;  // ✅ Lower limit for mobile
                 let speed = Math.hypot(this.dx, this.dy);
                 if (speed > speedLimit) {
                     this.dx = (this.dx / speed) * speedLimit;
@@ -369,9 +411,11 @@
 
             // Add interactivity: dragging and clicking
             addEventListeners() {
-                this.element.addEventListener("click", (e) => this.toggleText(e));
-                this.element.addEventListener("touchend", (e) => this.toggleText(e));
-
+                if (!isMobile) { 
+                    this.element.addEventListener("click", (e) => this.toggleText(e));
+                } else { 
+                    this.element.addEventListener("touchend", (e) => this.toggleText(e));
+                }
                 this.element.addEventListener("mousedown", (e) => this.startDrag(e));
                 this.element.addEventListener("touchstart", (e) => this.startDrag(e.touches[0]));
 
@@ -384,25 +428,35 @@
                 // Restore speed when mouse leaves
                 this.element.addEventListener("mouseout", () => {
                     if (!this.immovable) { // Prevent speeding up if the tile is paused
-                        this.dx = (Math.random() - 0.5) * 1.3; // Reset to normal random speed
-                        this.dy = (Math.random() - 0.5) * 1.3;
+                        this.dx = (Math.random() - 0.5) * .4; // Reset to normal random speed
+                        this.dy = (Math.random() - 0.5) * .4;
                     }
                 });
             }
 
             startDrag(e) {
+                if (magnifyMode) return; // Prevent dragging in magnifier mode
                 this.dragging = true;
-                let shiftX = e.clientX - this.element.getBoundingClientRect().left;
-                let shiftY = e.clientY - this.element.getBoundingClientRect().top;
+                isDragging = true;  // ✅ Set global isDragging to true when drag starts
+                this.dragMoved = false; // ✅ Reset this at the beginning
+                this.startX = e.clientX || e.touches[0].clientX;
+                this.startY = e.clientY || e.touches[0].clientY;
+
+                let shiftX = this.startX - this.element.getBoundingClientRect().left;
+                let shiftY = this.startY - this.element.getBoundingClientRect().top;
 
                 const onMove = (event) => {
                     let clientX = event.clientX || event.touches[0].clientX;
                     let clientY = event.clientY || event.touches[0].clientY;
 
+                    // ✅ If movement is significant, mark as drag
+                    if (Math.abs(clientX - this.startX) > 5 || Math.abs(clientY - this.startY) > 5) {
+                        this.dragMoved = true; // ✅ Only set this if the tile actually moves
+                    }
+
                     let newLeft = clientX - shiftX;
                     let newTop = clientY - shiftY;
 
-                    // Prevent dragging outside the viewport
                     let maxLeft = window.innerWidth - this.element.clientWidth;
                     let maxTop = window.innerHeight - this.element.clientHeight;
                     this.element.style.left = `${Math.max(0, Math.min(newLeft, maxLeft))}px`;
@@ -417,10 +471,18 @@
                     document.removeEventListener("mousemove", onMove);
                     document.removeEventListener("touchmove", onMove);
                     this.dragging = false;
-                    // ✅ Reset Speed When Dragging Stops
-                    this.dx = (Math.random() - 0.5) * 0.9;
-                    this.dy = (Math.random() - 0.5) * 0.9;
-                    if (this.moving) this.move();
+
+                    setTimeout(() => { 
+                        this.dragMoved = false; // ✅ Reset after a short delay to prevent unwanted clicks
+                        isDragging = false; // ✅ Reset isDragging after the drag ends
+                    }, 100); 
+
+                    if (!this.immovable) {
+                        this.moving = true;
+                        this.dx = (Math.random() - 0.5) * 0.2;
+                        this.dy = (Math.random() - 0.5) * 0.2;
+                        this.move();
+                    }
                 };
 
                 document.addEventListener("mouseup", stopDrag, { once: true });
@@ -428,48 +490,56 @@
             }
 
 
-
             toggleText(e) {
-                if (this.dragging) return; // Prevent accidental toggling while dragging
-                // If another tile is paused, unpause it before pausing this one
+                if (this.dragMoved) {  
+                    this.dragMoved = false; // ✅ Reset to allow future clicks  
+                    return; // ✅ Ignore toggle if the tile was dragged  
+                }
+
+                let text = this.element.querySelector("span");
+
+                // Hide all other tile spans before toggling the clicked one
+                document.querySelectorAll(".tile span").forEach(span => {
+                    if (span !== text) span.style.display = "none";
+                });
+
+                if (isPaused) {
+                    text.style.display = text.style.display === "block" ? "none" : "block";
+                    return;
+                }
+
                 if (currentlyPausedTile && currentlyPausedTile !== this) {
                     currentlyPausedTile.moving = true;
                     currentlyPausedTile.immovable = false;
-                    currentlyPausedTile.element.style.opacity = "1"; // Restore normal opacity
+                    currentlyPausedTile.element.style.opacity = "1";
                     currentlyPausedTile.element.querySelector("span").style.display = "none";
                     currentlyPausedTile.move();
                     currentlyPausedTile = null;
                 }
-                this.immovable = !this.immovable;
-                this.moving = !this.moving;
 
-                if (this.immovable) {
-                    this.dx = 0;
-                    this.dy = 0;
-                    currentlyPausedTile = this; // Set this tile as the active paused tile
-                } else {
-                    this.dx = (Math.random() - 0.5) * 0.9;
-                    this.dy = (Math.random() - 0.5) * 0.9;
-                    currentlyPausedTile = null; // No tile is paused
+                // Toggle immovable state (pauses movement)
+                this.immovable = !this.immovable;
+                this.moving = !this.immovable;
+
+                if (!this.immovable) {
+                    let baseSpeed = isMobile ? 0.1 : 0.4; // ✅ Ensure slower speed on mobile
+                    let speedFactor = 0.5; // ✅ Apply a small variation
+
+                    this.dx = (Math.random() - 0.5) * baseSpeed * speedFactor;
+                    this.dy = (Math.random() - 0.5) * baseSpeed * speedFactor;
+                    this.move();
                 }
 
-                // Adjust opacity when clicked
-                this.element.style.opacity = this.immovable ? "0.8" : "1";
+                this.element.style.opacity = "1";
 
-                let text = this.element.querySelector("span");
+                // **Ensure text remains visible on mobile as well**
                 text.style.display = this.immovable ? "block" : "none";
-                text.style.opacity = "1";
-                text.style.backgroundColor = "rgba(255, 255, 255, 0.9)";
 
                 if (!this.immovable) this.move();
             }
+
         }
 
-        let currentlyPausedTile = null; // Tracks which tile is paused
-
-        let magnifyMode = false;
-        let isDragging = false;
-        let isMobile = /Mobi|Android/i.test(navigator.userAgent); // Detect mobile
 
         let magnifier = document.createElement("div");
         magnifier.classList.add("magnifier");
@@ -494,7 +564,28 @@
         }
 
         document.getElementById("magnifyIcon").addEventListener("click", function () {
-            magnifyMode = !magnifyMode;
+            event.stopPropagation(); // ✅ Prevents accidental reactivation when clicking icon
+
+            if (magnifyMode) {
+                disableMagnifier(); // ✅ If active, turn it off
+            } else {
+                enableMagnifier(); // ✅ If inactive, turn it on
+            }
+
+            // Hide all tile spans when magnifier mode is on
+            document.querySelectorAll(".tile span").forEach(span => {
+                span.style.display = "none";
+            });
+
+            // Unclick any currently paused tile
+            if (currentlyPausedTile) {
+                currentlyPausedTile.moving = true;
+                currentlyPausedTile.immovable = false;
+                currentlyPausedTile.element.style.opacity = "1"; // Restore normal opacity
+                currentlyPausedTile.element.querySelector("span").style.display = "none";
+                currentlyPausedTile.move();
+                currentlyPausedTile = null;
+            }
 
             if (magnifyMode) {
                 document.body.style.cursor = isMobile ? "default" : "none"; // Hide cursor on desktop
@@ -504,12 +595,29 @@
             }
         });
 
+        // Function to activate magnifier mode
+        function enableMagnifier() {
+            magnifyMode = true;
+            document.getElementById("magnifyIcon").src = "https://img.icons8.com/ios-glyphs/30/zoom-out.png"; // Show "-"
+            document.body.style.cursor = isMobile ? "default" : "none"; // Hide cursor on desktop
+            magnifier.style.display = "block"; // Show magnifier
+            document.addEventListener("click", disableMagnifierOnClick); // ✅ Enable click-to-close
+        }
+
         // Function to disable magnifier
         function disableMagnifier() {
             magnifyMode = false;
-            document.body.style.cursor = "default";
-            magnifier.style.display = "none";
-            enableTileDragging(); // Re-enable dragging after magnifying stops
+            document.getElementById("magnifyIcon").src = "https://img.icons8.com/ios-glyphs/30/zoom-in--v1.png"; // Show "+"
+            document.body.style.cursor = "default"; // Restore default cursor
+            magnifier.style.display = "none"; // Hide magnifier
+            enableTileDragging(); // Re-enable tile movement
+            document.removeEventListener("click", disableMagnifierOnClick); // ✅ Remove event listener
+        }
+
+        // ✅ Function to disable magnifier when clicking anywhere else
+        function disableMagnifierOnClick(event) {
+            if (event.target.id === "magnifyIcon") return; // ✅ Ignore clicks on the icon itself
+            disableMagnifier();
         }
 
         // Function to update magnifier position and content
@@ -580,8 +688,8 @@
                         if (!tile.moveInterval) {
                             tile.moveInterval = setInterval(() => {
                                 if (tile.moving) {
-                                    let left = parseInt(tile.style.left || "0") + (Math.random() - 0.5) * 2;
-                                    let top = parseInt(tile.style.top || "0") + (Math.random() - 0.5) * 2;
+                                    let left = parseInt(tile.style.left || "0") + (Math.random() - 0.5) * .4;
+                                    let top = parseInt(tile.style.top || "0") + (Math.random() - 0.5) * .4;
                                     tile.style.left = `${left}px`;
                                     tile.style.top = `${top}px`;
                                 }
@@ -594,17 +702,84 @@
 
         }
 
+        function hideAllSpans() {
+            document.querySelectorAll(".tile span").forEach(span => {
+                span.style.display = "none";
+            });
+        }
+
+
+
+        document.addEventListener("click", function (event) {
+            if (magnifyMode || isPaused || isDragging) return; // ✅ Prevent accidental toggles after drag
+            if (!event.target.closest(".tile")) {
+                hideAllSpans();
+            }
+            let clickedTile = event.target.closest(".tile");
+            if (!clickedTile) {
+                document.querySelectorAll(".tile span").forEach(span => {
+                    span.style.display = "none";
+                });
+                // ✅ Resume movement for any paused tile
+                tiles.forEach(tile => {
+                    if (tile.immovable) {
+                        tile.immovable = false;
+                        tile.moving = true;
+                        tile.dx = (Math.random() - 0.5) * 0.4;
+                        tile.dy = (Math.random() - 0.5) * 0.4;
+                        tile.move();
+                    }
+                });
+                currentlyPausedTile = null;
+                return;
+            }
+
+            // ✅ Prevent triggering if a drag event just happened
+            if (isDragging) return;
+            if (!event.target.closest(".tile")) {
+                hideAllSpans();
+            }
+
+            // ✅ If a tile was clicked, first hide all other spans
+            document.querySelectorAll(".tile span").forEach(span => {
+                if (span !== clickedTile.querySelector("span")) {
+                    span.style.display = "none";
+                }
+            });
+
+            // ✅ Toggle span visibility & pause movement for the clicked tile
+            let text = clickedTile.querySelector("span");
+            let isVisible = text.style.display === "block";
+
+            text.style.display = isVisible ? "none" : "block";
+            clickedTile.immovable = !isVisible;
+            clickedTile.moving = !clickedTile.immovable;
+
+            if (clickedTile.moving) {
+                clickedTile.dx = (Math.random() - 0.5) * 0.4;
+                clickedTile.dy = (Math.random() - 0.5) * 0.4;
+                clickedTile.move();
+            }
+
+            currentlyPausedTile = clickedTile;
+        });
+
+
+
+
+
+
         // Desktop: Activate on mouse move
         document.addEventListener("mousemove", function (e) {
             if (!isMobile) updateMagnifier(e.clientX, e.clientY);
         });
 
-        // Desktop: Disable magnifier on click
+        /* Desktop: Disable magnifier on click
         document.addEventListener("mousedown", function () {
             if (!isMobile && magnifyMode) {
                 disableMagnifier();
             }
-        });
+        });*/
 
         // Mobile: Activate magnifier only when dragging
         document.addEventListener("touchstart", function () {
@@ -616,19 +791,48 @@
             if (!magnifyMode) return;
 
             let touch = e.touches[0];
-            isDragging = true; // Now dragging
+            isDragging = true; // ✅ Ensure dragging is tracked
             disableTileDragging(); // Prevent tiles from moving while zooming
             updateMagnifier(touch.clientX, touch.clientY);
         });
 
         document.addEventListener("touchend", function () {
             if (!magnifyMode) return;
-
             isDragging = false;
             magnifier.style.display = "none"; // Hide magnifier when drag ends
             enableTileDragging(); // Allow tile movement again
+            let touchedTile = e.target.closest(".tile");
+            if (touchedTile) {
+                forceShowSpan(touchedTile);
+            }
+        });
+        document.querySelectorAll(".tile").forEach(tile => {
+            tile.addEventListener("click", function (e) {
+                if (magnifyMode || isDragging) return; // ✅ Ignore click if magnifying or dragging
+
+                e.stopPropagation();
+                let text = this.querySelector("span");
+                let isVisible = text.style.display === "block";
+
+                document.querySelectorAll(".tile span").forEach(span => span.style.display = "none");
+                
+                hideAllSpans(); // Hide all other spans first
+                text.style.display = isVisible ? "none" : "block";
+            });
         });
 
+        function forceShowSpan(tile) {
+            let text = tile.querySelector("span");
+            if (text) {
+                // Hide all other spans before showing this one
+                document.querySelectorAll(".tile span").forEach(span => {
+                    span.style.display = "none";
+                });
+
+                // Ensure the touched tile's span is visible
+                text.style.display = "block";
+            }
+        }
 
 
 
@@ -649,7 +853,7 @@
                 let dx = (rectB.left + rectB.width / 2) - (rectA.left + rectA.width / 2);
                 let dy = (rectB.top + rectB.height / 2) - (rectA.top + rectA.height / 2);
                 let distance = Math.sqrt(dx * dx + dy * dy) || 1;
-                let pushStrength = 1000; // Adjust push force on collision
+                let pushStrength = isMobile ? .5 : 1.2; // Adjust push force on collision
 
                 dx = (dx / distance) * pushStrength;
                 dy = (dy / distance) * pushStrength;
@@ -666,8 +870,54 @@
                     tileB.dx += dx / 2;
                     tileB.dy += dy / 2;
                 }
+                let speedLimit = isMobile ? 0.05 : 0.2;
+
+                function limitSpeed(tile) {
+                    let speed = Math.hypot(tile.dx, tile.dy);
+                    if (speed > speedLimit) {
+                        tile.dx = (tile.dx / speed) * speedLimit;
+                        tile.dy = (tile.dy / speed) * speedLimit;
+                    }
+                }
+
+                limitSpeed(tileA);
+                limitSpeed(tileB);
             }
         }
+
+
+        const pauseButton = document.getElementById("pauseButton");
+
+        pauseButton.addEventListener("click", function () {
+            isPaused = !isPaused;
+            pauseButton.src = isPaused
+                ? "https://img.icons8.com/sf-regular/48/hand-right.png"  // 👉 Resume Icon
+                : "https://img.icons8.com/sf-regular/48/hand.png";        // ✋ Stop Icon
+
+                tiles.forEach(tile => {
+                tile.moving = !isPaused;
+                tile.immovable = isPaused; // Ensure tiles do not move when paused
+                if (isPaused) {
+                    tile.dx = 0;
+                    tile.dy = 0;
+                } else {
+                    let baseSpeed = isMobile ? 0.2 : 0.3;
+                    tile.dx = (Math.random() - 0.5) * baseSpeed;
+                    tile.dy = (Math.random() - 0.5) * baseSpeed;
+                    tile.move();
+                }
+            });
+            
+            // ✅ Hide all tile spans when unpausing
+            if (!isPaused) {
+                document.querySelectorAll(".tile span").forEach(span => {
+                    span.style.display = "none";
+                });
+            }
+
+        });
+
+        
 
         
         let connections = [
@@ -710,7 +960,7 @@
         }
 
         let tiles = [];
-        let tileIds = ['tile1', 'tile2', 'tile3', 'tile4', 'tile5', 'tile6', 'tile7', 'tile8', 'tile9', 'tile10', 'tile11', 'tile12', 'tile13', 'tile14', 'tile15'];
+        let tileIds = ['tile1', 'tile2', 'tile3', 'tile4', 'tile5', 'tile6', 'tile7', 'tile8', 'tile9', 'tile10', 'tile11', 'tile12', 'tile13', 'tile14', 'tile15', 'tile16'];
         tileIds.forEach(id => tiles.push(new MovingTile(document.getElementById(id), tiles, updateLines)));
         
         function collisionLoop() {
