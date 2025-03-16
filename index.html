@@ -7,13 +7,22 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
     gtag('config', 'G-BPTSC237GF');
     </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Person",
+          "name": "Pavan Vadgama",
+          "jobTitle": "Architectural Designer",
+          "url": "https://pavan-net.work",
+          "description": "Berlin and New York City-based architectural designer specializing in adaptive reuse, participatory design, and multispecies urbanism."
+        }
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Pavan Vadgama</title>
+    <meta name="keywords" content="Architecture, Adaptive Reuse, Multispecies Urbanism, Spatial Archives, Digital Humanities, Architectural Research, Material Ecologies, Speculative Design, Non-Human Agency, Ecological Justice, Princeton University, Berlin, Cowsheds">
     <link rel="icon" type="image/png" href="https://img.icons8.com/led/32/earth-planet.png">
 
     <style>
@@ -35,11 +44,11 @@
             text-align: center;
         }
         .tile span {
-            display: none; /* Initially hidden */
+            display: none;
             position: absolute;
-            top: 100%; /* ✅ Moves the text right below the tile */
-            left: 50%; /* ✅ Centers the text under the tile */
-            transform: translateX(-50%); /* ✅ Ensures proper centering */
+            top: 100%; /* Moves the text right below the tile */
+            left: 50%; /* Centers the text under the tile */
+            transform: translateX(-50%); /* Ensures proper centering */
             min-width: 100%;
             max-width: 150px; /* Allows text to extend beyond tile bounds */
             white-space: normal; /* Allow text to wrap */
@@ -47,13 +56,13 @@
             font-size: 12px;
             font-weight: regular;
             color: black;
-            background: rgba(255, 255, 255, 0.9); /* Ensure text is readable */
+            background: rgba(255, 255, 255, 0.9);
             padding: 8px 16px;
             border-radius: 50px;
             z-index: 2;
         }
         .tile span a {
-            text-decoration: none; /* Remove underline */
+            text-decoration: none; 
             font-weight: bold;
             color: black;
         }
@@ -117,7 +126,7 @@
         #magnifyIcon {
             position: fixed;
             top: 15px;
-            left: 50px; /* Adjust position next to refresh button */
+            left: 50px;
             width: 20px;
             height: 20px;
             cursor: pointer;
@@ -143,7 +152,7 @@
             opacity: 0.7;
         }
 
-        /* 🔍 Magnification Effect */
+        /* Magnification Effect */
         .magnifier {
             position: absolute;
             width: 250px; /* Size of magnifying glass */
@@ -375,7 +384,7 @@
                 this.dy = (Math.random() - 0.5) * .4;
                 this.moving = true;
                 this.dragging = false;
-                this.dragMoved = false; // ✅ Track if tile was moved
+                this.dragMoved = false; // Track if tile was moved
                 this.immovable = false;
                 this.updateLines = updateLines;
                 this.initPosition(tiles);
@@ -423,7 +432,7 @@
                 this.dy += (centerY - (rect.top + rect.height / 2)) * attractionStrength;
 
                 // Apply speed limit to avoid excessive acceleration <<< MOBILE ADJUSTMENT HERE >>>
-                let speedLimit = isMobile ? 0.15 : 0.4;  // ✅ Lower limit for mobile
+                let speedLimit = isMobile ? 0.15 : 0.4;  // Lower limit for mobile
                 let speed = Math.hypot(this.dx, this.dy);
                 if (speed > speedLimit) {
                     this.dx = (this.dx / speed) * speedLimit;
@@ -472,8 +481,8 @@
             startDrag(e) {
                 if (magnifyMode) return; // Prevent dragging in magnifier mode
                 this.dragging = true;
-                isDragging = true;  // ✅ Set global isDragging to true when drag starts
-                this.dragMoved = false; // ✅ Reset this at the beginning
+                isDragging = true;  // Set global isDragging to true when drag starts
+                this.dragMoved = false; // Reset this at the beginning
                 this.startX = e.clientX || e.touches[0].clientX;
                 this.startY = e.clientY || e.touches[0].clientY;
 
@@ -484,9 +493,9 @@
                     let clientX = event.clientX || event.touches[0].clientX;
                     let clientY = event.clientY || event.touches[0].clientY;
 
-                    // ✅ If movement is significant, mark as drag
+                    // If movement is significant, mark as drag
                     if (Math.abs(clientX - this.startX) > 5 || Math.abs(clientY - this.startY) > 5) {
-                        this.dragMoved = true; // ✅ Only set this if the tile actually moves
+                        this.dragMoved = true; // Only set this if the tile actually moves
                     }
 
                     let newLeft = clientX - shiftX;
@@ -508,8 +517,8 @@
                     this.dragging = false;
 
                     setTimeout(() => { 
-                        this.dragMoved = false; // ✅ Reset after a short delay to prevent unwanted clicks
-                        isDragging = false; // ✅ Reset isDragging after the drag ends
+                        this.dragMoved = false; // Reset after a short delay to prevent unwanted clicks
+                        isDragging = false; // Reset isDragging after the drag ends
                     }, 100); 
 
                     if (!this.immovable) {
@@ -527,8 +536,8 @@
 
             toggleText(e) {
                 if (this.dragMoved) {  
-                    this.dragMoved = false; // ✅ Reset to allow future clicks  
-                    return; // ✅ Ignore toggle if the tile was dragged  
+                    this.dragMoved = false; // Reset to allow future clicks  
+                    return; // Ignore toggle if the tile was dragged  
                 }
 
                 let text = this.element.querySelector("span");
@@ -558,7 +567,7 @@
 
                 if (!this.immovable) {
                     let baseSpeed = isMobile ? 0.1 : 0.4; // ✅ Ensure slower speed on mobile
-                    let speedFactor = 0.5; // ✅ Apply a small variation
+                    let speedFactor = 0.5; // Apply a small variation
 
                     this.dx = (Math.random() - 0.5) * baseSpeed * speedFactor;
                     this.dy = (Math.random() - 0.5) * baseSpeed * speedFactor;
@@ -599,12 +608,12 @@
         }
 
         document.getElementById("magnifyIcon").addEventListener("click", function () {
-            event.stopPropagation(); // ✅ Prevents accidental reactivation when clicking icon
+            event.stopPropagation(); // Prevents accidental reactivation when clicking icon
 
             if (magnifyMode) {
-                disableMagnifier(); // ✅ If active, turn it off
+                disableMagnifier(); // If active, turn it off
             } else {
-                enableMagnifier(); // ✅ If inactive, turn it on
+                enableMagnifier(); // If inactive, turn it on
             }
 
             // Hide all tile spans when magnifier mode is on
@@ -636,7 +645,7 @@
             document.getElementById("magnifyIcon").src = "https://img.icons8.com/ios-glyphs/30/zoom-out.png"; // Show "-"
             document.body.style.cursor = isMobile ? "default" : "none"; // Hide cursor on desktop
             magnifier.style.display = "block"; // Show magnifier
-            document.addEventListener("click", disableMagnifierOnClick); // ✅ Enable click-to-close
+            document.addEventListener("click", disableMagnifierOnClick); // Enable click-to-close
         }
 
         // Function to disable magnifier
@@ -646,12 +655,12 @@
             document.body.style.cursor = "default"; // Restore default cursor
             magnifier.style.display = "none"; // Hide magnifier
             enableTileDragging(); // Re-enable tile movement
-            document.removeEventListener("click", disableMagnifierOnClick); // ✅ Remove event listener
+            document.removeEventListener("click", disableMagnifierOnClick); // Remove event listener
         }
 
-        // ✅ Function to disable magnifier when clicking anywhere else
+        // Function to disable magnifier when clicking anywhere else
         function disableMagnifierOnClick(event) {
-            if (event.target.id === "magnifyIcon") return; // ✅ Ignore clicks on the icon itself
+            if (event.target.id === "magnifyIcon") return; // Ignore clicks on the icon itself
             disableMagnifier();
         }
 
@@ -664,7 +673,7 @@
                 let rect = tile.getBoundingClientRect();
                 let zoomFactor = 2.5; // Adjust magnification level
 
-                // ✅ PAUSE TILE MOVEMENT
+                // PAUSE TILE MOVEMENT
                 if (!tile.dataset.paused || tile.dataset.paused === "false") {
                     tile.dataset.paused = "true"; // Mark tile as paused
                     tile.style.animationPlayState = "paused"; // Pause CSS animations if any
@@ -695,7 +704,7 @@
                 clonedTile.style.transformOrigin = `${((clientX - rect.left) / rect.width) * 100}% ${((clientY - rect.top) / rect.height) * 100}%`;
                 clonedTile.style.position = "absolute";
 
-                // ✅ Adjust left and top so content is properly centered
+                // Adjust left and top so content is properly centered
                 clonedTile.style.left = `-${(clientX - rect.left) * (zoomFactor - 1) / 2}px`;
                 clonedTile.style.top = `-${(clientY - rect.top) * (zoomFactor - 1) / 2}px`;
 
@@ -708,7 +717,7 @@
             } else {
                 magnifier.style.display = "none";
 
-                // ✅ RESUME TILE MOVEMENT WHEN LEAVING
+                // RESUME TILE MOVEMENT WHEN LEAVING
                 document.querySelectorAll(".tile").forEach(tile => {
                     if (tile.dataset.paused === "true") {
                         tile.dataset.paused = "false";
@@ -746,7 +755,7 @@
 
 
         document.addEventListener("click", function (event) {
-            if (magnifyMode || isPaused || isDragging) return; // ✅ Prevent accidental toggles after drag
+            if (magnifyMode || isPaused || isDragging) return; // Prevent accidental toggles after drag
             if (!event.target.closest(".tile")) {
                 hideAllSpans();
             }
@@ -755,7 +764,7 @@
                 document.querySelectorAll(".tile span").forEach(span => {
                     span.style.display = "none";
                 });
-                // ✅ Resume movement for any paused tile
+                // Resume movement for any paused tile
                 tiles.forEach(tile => {
                     if (tile.immovable) {
                         tile.immovable = false;
@@ -769,20 +778,20 @@
                 return;
             }
 
-            // ✅ Prevent triggering if a drag event just happened
+            // Prevent triggering if a drag event just happened
             if (isDragging) return;
             if (!event.target.closest(".tile")) {
                 hideAllSpans();
             }
 
-            // ✅ If a tile was clicked, first hide all other spans
+            // If a tile was clicked, first hide all other spans
             document.querySelectorAll(".tile span").forEach(span => {
                 if (span !== clickedTile.querySelector("span")) {
                     span.style.display = "none";
                 }
             });
 
-            // ✅ Toggle span visibility & pause movement for the clicked tile
+            // Toggle span visibility & pause movement for the clicked tile
             let text = clickedTile.querySelector("span");
             let isVisible = text.style.display === "block";
 
@@ -826,7 +835,7 @@
             if (!magnifyMode) return;
 
             let touch = e.touches[0];
-            isDragging = true; // ✅ Ensure dragging is tracked
+            isDragging = true; // Ensure dragging is tracked
             disableTileDragging(); // Prevent tiles from moving while zooming
             updateMagnifier(touch.clientX, touch.clientY);
         });
@@ -845,42 +854,42 @@
             let text = tile.querySelector("span");
             if (!text) return;
 
-            // ✅ Standard click event for toggling spans (Desktop & Mobile)
+            // Standard click event for toggling spans (Desktop & Mobile)
             tile.addEventListener("click", function (e) {
-                if (magnifyMode || isDragging) return; // ✅ Ignore if magnifying or dragging
+                if (magnifyMode || isDragging) return; // Ignore if magnifying or dragging
 
                 e.stopPropagation();
                 let isVisible = text.style.display === "block";
 
                 document.querySelectorAll(".tile span").forEach(span => span.style.display = "none");
 
-                hideAllSpans(); // ✅ Hide all other spans first
+                hideAllSpans(); // Hide all other spans first
                 text.style.display = isVisible ? "none" : "block";
             });
 
-            // ✅ Fix for mobile: Prevent spans from closing when clicking links inside them
+            // Fix for mobile: Prevent spans from closing when clicking links inside them
             text.addEventListener("click", function (e) {
                 let link = e.target.closest("a");
                 if (link) {
-                    e.stopPropagation(); // ✅ Prevent the tile event from closing the span
-                    link.click();        // ✅ Manually trigger the link opening
+                    e.stopPropagation(); // Prevent the tile event from closing the span
+                    link.click();        // Manually trigger the link opening
                 }
             });
 
-            // ✅ Extra Fix for Mobile: Prevent span closing when tapping a link (for touch events)
+            // Extra Fix for Mobile: Prevent span closing when tapping a link (for touch events)
             text.addEventListener("touchend", function (e) {
                 let link = e.target.closest("a");
                 if (link) {
-                    e.stopPropagation(); // ✅ Prevent the span from closing
-                    e.preventDefault();  // ✅ Ensure the link opens properly
-                    link.click();        // ✅ Manually trigger the link click
+                    e.stopPropagation(); // Prevent the span from closing
+                    e.preventDefault();  // Ensure the link opens properly
+                    link.click();        // Manually trigger the link click
                 }
             });
         });
 
-        // ✅ Prevent spans from being closed globally in Pause Mode
+        // Prevent spans from being closed globally in Pause Mode
         document.addEventListener("click", function (event) {
-            if (isPaused) return; // ✅ Skip hiding spans if paused
+            if (isPaused) return; // Skip hiding spans if paused
 
             if (!event.target.closest(".tile")) {
                 document.querySelectorAll(".tile span").forEach(span => span.style.display = "none");
@@ -960,8 +969,8 @@
         pauseButton.addEventListener("click", function () {
             isPaused = !isPaused;
             pauseButton.src = isPaused
-                ? "https://img.icons8.com/sf-regular/48/hand-right.png"  // 👉 Resume Icon
-                : "https://img.icons8.com/sf-regular/48/hand.png";        // ✋ Stop Icon
+                ? "https://img.icons8.com/sf-regular/48/hand-right.png"  // Resume Icon
+                : "https://img.icons8.com/sf-regular/48/hand.png";        // Stop Icon
 
                 tiles.forEach(tile => {
                 tile.moving = !isPaused;
@@ -977,7 +986,7 @@
                 }
             });
             
-            // ✅ Hide all tile spans when unpausing
+            // Hide all tile spans when unpausing
             if (!isPaused) {
                 document.querySelectorAll(".tile span").forEach(span => {
                     span.style.display = "none";
