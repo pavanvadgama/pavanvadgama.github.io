@@ -566,7 +566,7 @@
                 this.moving = !this.immovable;
 
                 if (!this.immovable) {
-                    let baseSpeed = isMobile ? 0.1 : 0.4; // ✅ Ensure slower speed on mobile
+                    let baseSpeed = isMobile ? 0.1 : 0.4; // Ensure slower speed on mobile
                     let speedFactor = 0.5; // Apply a small variation
 
                     this.dx = (Math.random() - 0.5) * baseSpeed * speedFactor;
