@@ -395,8 +395,11 @@
             // Initialize the tile position, avoiding overlap with others
             initPosition(tiles) {
                 let overlapping;
+                let attempts = 0;
+                const maxAttempts = 50;
                 do {
                     overlapping = false;
+                    attempts++;
                     this.element.style.left = Math.random() * (window.innerWidth - this.element.clientWidth) + 'px';
                     this.element.style.top = Math.random() * (window.innerHeight - this.element.clientHeight) + 'px';
                     let rectA = this.element.getBoundingClientRect();
@@ -414,7 +417,10 @@
                             }
                         }
                     }
-                } while (overlapping);
+                } while (overlapping && attempts < maxAttempts);
+                if (attempts === maxAttempts) {
+                    console.warn(`Max placement attempts reached for tile ${this.element.id}. It may overlap.`);
+                }
             }
 
             // Move tile with smooth attraction towards center
