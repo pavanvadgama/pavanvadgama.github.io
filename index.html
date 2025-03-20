@@ -155,8 +155,8 @@
         /* Magnification Effect */
         .magnifier {
             position: absolute;
-            width: 250px; /* Size of magnifying glass */
-            height: 250px;
+            width: 300px; /* Size of magnifying glass */
+            height: 300px;
             border-radius: 50%;
             border: 2px solid rgba(0, 0, 0, 0.2);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -245,6 +245,10 @@
                 font-size: 10px; /* Increase font size for mobile */
                 padding: 12px 16px; /* Make it easier to tap */
             }
+            .magnifier {
+                width: 250px;
+                height: 250px;
+            }    
             #refreshIcon {
                 width: 18px;
                 height: 18px;
@@ -712,8 +716,8 @@
 
                 // Position the magnifier
                 let magnifierSize = 250;
-                let offsetX = clientX - magnifierSize / 2;
-                let offsetY = clientY - magnifierSize / 2;
+                let offsetX = (clientX - magnifierSize /2);
+                let offsetY = (clientY - magnifierSize);
                 magnifier.style.left = `${offsetX}px`;
                 magnifier.style.top = `${offsetY}px`;
 
@@ -725,8 +729,8 @@
                 clonedTile.style.position = "absolute";
 
                 // Adjust left and top so content is properly centered
-                clonedTile.style.left = `-${(clientX - rect.left) * (zoomFactor - 1) / 2}px`;
-                clonedTile.style.top = `-${(clientY - rect.top) * (zoomFactor - 1) / 2}px`;
+                clonedTile.style.left = `${(magnifier.offsetWidth)/4 - ((clientX - rect.left))}px`;
+                clonedTile.style.top = `${(magnifier.offsetHeight)/4 - ((clientY - rect.top))}px`;
 
                 clonedTile.style.backgroundColor = "white";
                 clonedTile.style.boxShadow = "0 0 0 white"; // Prevent any transparency issues
