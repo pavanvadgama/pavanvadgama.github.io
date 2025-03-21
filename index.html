@@ -159,8 +159,8 @@
             width: 300px; /* Size of magnifying glass */
             height: 300px;
             border-radius: 50%;
-            border: 2px solid rgba(0, 0, 0, 0.2);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            /*border: 2px solid rgba(0, 0, 0, 0.2);*/
+            box-shadow: 0px 10px 10px rgba(0, 0, 0, .4);
             background-repeat: no-repeat;
             background-size: 300%; /* Zoom effect */
             pointer-events: none; /* Prevent interference */
@@ -692,68 +692,62 @@
         // Function to update magnifier position and content
         function updateMagnifier(clientX, clientY) {
             if (!magnifyMode || (isMobile && !isDragging)) return;
+            document.body.style.cursor = isMobile ? "default" : "none";
+
+            let magnifierSize = 300;
+            let offsetX = (clientX - magnifierSize / 2);
+            let offsetY = (clientY - magnifierSize);
+            magnifier.style.left = `${offsetX}px`;
+            magnifier.style.top = `${offsetY}px`;
 
             let tile = document.elementFromPoint(clientX, clientY);
+
             if (tile && tile.classList.contains("tile")) {
                 let rect = tile.getBoundingClientRect();
-                let zoomFactor = 2.5; // Adjust magnification level
+                let zoomFactor = 2.5; // Magnification level
 
                 // PAUSE TILE MOVEMENT
                 if (!tile.dataset.paused || tile.dataset.paused === "false") {
-                    tile.dataset.paused = "true"; // Mark tile as paused
-                    tile.style.animationPlayState = "paused"; // Pause CSS animations if any
+                    tile.dataset.paused = "true"; 
+                    tile.style.animationPlayState = "paused";
 
-                    // If the tile has a movement function, stop it
                     if (tile.moving !== undefined) {
                         tile.moving = false;
                     }
 
-                    // If the tile has an interval or requestAnimationFrame, clear it
                     if (tile.moveInterval) {
                         clearInterval(tile.moveInterval);
                         tile.moveInterval = null;
                     }
                 }
 
-                // Position the magnifier
-                let magnifierSize = 250;
-                let offsetX = (clientX - magnifierSize /2);
-                let offsetY = (clientY - magnifierSize);
-                magnifier.style.left = `${offsetX}px`;
-                magnifier.style.top = `${offsetY}px`;
-
-                // Set the magnifier content to be the zoomed tile
+                // Set magnifier content to zoomed tile
                 magnifierContent.innerHTML = "";
                 let clonedTile = tile.cloneNode(true);
                 clonedTile.style.transform = `scale(${zoomFactor})`;
                 clonedTile.style.transformOrigin = `${((clientX - rect.left) / rect.width) * 100}% ${((clientY - rect.top) / rect.height) * 100}%`;
                 clonedTile.style.position = "absolute";
-
-                // Adjust left and top so content is properly centered
-                clonedTile.style.left = `${(magnifier.offsetWidth)/4 - ((clientX - rect.left))}px`;
-                clonedTile.style.top = `${(magnifier.offsetHeight)/4 - ((clientY - rect.top))}px`;
-
+                clonedTile.style.left = `${(magnifier.offsetWidth) / 4 - ((clientX - rect.left))}px`;
+                clonedTile.style.top = `${(magnifier.offsetHeight) / 4 - ((clientY - rect.top))}px`;
                 clonedTile.style.backgroundColor = "white";
-                clonedTile.style.boxShadow = "0 0 0 white"; // Prevent any transparency issues
-
+                clonedTile.style.boxShadow = "0 0 0 white";
 
                 magnifierContent.appendChild(clonedTile);
-                magnifier.style.display = "block";
             } else {
-                magnifier.style.display = "none";
+                // If cursor is not on a tile, clear magnifier content (display empty)
+                magnifierContent.innerHTML = "";
+                document.body.style.cursor = isMobile ? "default" : "none";
 
                 // RESUME TILE MOVEMENT WHEN LEAVING
                 document.querySelectorAll(".tile").forEach(tile => {
                     if (tile.dataset.paused === "true") {
                         tile.dataset.paused = "false";
-                        tile.style.animationPlayState = "running"; // Resume CSS animations
+                        tile.style.animationPlayState = "running";
 
-                        // If the tile was manually stopped, restart its movement logic
                         if (tile.moving !== undefined) {
                             tile.moving = true;
                         }
 
-                        // If the tile has a movement function, restart it
                         if (!tile.moveInterval) {
                             tile.moveInterval = setInterval(() => {
                                 if (tile.moving) {
@@ -766,10 +760,13 @@
                         }
                     }
                 });
-
             }
 
+            // ALWAYS KEEP MAGNIFIER VISIBLE (removing the hide statement)
+            magnifier.style.display = "block";
+
         }
+
 
         function hideAllSpans() {
             document.querySelectorAll(".tile span").forEach(span => {
