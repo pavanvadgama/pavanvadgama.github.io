@@ -156,8 +156,8 @@
         /* Magnification Effect */
         .magnifier {
             position: absolute;
-            width: 300px; /* Size of magnifying glass */
-            height: 300px;
+            width: 333px; /* Size of magnifying glass */
+            height: 333px;
             border-radius: 50%;
             /*border: 2px solid rgba(0, 0, 0, 0.2);*/
             box-shadow: 0px 10px 10px rgba(0, 0, 0, .4);
@@ -694,9 +694,17 @@
             if (!magnifyMode || (isMobile && !isDragging)) return;
             document.body.style.cursor = isMobile ? "default" : "none";
 
-            let magnifierSize = 300;
-            let offsetX = (clientX - magnifierSize / 2);
-            let offsetY = (clientY - magnifierSize*.85);
+            let magnifierSize = 333;
+            let offsetX, offsetY;
+            if (isMobile) {
+                // Correct offset for mobile (adjust as needed)
+                offsetX = clientX - magnifierSize / 2.6;
+                offsetY = clientY - magnifierSize * 0.75; // Adjust vertically as preferred
+            } else {
+                // Desktop offset (remains unchanged)
+                offsetX = clientX - magnifierSize / 2;
+                offsetY = clientY - magnifierSize * 1;
+            }
             magnifier.style.left = `${offsetX}px`;
             magnifier.style.top = `${offsetY}px`;
 
