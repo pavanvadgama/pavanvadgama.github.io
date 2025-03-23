@@ -697,7 +697,7 @@
             let magnifierSize = isMobile ? 270 : 333;
             let offsetX, offsetY;
             offsetX = clientX - magnifierSize / 2;
-            offsetY = clientY - magnifierSize / 1.15;
+            offsetY = clientY - magnifierSize / 1.25;
             
             magnifier.style.left = `${offsetX}px`;
             magnifier.style.top = `${offsetY}px`;
@@ -705,7 +705,7 @@
             let tile = document.elementFromPoint(clientX, clientY);
             if (tile && tile.classList.contains("tile")) {
                 let rect = tile.getBoundingClientRect();
-                let zoomFactor = 2.5; // Magnification level
+                let zoomFactor = 2.4; // Magnification level
 
                 // PAUSE TILE MOVEMENT
                 if (!tile.dataset.paused || tile.dataset.paused === "false") {
