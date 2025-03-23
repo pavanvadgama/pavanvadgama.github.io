@@ -696,15 +696,9 @@
 
             let magnifierSize = isMobile ? 270 : 333;
             let offsetX, offsetY;
-            if (isMobile) {
-                // Correct offset for mobile (adjust as needed)
-                offsetX = clientX - magnifierSize / 2.5;
-                offsetY = clientY - magnifierSize / .5; // Adjust vertically as preferred
-            } else {
-                // Desktop offset (remains unchanged)
-                offsetX = clientX - magnifierSize / 2;
-                offsetY = clientY - magnifierSize / 2;
-            }
+            offsetX = clientX - magnifierSize / 2;
+            offsetY = clientY - magnifierSize / 1.15;
+            
             magnifier.style.left = `${offsetX}px`;
             magnifier.style.top = `${offsetY}px`;
 
