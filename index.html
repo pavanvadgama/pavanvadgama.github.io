@@ -247,8 +247,8 @@
                 padding: 12px 16px; /* Make it easier to tap */
             }
             .magnifier {
-                width: 275px;
-                height: 275px;
+                width: 270px;
+                height: 270px;
             }    
             #refreshIcon {
                 width: 18px;
@@ -694,12 +694,12 @@
             if (!magnifyMode || (isMobile && !isDragging)) return;
             document.body.style.cursor = isMobile ? "default" : "none";
 
-            let magnifierSize = isMobile ? 275 : 333; // match CSS
+            let magnifierSize = isMobile ? 270 : 333;
             let offsetX, offsetY;
             if (isMobile) {
                 // Correct offset for mobile (adjust as needed)
-                offsetX = clientX - magnifierSize / 2;
-                offsetY = clientY - magnifierSize / 1; // Adjust vertically as preferred
+                offsetX = clientX - magnifierSize / 2.5;
+                offsetY = clientY - magnifierSize / .5; // Adjust vertically as preferred
             } else {
                 // Desktop offset (remains unchanged)
                 offsetX = clientX - magnifierSize / 2;
@@ -709,7 +709,6 @@
             magnifier.style.top = `${offsetY}px`;
 
             let tile = document.elementFromPoint(clientX, clientY);
-
             if (tile && tile.classList.contains("tile")) {
                 let rect = tile.getBoundingClientRect();
                 let zoomFactor = 2.5; // Magnification level
@@ -718,11 +717,9 @@
                 if (!tile.dataset.paused || tile.dataset.paused === "false") {
                     tile.dataset.paused = "true"; 
                     tile.style.animationPlayState = "paused";
-
                     if (tile.moving !== undefined) {
                         tile.moving = false;
                     }
-
                     if (tile.moveInterval) {
                         clearInterval(tile.moveInterval);
                         tile.moveInterval = null;
@@ -739,7 +736,6 @@
                 clonedTile.style.top = `${(magnifier.offsetHeight) / 4 - ((clientY - rect.top))}px`;
                 clonedTile.style.backgroundColor = "white";
                 clonedTile.style.boxShadow = "0 0 0 white";
-
                 magnifierContent.appendChild(clonedTile);
             } else {
                 // If cursor is not on a tile, clear magnifier content (display empty)
