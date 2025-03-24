@@ -272,6 +272,7 @@
                 top: 10% !important; /* Move it closer to the top */
                 left: 50% !important;
                 transform: translateX(-50%) !important; /* Keep it centered horizontally */
+                text-align: center !important;
                 width: 80vw !important; /* Limit the width for readability */
                 max-width: 90vw !important;
                 background: rgba(255, 255, 255, .95) !important; /* Ensure readability */
@@ -581,7 +582,6 @@
             description.style.display = description.style.display === "block" ? "none" : "block";
         });
 
-
         document.getElementById("refreshIcon").addEventListener("click", function () {
             location.reload();
         });
@@ -614,7 +614,6 @@
             let description = document.getElementById("projectDescription");
             description.style.display = description.style.display === "grid" ? "none" : "grid";
         });
-
         // Close dropdown when clicking elsewhere
         document.addEventListener("click", function(event) {
             if (!event.target.closest("#projectContainer")) {
@@ -622,8 +621,7 @@
             }
         });
 
-
-
+        
         let isDragging = false;
         let isPaused = false;
         let magnifyMode = false;
@@ -679,17 +677,13 @@
             // Move tile with smooth attraction towards center
             move() {
                 if (!this.moving || this.dragging || this.immovable) return;
-
                 let rect = this.element.getBoundingClientRect();
-                
                 let centerX = window.innerWidth / 2;
                 let centerY = window.innerHeight / 2;
-
                 // Add slight attraction to the center
                 let attractionStrength = isMobile ? 0.000000025 : 0.0000005;
                 this.dx += (centerX - (rect.left + rect.width / 2)) * attractionStrength;
                 this.dy += (centerY - (rect.top + rect.height / 2)) * attractionStrength;
-
                 // Apply speed limit to avoid excessive acceleration <<< MOBILE ADJUSTMENT HERE >>>
                 let speedLimit = isMobile ? 0.15 : 0.4;  // Lower limit for mobile
                 let speed = Math.hypot(this.dx, this.dy);
@@ -697,18 +691,14 @@
                     this.dx = (this.dx / speed) * speedLimit;
                     this.dy = (this.dy / speed) * speedLimit;
                 }
-
                 // Ensure tiles stay within bounds
                 let nextLeft = rect.left + this.dx;
                 let nextTop = rect.top + this.dy;
-
                 if (nextLeft < 0 || nextLeft + rect.width > window.innerWidth) this.dx = -this.dx;
                 if (nextTop < 0 || nextTop + rect.height > window.innerHeight) this.dy = -this.dy;
-
                 this.element.style.left = `${rect.left + this.dx}px`;
                 this.element.style.top = `${rect.top + this.dy}px`;
                 this.updateLines();
-
                 requestAnimationFrame(() => this.move());
             }
 
@@ -721,13 +711,11 @@
                 }
                 this.element.addEventListener("mousedown", (e) => this.startDrag(e));
                 this.element.addEventListener("touchstart", (e) => this.startDrag(e.touches[0]));
-
                 // Reduce speed on hover
                 this.element.addEventListener("mouseover", () => {
                     this.dx *= 0.2;  // Reduce speed drastically
                     this.dy *= 0.2;
                 });
-
                 // Restore speed when mouse leaves
                 this.element.addEventListener("mouseout", () => {
                     if (!this.immovable) { // Prevent speeding up if the tile is paused
@@ -744,22 +732,17 @@
                 this.dragMoved = false; // Reset this at the beginning
                 this.startX = e.clientX || e.touches[0].clientX;
                 this.startY = e.clientY || e.touches[0].clientY;
-
                 let shiftX = this.startX - this.element.getBoundingClientRect().left;
                 let shiftY = this.startY - this.element.getBoundingClientRect().top;
-
                 const onMove = (event) => {
                     let clientX = event.clientX || event.touches[0].clientX;
                     let clientY = event.clientY || event.touches[0].clientY;
-
                     // If movement is significant, mark as drag
                     if (Math.abs(clientX - this.startX) > 5 || Math.abs(clientY - this.startY) > 5) {
                         this.dragMoved = true; // Only set this if the tile actually moves
                     }
-
                     let newLeft = clientX - shiftX;
                     let newTop = clientY - shiftY;
-
                     let maxLeft = window.innerWidth - this.element.clientWidth;
                     let maxTop = window.innerHeight - this.element.clientHeight;
                     this.element.style.left = `${Math.max(0, Math.min(newLeft, maxLeft))}px`;
@@ -769,17 +752,14 @@
 
                 document.addEventListener("mousemove", onMove);
                 document.addEventListener("touchmove", onMove, { passive: false });
-
                 const stopDrag = () => {
                     document.removeEventListener("mousemove", onMove);
                     document.removeEventListener("touchmove", onMove);
                     this.dragging = false;
-
                     setTimeout(() => { 
                         this.dragMoved = false; // Reset after a short delay to prevent unwanted clicks
                         isDragging = false; // Reset isDragging after the drag ends
                     }, 100); 
-
                     if (!this.immovable) {
                         this.moving = true;
                         this.dx = (Math.random() - 0.5) * 0.2;
@@ -798,19 +778,16 @@
                     this.dragMoved = false; // Reset to allow future clicks  
                     return; // Ignore toggle if the tile was dragged  
                 }
-
                 let text = this.element.querySelector("span");
 
                 // Hide all other tile spans before toggling the clicked one
                 document.querySelectorAll(".tile span").forEach(span => {
                     if (span !== text) span.style.display = "none";
                 });
-
                 if (isPaused) {
                     text.style.display = text.style.display === "block" ? "none" : "block";
                     return;
                 }
-
                 if (currentlyPausedTile && currentlyPausedTile !== this) {
                     currentlyPausedTile.moving = true;
                     currentlyPausedTile.immovable = false;
@@ -819,11 +796,9 @@
                     currentlyPausedTile.move();
                     currentlyPausedTile = null;
                 }
-
                 // Toggle immovable state (pauses movement)
                 this.immovable = !this.immovable;
                 this.moving = !this.immovable;
-
                 if (!this.immovable) {
                     let baseSpeed = isMobile ? 0.1 : 0.4; // Ensure slower speed on mobile
                     let speedFactor = 0.5; // Apply a small variation
@@ -832,12 +807,9 @@
                     this.dy = (Math.random() - 0.5) * baseSpeed * speedFactor;
                     this.move();
                 }
-
                 this.element.style.opacity = "1";
-
                 // **Ensure text remains visible on mobile as well**
                 text.style.display = this.immovable ? "block" : "none";
-
                 if (!this.immovable) this.move();
             }
 
@@ -868,18 +840,15 @@
 
         document.getElementById("magnifyIcon").addEventListener("click", function () {
             event.stopPropagation(); // Prevents accidental reactivation when clicking icon
-
             if (magnifyMode) {
                 disableMagnifier(); // If active, turn it off
             } else {
                 enableMagnifier(); // If inactive, turn it on
             }
-
             // Hide all tile spans when magnifier mode is on
             document.querySelectorAll(".tile span").forEach(span => {
                 span.style.display = "none";
             });
-
             // Unclick any currently paused tile
             if (currentlyPausedTile) {
                 currentlyPausedTile.moving = true;
@@ -889,7 +858,6 @@
                 currentlyPausedTile.move();
                 currentlyPausedTile = null;
             }
-
             if (magnifyMode) {
                 document.body.style.cursor = isMobile ? "default" : "none"; // Hide cursor on desktop
                 magnifier.style.display = "block"; // Show immediately on desktop
@@ -932,15 +900,12 @@
             let offsetX, offsetY;
             offsetX = clientX - magnifierSize / 2;
             offsetY = clientY - magnifierSize / 1.15;
-            
             magnifier.style.left = `${offsetX}px`;
             magnifier.style.top = `${offsetY}px`;
-
             let tile = document.elementFromPoint(clientX, clientY);
             if (tile && tile.classList.contains("tile")) {
                 let rect = tile.getBoundingClientRect();
                 let zoomFactor = 2.4; // Magnification level
-
                 // PAUSE TILE MOVEMENT
                 if (!tile.dataset.paused || tile.dataset.paused === "false") {
                     tile.dataset.paused = "true"; 
@@ -953,7 +918,6 @@
                         tile.moveInterval = null;
                     }
                 }
-
                 // Set magnifier content to zoomed tile
                 magnifierContent.innerHTML = "";
                 let clonedTile = tile.cloneNode(true);
@@ -969,17 +933,14 @@
                 // If cursor is not on a tile, clear magnifier content (display empty)
                 magnifierContent.innerHTML = "";
                 document.body.style.cursor = isMobile ? "default" : "none";
-
                 // RESUME TILE MOVEMENT WHEN LEAVING
                 document.querySelectorAll(".tile").forEach(tile => {
                     if (tile.dataset.paused === "true") {
                         tile.dataset.paused = "false";
                         tile.style.animationPlayState = "running";
-
                         if (tile.moving !== undefined) {
                             tile.moving = true;
                         }
-
                         if (!tile.moveInterval) {
                             tile.moveInterval = setInterval(() => {
                                 if (tile.moving) {
@@ -996,7 +957,6 @@
 
             // ALWAYS KEEP MAGNIFIER VISIBLE (removing the hide statement)
             magnifier.style.display = "block";
-
         }
 
 
@@ -1005,7 +965,6 @@
                 span.style.display = "none";
             });
         }
-
 
 
         document.addEventListener("click", function (event) {
@@ -1031,60 +990,47 @@
                 currentlyPausedTile = null;
                 return;
             }
-
             // Prevent triggering if a drag event just happened
             if (isDragging) return;
             if (!event.target.closest(".tile")) {
                 hideAllSpans();
             }
-
             // If a tile was clicked, first hide all other spans
             document.querySelectorAll(".tile span").forEach(span => {
                 if (span !== clickedTile.querySelector("span")) {
                     span.style.display = "none";
                 }
             });
-
             // Toggle span visibility & pause movement for the clicked tile
             let text = clickedTile.querySelector("span");
             let isVisible = text.style.display === "block";
-
             text.style.display = isVisible ? "none" : "block";
             clickedTile.immovable = !isVisible;
             clickedTile.moving = !clickedTile.immovable;
-
             if (clickedTile.moving) {
                 clickedTile.dx = (Math.random() - 0.5) * 0.4;
                 clickedTile.dy = (Math.random() - 0.5) * 0.4;
                 clickedTile.move();
             }
-
             currentlyPausedTile = clickedTile;
         });
-
-
-
-
 
 
         // Desktop: Activate on mouse move
         document.addEventListener("mousemove", function (e) {
             if (!isMobile) updateMagnifier(e.clientX, e.clientY);
         });
-
         /* Desktop: Disable magnifier on click
         document.addEventListener("mousedown", function () {
             if (!isMobile && magnifyMode) {
                 disableMagnifier();
             }
         });*/
-
         // Mobile: Activate magnifier only when dragging
         document.addEventListener("touchstart", function () {
             if (!magnifyMode) return;
             isDragging = false; // Reset dragging flag
         });
-
         document.addEventListener("touchmove", function (e) {
             if (!magnifyMode) return;
 
@@ -1093,7 +1039,6 @@
             disableTileDragging(); // Prevent tiles from moving while zooming
             updateMagnifier(touch.clientX, touch.clientY);
         });
-
         document.addEventListener("touchend", function () {
             if (!magnifyMode) return;
             isDragging = false;
@@ -1107,20 +1052,15 @@
         document.querySelectorAll(".tile").forEach(tile => {
             let text = tile.querySelector("span");
             if (!text) return;
-
             // Standard click event for toggling spans (Desktop & Mobile)
             tile.addEventListener("click", function (e) {
                 if (magnifyMode || isDragging) return; // Ignore if magnifying or dragging
-
                 e.stopPropagation();
                 let isVisible = text.style.display === "block";
-
                 document.querySelectorAll(".tile span").forEach(span => span.style.display = "none");
-
                 hideAllSpans(); // Hide all other spans first
                 text.style.display = isVisible ? "none" : "block";
             });
-
             // Fix for mobile: Prevent spans from closing when clicking links inside them
             text.addEventListener("click", function (e) {
                 let link = e.target.closest("a");
@@ -1129,7 +1069,6 @@
                     link.click();        // Manually trigger the link opening
                 }
             });
-
             // Extra Fix for Mobile: Prevent span closing when tapping a link (for touch events)
             text.addEventListener("touchend", function (e) {
                 let link = e.target.closest("a");
@@ -1140,17 +1079,13 @@
                 }
             });
         });
-
         // Prevent spans from being closed globally in Pause Mode
         document.addEventListener("click", function (event) {
             if (isPaused) return; // Skip hiding spans if paused
-
             if (!event.target.closest(".tile")) {
                 document.querySelectorAll(".tile span").forEach(span => span.style.display = "none");
             }
         });
-
-
 
 
         function forceShowSpan(tile) {
@@ -1160,21 +1095,16 @@
                 document.querySelectorAll(".tile span").forEach(span => {
                     span.style.display = "none";
                 });
-
                 // Ensure the touched tile's span is visible
                 text.style.display = "block";
             }
         }
 
 
-
-        
         function checkCollision(tileA, tileB) {
             if (tileA.immovable && tileB.immovable) return;
-
             let rectA = tileA.element.getBoundingClientRect();
             let rectB = tileB.element.getBoundingClientRect();
-
             if (
                 rectA.left < rectB.right &&
                 rectA.right > rectB.left &&
@@ -1186,10 +1116,8 @@
                 let dy = (rectB.top + rectB.height / 2) - (rectA.top + rectA.height / 2);
                 let distance = Math.sqrt(dx * dx + dy * dy) || 1;
                 let pushStrength = isMobile ? .5 : 1.2; // Adjust push force on collision
-
                 dx = (dx / distance) * pushStrength;
                 dy = (dy / distance) * pushStrength;
-
                 if (tileA.immovable) {
                     tileB.dx += dx;
                     tileB.dy += dy;
@@ -1203,7 +1131,6 @@
                     tileB.dy += dy / 2;
                 }
                 let speedLimit = isMobile ? 0.05 : 0.2;
-
                 function limitSpeed(tile) {
                     let speed = Math.hypot(tile.dx, tile.dy);
                     if (speed > speedLimit) {
@@ -1211,21 +1138,17 @@
                         tile.dy = (tile.dy / speed) * speedLimit;
                     }
                 }
-
                 limitSpeed(tileA);
                 limitSpeed(tileB);
             }
         }
 
-
         const pauseButton = document.getElementById("pauseButton");
-
         pauseButton.addEventListener("click", function () {
             isPaused = !isPaused;
             pauseButton.src = isPaused
                 ? "https://img.icons8.com/sf-regular/48/hand-right.png"  // Resume Icon
                 : "https://img.icons8.com/sf-regular/48/hand.png";        // Stop Icon
-
                 tiles.forEach(tile => {
                 tile.moving = !isPaused;
                 tile.immovable = isPaused; // Ensure tiles do not move when paused
@@ -1239,17 +1162,13 @@
                     tile.move();
                 }
             });
-            
             // Hide all tile spans when unpausing
             if (!isPaused) {
                 document.querySelectorAll(".tile span").forEach(span => {
                     span.style.display = "none";
                 });
             }
-
         });
-
-        
 
         
         let connections = [
@@ -1277,15 +1196,12 @@
                 let tile1 = document.getElementById(id1).getBoundingClientRect();
                 let tile2 = document.getElementById(id2).getBoundingClientRect();
                 let line = lines[`${id1}-${id2}`];
-                
                 let x1 = tile1.left + tile1.width / 2;
                 let y1 = tile1.top + tile1.height / 2;
                 let x2 = tile2.left + tile2.width / 2;
                 let y2 = tile2.top + tile2.height / 2;
-                
                 let length = Math.hypot(x2 - x1, y2 - y1);
                 let angle = Math.atan2(y2 - y1, x2 - x1) * (180 / Math.PI);
-                
                 line.style.width = length + 'px';
                 line.style.transform = `translate(${x1}px, ${y1}px) rotate(${angle}deg)`;
             });
@@ -1294,7 +1210,7 @@
         let tiles = [];
         let tileIds = ['tile1', 'tile2', 'tile3', 'tile4', 'tile5', 'tile6', 'tile7', 'tile8', 'tile9', 'tile10', 'tile11', 'tile12', 'tile13', 'tile14', 'tile15', 'tile16'];
         tileIds.forEach(id => tiles.push(new MovingTile(document.getElementById(id), tiles, updateLines)));
-        
+
         function collisionLoop() {
             for (let i = 0; i < tiles.length; i++) {
                 for (let j = i + 1; j < tiles.length; j++) {
@@ -1309,50 +1225,41 @@
 
         document.querySelectorAll('.project-row').forEach(row => {
             const hoverImage = document.getElementById('hoverImage');
-
             row.addEventListener('mouseenter', () => {
                 const imgURL = row.getAttribute('data-image');
                 hoverImage.style.backgroundImage = `url(${imgURL})`;
                 hoverImage.style.display = 'block';
-
                 // Set fixed centered position
                 hoverImage.style.top = '50%';
                 hoverImage.style.left = '50%';
                 hoverImage.style.transform = 'translate(-50%, -50%)';
             });
-
             row.addEventListener('mouseleave', () => {
                 hoverImage.style.display = 'none';
             });
         });
 
-        
+
         // Close projectDescription (index) when clicking outside of it
         document.addEventListener('click', function(event) {
             const projectDescription = document.getElementById('projectDescription');
             const projectButton = document.getElementById('projectButton');
-
             if (projectDescription.style.display === 'block' && 
                 !projectDescription.contains(event.target) && 
                 event.target !== projectButton) {
                 projectDescription.style.display = 'none';
             }
         });
-
         // Close projectDescription when clicking magnifyIcon
         document.getElementById('magnifyIcon').addEventListener('click', function() {
             document.getElementById('projectDescription').style.display = 'none';
         });
-
         // Disable magnifier mode when clicking projectButton, if active
         document.getElementById('projectButton').addEventListener('click', function() {
             if (magnifyMode) {
                 disableMagnifier();
             }
         });
-
-
-    
 
 
     </script>
