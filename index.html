@@ -153,6 +153,64 @@
             opacity: 0.7;
         }
 
+
+        #projectContainer {
+            position: fixed;
+            top: 15px;
+            left: 105px; /* Adjust as needed to align next to pause button */
+            z-index: 9999;
+            cursor: pointer;
+        }
+        #projectButton {
+            width: 20px;
+            height: 20px;
+            opacity: 1;
+            transition: opacity 0.2s;
+        }
+        #projectButton:hover {
+            opacity: 0.7;
+        }
+        #projectDescription {
+            display: none;
+            position: absolute;
+            top: 30px;
+            left: 0;
+            font-size: 12px;
+            font-weight: normal;
+            color: black;
+            background: rgba(255, 255, 255);
+            padding: 10px 14px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            line-height: 1.4;
+            white-space: nowrap; /* prevents wrapping */
+            width: auto; /* container width adapts to content */
+            max-width: none; /* removes any forced width limit */
+        }
+        .project-row {
+            display: grid;
+            grid-template-columns: 45px 45px 180px 80px 80px; /* Adjust these widths as needed */
+            grid-gap: 12px; /* spacing between columns */
+        }
+        .project-code { font-weight: bold; }
+
+        #hoverImage {
+            position: absolute;
+            pointer-events: none;
+            display: none;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            width: 75vw;
+            height: 75vh;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10000;
+            background-color: rgba(255,255,255,0.0);
+        }
+
+
         /* Magnification Effect */
         .magnifier {
             position: absolute;
@@ -207,13 +265,13 @@
                 transform: translateX(-50%) !important; /* Keep it centered horizontally */
                 width: 80vw !important; /* Limit the width for readability */
                 max-width: 90vw !important;
-                text-align: center !important; /* Center the text */
                 background: rgba(255, 255, 255, .95) !important; /* Ensure readability */
                 padding: 12px 16px !important; /* Add padding for better appearance */
                 border-radius: 10px !important;
                 box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important; /* Add a slight shadow */
                 z-index: 10000 !important; /* Ensure it stays on top */
             }
+
             .tile {
                 display: block !important; /* Ensure proper block rendering */
                 height: auto !important; /* Clear inherited desktop height */
@@ -246,6 +304,7 @@
                 font-size: 10px; /* Increase font size for mobile */
                 padding: 12px 16px; /* Make it easier to tap */
             }
+
             .magnifier {
                 width: 270px;
                 height: 270px;
@@ -267,6 +326,27 @@
                 left: 70px; /* Adjust position next to refresh button */
                 width: 18px;
                 height: 18px;
+            }
+            #projectButton {
+                top: 10px;
+                left: 100px;
+                width: 18px;
+                height: 18px;
+            }
+            #projectContainer {
+                top: 10px;
+            }
+            #projectDescription {
+                white-space: normal;
+                width: 190px;
+            }
+            .project-row {
+                grid-template-columns: 45px 45px 80px; /* CODE | YEAR | TYPE */
+            }
+            /* Hide the NAME and LOCATION columns on mobile */
+            .project-name, 
+            .project-location {
+                display: none;
             }
 
             #tile1 { width: 25vw !important; aspect-ratio: 300 / 168 !important; height: auto !important; } /* STP */
@@ -343,7 +423,122 @@
             <br><br>© 2025 Pavan Vadgama. All Rights Reserved</span>
     </div>
 
+
+    <div id="projectContainer">
+        <img id="projectButton" src="https://img.icons8.com/fluency-systems-regular/48/clipboard-list--v3.png" alt="Projects" title="Project Info">
+        <div id="projectDescription">
+            <div class="project-row" data-image="https://lh3.googleusercontent.com/d/1TC4z9cnKzc5FTOA8TjGIQdobZIe76xw6">
+                <div class="project-code"><b>NEU</b></div>
+                <div class="project-year">2025</div>
+                <div class="project-name">Neukölln Garden Studio</div>
+                <div class="project-location">Berlin</div>
+                <div class="project-type">Renovation</div>
+            </div>
+            <div class="project-row" data-image="https://lh3.googleusercontent.com/d/11--GOwMde7wbJEZkgVfDw1KNQefooyQQ">
+                <div class="project-code"><b>SSZ</b></div>
+                <div class="project-year">2024-</div>
+                <div class="project-name">Strahlenschutzzentrum</div>
+                <div class="project-location">Berlin</div>
+                <div class="project-type">Adaptive Reuse</div>
+            </div>
+            <div class="project-row" data-image="https://lh3.googleusercontent.com/d/1NPF_L4tkBu4glwpHIA8jp5YVuxWipUuk">
+                <div class="project-code"><b>DEM</b></div>
+                <div class="project-year">2024-</div>
+                <div class="project-name">Robotic Brickwork</div>
+                <div class="project-location">Trenton</div>
+                <div class="project-type">Research</div>
+            </div>
+            <div class="project-row" data-image="https://lh3.googleusercontent.com/d/1XkrmymyWaX1yRXCBeKmrL1Ad4N77k7mr">
+                <div class="project-code"><b>COW</b></div>
+                <div class="project-year">2024</div>
+                <div class="project-name">Urban Bovine Welfare Center</div>
+                <div class="project-location">Ahmedabad</div>
+                <div class="project-type">Thesis</div>
+            </div>
+            <div class="project-row" data-image="https://lh3.googleusercontent.com/d/1ajlDSBuyFC9RafnEa3zGrsKGKRHAE4ZZ">
+                <div class="project-code"><b>&emsp;+</b></div>
+                <div class="project-year"></div>
+                <div class="project-name">Holy Cow, Stray Cow!</div>
+                <div class="project-location">NYC</div>
+                <div class="project-type">Exhibition</div>
+            </div>
+            <div class="project-row" data-image="https://lh3.googleusercontent.com/d/1jGsL6MvnPzdNwP5g0nnhPynekdZ2DQyE">
+                <div class="project-code"><b>&emsp;+</b></div>
+                <div class="project-year"></div>
+                <div class="project-name">CowView</div>
+                <div class="project-location">Ahmedabad</div>
+                <div class="project-type">Video</div>
+            </div>
+            <div class="project-row" data-image="https://lh3.googleusercontent.com/d/1RI1CQeZaQ3zV3aGVoPr4r5tw7lR-JVUq">
+                <div class="project-code"><b>POE</b></div>
+                <div class="project-year">2024</div>
+                <div class="project-name">Poiesis of Miesian Corners</div>
+                <div class="project-location"></div>
+                <div class="project-type">Writing</div>
+            </div>
+            <div class="project-row" data-image="https://lh3.googleusercontent.com/d/13PeOgSdkZsJittnEKnShjZ6OaK0LK9NG">
+                <div class="project-code"><b>STP</b></div>
+                <div class="project-year">2023</div>
+                <div class="project-name">Inventory of Public Water</div>
+                <div class="project-location">Ahmedabad</div>
+                <div class="project-type">Research</div>
+            </div>
+            <div class="project-row" data-image="https://lh3.googleusercontent.com/d/1wWLzenh85CuUI_1b0Cx0lQya4fGdSmaH">
+                <div class="project-code"><b>MOA</b></div>
+                <div class="project-year">2023</div>
+                <div class="project-name">Mill Owners' Building LiDAR</div>
+                <div class="project-location">Ahmedabad</div>
+                <div class="project-type">Research</div>
+            </div>
+            <div class="project-row" data-image="https://lh3.googleusercontent.com/d/1T4KzUTt0ITaG84gJDHRaHQ8eKiLOkkf5">
+                <div class="project-code"><b>PSY</b></div>
+                <div class="project-year">2022</div>
+                <div class="project-name">Psychotherapeutenkammer</div>
+                <div class="project-location">Berlin</div>
+                <div class="project-type">Adaptive Reuse</div>
+            </div>
+            <div class="project-row" data-image="">
+                <div class="project-code"><b>ZZH</b></div>
+                <div class="project-year">2022-</div>
+                <div class="project-name">Zerzabelshof Live-Work</div>
+                <div class="project-location">Berlin</div>
+                <div class="project-type">New Mix-Use</div>
+            </div>
+            <div class="project-row" data-image="https://lh3.googleusercontent.com/d/15us9dwGEpf32rJK6ndw4wVdmQvmYfolg">
+                <div class="project-code"><b>UCK</b></div>
+                <div class="project-year">2020</div>
+                <div class="project-name">Uckermark Holiday Home</div>
+                <div class="project-location">Berlin</div>
+                <div class="project-type">Net-Zero SFH</div>
+            </div>
+            <div class="project-row" data-image="https://lh3.googleusercontent.com/d/1hNdGIGNmD3mzGD2DPQsAug0FNhm8SRvP">
+                <div class="project-code"><b>OAS</b></div>
+                <div class="project-year">2020</div>
+                <div class="project-name">Wastewater Treatment House</div>
+                <div class="project-location">Berlin</div>
+                <div class="project-type">Thesis</div>
+            </div>
+            <div class="project-row" data-image="https://lh3.googleusercontent.com/d/1SBcUSyb_6X-H6glkMx5N_TqZY89Epads">
+                <div class="project-code"><b>&emsp;+</b></div>
+                <div class="project-year"></div>
+                <div class="project-name">Ausstellung Masterarbeiten</div>
+                <div class="project-location">Berlin</div>
+                <div class="project-type">Exhibition</div>
+            </div>
+            <div class="project-row" data-image="https://lh3.googleusercontent.com/d/12pfLTBN4kT6vCfC75lAunA_JuLv3DpCI">
+                <div class="project-code"><b>ZHC</b></div>
+                <div class="project-year">2019</div>
+                <div class="project-name">Community Center</div>
+                <div class="project-location">Berlin</div>
+                <div class="project-type">Initiative</div>
+            </div>
+        </div>
+    </div>
+    <div id="hoverImage"></div>
     
+
+
+
 
     <script>
 
@@ -389,6 +584,22 @@
                 };
             });
         });
+
+
+        document.getElementById("projectButton").addEventListener("click", function(event) {
+            event.stopPropagation();
+            let description = document.getElementById("projectDescription");
+            description.style.display = description.style.display === "grid" ? "none" : "grid";
+        });
+
+        // Close dropdown when clicking elsewhere
+        document.addEventListener("click", function(event) {
+            if (!event.target.closest("#projectContainer")) {
+                document.getElementById("projectDescription").style.display = "none";
+            }
+        });
+
+
 
         let isDragging = false;
         let isPaused = false;
@@ -697,7 +908,7 @@
             let magnifierSize = isMobile ? 270 : 333;
             let offsetX, offsetY;
             offsetX = clientX - magnifierSize / 2;
-            offsetY = clientY - magnifierSize / 1.25;
+            offsetY = clientY - magnifierSize / 1.15;
             
             magnifier.style.left = `${offsetX}px`;
             magnifier.style.top = `${offsetY}px`;
@@ -1071,6 +1282,29 @@
         }
         collisionLoop();
         updateLines();
+
+
+        if (!isMobile) {
+            document.querySelectorAll('.project-row').forEach(row => {
+                const hoverImage = document.getElementById('hoverImage');
+
+                row.addEventListener('mouseenter', () => {
+                    const imgURL = row.getAttribute('data-image');
+                    hoverImage.style.backgroundImage = `url(${imgURL})`;
+                    hoverImage.style.display = 'block';
+
+                    // Set fixed centered position
+                    hoverImage.style.top = '50%';
+                    hoverImage.style.left = '50%';
+                    hoverImage.style.transform = 'translate(-50%, -50%)';
+                });
+
+                row.addEventListener('mouseleave', () => {
+                    hoverImage.style.display = 'none';
+                });
+            });
+        }
+
 
     </script>
 </body>
