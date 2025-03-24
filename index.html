@@ -1284,26 +1284,25 @@
         updateLines();
 
 
-        if (!isMobile) {
-            document.querySelectorAll('.project-row').forEach(row => {
-                const hoverImage = document.getElementById('hoverImage');
+        document.querySelectorAll('.project-row').forEach(row => {
+            const hoverImage = document.getElementById('hoverImage');
 
-                row.addEventListener('mouseenter', () => {
-                    const imgURL = row.getAttribute('data-image');
-                    hoverImage.style.backgroundImage = `url(${imgURL})`;
-                    hoverImage.style.display = 'block';
+            row.addEventListener('mouseenter', () => {
+                const imgURL = row.getAttribute('data-image');
+                hoverImage.style.backgroundImage = `url(${imgURL})`;
+                hoverImage.style.display = 'block';
 
-                    // Set fixed centered position
-                    hoverImage.style.top = '50%';
-                    hoverImage.style.left = '50%';
-                    hoverImage.style.transform = 'translate(-50%, -50%)';
-                });
-
-                row.addEventListener('mouseleave', () => {
-                    hoverImage.style.display = 'none';
-                });
+                // Set fixed centered position
+                hoverImage.style.top = '50%';
+                hoverImage.style.left = '50%';
+                hoverImage.style.transform = 'translate(-50%, -50%)';
             });
-        }
+
+            row.addEventListener('mouseleave', () => {
+                hoverImage.style.display = 'none';
+            });
+        });
+    
 
 
     </script>
