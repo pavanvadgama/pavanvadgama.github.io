@@ -1325,6 +1325,33 @@
                 hoverImage.style.display = 'none';
             });
         });
+
+        
+        // Close projectDescription (index) when clicking outside of it
+        document.addEventListener('click', function(event) {
+            const projectDescription = document.getElementById('projectDescription');
+            const projectButton = document.getElementById('projectButton');
+
+            if (projectDescription.style.display === 'block' && 
+                !projectDescription.contains(event.target) && 
+                event.target !== projectButton) {
+                projectDescription.style.display = 'none';
+            }
+        });
+
+        // Close projectDescription when clicking magnifyIcon
+        document.getElementById('magnifyIcon').addEventListener('click', function() {
+            document.getElementById('projectDescription').style.display = 'none';
+        });
+
+        // Disable magnifier mode when clicking projectButton, if active
+        document.getElementById('projectButton').addEventListener('click', function() {
+            if (magnifyMode) {
+                disableMagnifier();
+            }
+        });
+
+
     
 
 
