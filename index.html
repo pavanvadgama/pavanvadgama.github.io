@@ -232,17 +232,7 @@
             z-index: 10000;
             background-color: rgba(255,255,255,0.0);
         }
-        #greyOverlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(255, 255, 255, .1); /* Adjust opacity as desired */
-            backdrop-filter: grayscale(100%);
-            z-index: 5000; /* Below the hoverImage and projectDescription, but above tiles */
-            display: none;
-        }
+
 
         /* Magnification Effect */
         .magnifier {
@@ -589,7 +579,6 @@
             </div>
         </div>
     </div>
-    <div id="greyOverlay"></div>
     <div id="hoverImage"></div>
     
 
@@ -656,26 +645,13 @@
 
         document.getElementById("projectButton").addEventListener("click", function(event) {
             event.stopPropagation();
-            const description = document.getElementById("projectDescription");
-            const overlay = document.getElementById("greyOverlay");
-
-            // Toggle description
-            if (description.style.display === "grid") {
-                description.style.display = "none";
-                overlay.style.display = "none"; // hide overlay
-            } else {
-                description.style.display = "grid";
-                overlay.style.display = "block"; // show overlay
-            }
+            let description = document.getElementById("projectDescription");
+            description.style.display = description.style.display === "grid" ? "none" : "grid";
         });
-        // Close project description and overlay when clicking elsewhere
+        // Close dropdown when clicking elsewhere
         document.addEventListener("click", function(event) {
-            const overlay = document.getElementById("greyOverlay");
-            const projectDescription = document.getElementById("projectDescription");
-
             if (!event.target.closest("#projectContainer")) {
-                projectDescription.style.display = "none";
-                overlay.style.display = "none"; // explicitly hide overlay
+                document.getElementById("projectDescription").style.display = "none";
             }
         });
 
