@@ -451,6 +451,13 @@
     <div id="projectContainer">
         <img id="projectButton" src="https://img.icons8.com/fluency-systems-regular/48/clipboard-list--v3.png" alt="Projects" title="Project Info">
         <div id="projectDescription">
+            <div class="project-row"> 
+                <div class="project-code"><b></b></div>
+                <div class="project-year"></div>
+                <div class="project-name"><b>Selected Work:</b></div>
+                <div class="project-location"></div>
+                <div class="project-type"></div>
+            </div>
             <div class="project-row" data-image="https://lh3.googleusercontent.com/d/101-tUfrQPRR14r5S61qzD-meVq_YfIYu"> 
                 <div class="project-code"><b>NEU</b></div>
                 <div class="project-year">2025-</div>
@@ -521,7 +528,7 @@
                 <div class="project-location">Berlin</div>
                 <div class="project-type">Adaptive Reuse</div>
             </div>
-            <div class="project-row" data-image="">
+            <div class="project-row" data-image="https://lh3.googleusercontent.com/d/1Rp8mzpp0Rz0LgE0Dz6tvwSHfndFLmWta">
                 <div class="project-code"><b>ZZH</b></div>
                 <div class="project-year">2022-</div>
                 <div class="project-name">Zerzabelshof Live-Work</div>
@@ -566,7 +573,7 @@
             <div class="project-row" data-image="https://lh3.googleusercontent.com/d/12pfLTBN4kT6vCfC75lAunA_JuLv3DpCI">
                 <div class="project-code"><b>ZHC</b></div>
                 <div class="project-year">2019-</div>
-                <div class="project-name">Community Center</div>
+                <div class="project-name">Hechtgraben Community Center</div>
                 <div class="project-location">Berlin</div>
                 <div class="project-type">Initiative</div>
             </div>
@@ -591,9 +598,22 @@
         /* Detect changes on resize and page load */
         window.addEventListener("resize", checkViewportSize);
         document.addEventListener("DOMContentLoaded", checkViewportSize);
-        document.getElementById("nameContainer").addEventListener("click", function () {
-            let description = document.getElementById("nameDescription");
+
+        document.getElementById("nameContainer").addEventListener("click", function (event) {
+            event.stopPropagation(); // Prevent this click from propagating
+            document.getElementById("projectDescription").style.display = "none";
+            if (magnifyMode) {
+                disableMagnifier();
+            }
+            const description = document.getElementById("nameDescription");
             description.style.display = description.style.display === "block" ? "none" : "block";
+        });
+        // Close the nameDescription when clicking anywhere else
+        document.addEventListener("click", function (event) {
+            const description = document.getElementById("nameDescription");
+            if (description.style.display === "block" && !description.contains(event.target)) {
+                description.style.display = "none";
+            }
         });
 
         document.getElementById("refreshIcon").addEventListener("click", function () {
@@ -853,7 +873,7 @@
         }
 
         document.getElementById("magnifyIcon").addEventListener("click", function () {
-            event.stopPropagation(); // Prevents accidental reactivation when clicking icon
+            event.stopPropagation();
             if (magnifyMode) {
                 disableMagnifier(); // If active, turn it off
             } else {
@@ -1267,9 +1287,11 @@
         // Close projectDescription when clicking magnifyIcon
         document.getElementById('magnifyIcon').addEventListener('click', function() {
             document.getElementById('projectDescription').style.display = 'none';
+            document.getElementById('nameDescription').style.display = 'none';
         });
         // Disable magnifier mode when clicking projectButton, if active
         document.getElementById('projectButton').addEventListener('click', function() {
+            document.getElementById('nameDescription').style.display = 'none';
             if (magnifyMode) {
                 disableMagnifier();
             }
