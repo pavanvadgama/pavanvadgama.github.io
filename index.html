@@ -147,6 +147,7 @@
         #refreshIcon:hover {
             opacity: .7;
         }
+
         #magnifyIcon {
             position: fixed;
             top: 15px;
@@ -175,7 +176,6 @@
         #pauseButton:hover {
             opacity: 0.7;
         }
-
 
         #projectContainer {
             position: fixed;
@@ -232,28 +232,38 @@
             z-index: 10000;
             background-color: rgba(255,255,255,0.0);
         }
+        #greyOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.5); /* Adjust opacity as desired */
+            backdrop-filter: grayscale(100%);
+            z-index: 5000;
+            display: none;
+            pointer-events:none;
+        }
 
-
-        /* Magnification Effect */
         .magnifier {
             position: absolute;
-            width: 333px; /* Size of magnifying glass */
+            width: 333px;
             height: 333px;
             border-radius: 50%;
             /*border: 2px solid rgba(0, 0, 0, 0.2);*/
             box-shadow: 0px 10px 10px rgba(0, 0, 0, .4);
             background-repeat: no-repeat;
             background-size: 300%; /* Zoom effect */
-            pointer-events: none; /* Prevent interference */
-            display: none; /* Hidden until activated */
-            z-index: 9998; /* Ensure it stays on top */
+            pointer-events: none;
+            display: none;
+            z-index: 9998;
             overflow: hidden;
-            background-color: white !important; /* Ensure magnifier background is white */
+            background-color: white !important;
             
         }
         .magnifier-content {
             position: absolute;
-            transform: scale(2); /* Adjust magnification level */
+            transform: scale(2);
             transform-origin: center;
             background-color: white !important;
         }
@@ -304,20 +314,20 @@
                 touch-action: manipulation;
             }
             .tile span {
-                display: none; /* Ensure text is visible */
-                font-size: 10px; /* Adjust font size for mobile */
+                display: none;
+                font-size: 10px; 
                 padding: 4px 4px;
                 min-width: 120%;
-                max-width: 200px; /* Allows text to extend beyond tile bounds */
+                max-width: 200px; 
                 white-space: normal; /* Allow text to wrap */
                 word-wrap: break-word;
                 position: absolute; /* Position text freely outside the tile */
-                top: 100%; /* Push text below the tile */
+                top: 100%; 
                 left: 50%;
                 transform: translateX(-50%); /* Center the text horizontally */
                 background: rgba(255, 255, 255, .9); /* Keep text readable */
                 border-radius: 5px;
-                z-index: 9999 !important; /* Ensure text stays above other elements */
+                z-index: 9999 !important;
                 pointer-events: auto !important;
             }
             .tile.clicked span {
@@ -579,6 +589,7 @@
             </div>
         </div>
     </div>
+    <div id="greyOverlay"></div>
     <div id="hoverImage"></div>
     
 
@@ -602,6 +613,7 @@
         document.getElementById("nameContainer").addEventListener("click", function (event) {
             event.stopPropagation(); // Prevent this click from propagating
             document.getElementById("projectDescription").style.display = "none";
+            document.getElementById('greyOverlay').style.display = 'none';
             if (magnifyMode) {
                 disableMagnifier();
             }
@@ -645,14 +657,38 @@
 
         document.getElementById("projectButton").addEventListener("click", function(event) {
             event.stopPropagation();
-            let description = document.getElementById("projectDescription");
-            description.style.display = description.style.display === "grid" ? "none" : "grid";
-        });
-        // Close dropdown when clicking elsewhere
-        document.addEventListener("click", function(event) {
-            if (!event.target.closest("#projectContainer")) {
-                document.getElementById("projectDescription").style.display = "none";
+
+            const description = document.getElementById("projectDescription");
+            const overlay = document.getElementById("greyOverlay");
+            const tileSpans = document.querySelectorAll(".tile span");
+
+            if (description.style.display === "grid") {
+                description.style.display = "none";
+                overlay.style.display = "none";
+            } else {
+                description.style.display = "grid";
+                overlay.style.display = "block";
+
+                // Hide all tile spans when opening project description
+                tileSpans.forEach(span => span.style.display = "none");
             }
+        });
+        // Close dropdown and overlay when clicking elsewhere
+        document.addEventListener("click", function(event) {
+            const description = document.getElementById("projectDescription");
+            const overlay = document.getElementById("greyOverlay");
+
+            if (!event.target.closest("#projectContainer")) {
+                description.style.display = "none";
+                overlay.style.display = "none";
+            }
+        });
+        // Magnify icon explicitly closes both descriptions and overlay when toggled
+        document.getElementById('magnifyIcon').addEventListener('click', function(event) {
+            event.stopPropagation();
+            document.getElementById('projectDescription').style.display = 'none';
+            document.getElementById('nameDescription').style.display = 'none';
+            document.getElementById('greyOverlay').style.display = 'none';
         });
 
         
