@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Portfolio</title>
+  <link rel="icon" type="image/png" href="https://img.icons8.com/led/32/earth-planet.png">
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+      font-family: 'SuisseIntl', Helvetica, sans-serif;
+      background-color: white;
+      touch-action: manipulation;
+    }
+
+    @font-face {
+      font-family: 'SuisseIntl';
+      src: url('https://raw.githubusercontent.com/pavanvadgama/Fonts/5210c83db922388454e077b4cae6f88697769621/SuisseIntl-Regular-WebS.woff2') format('woff2');
+    }
+
+    .slide {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      z-index: 1;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .slide-down {
+      transform: translateY(100vh);
+    }
+
+    .slide-content {
+      width: 100%;
+      height: 80vh;
+      max-height: 80vh;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-origin: content-box;
+      aspect-ratio: 3 / 4;
+      box-shadow: inset 0 -100px 100px -100px white;
+    }
+
+    .home-link {
+      position: fixed;
+      top: 15px;
+      left: 20px;
+      z-index: 10;
+    }
+
+    .home-link img {
+      width: 25px;
+      height: 25px;
+    }
+
+    .nav {
+      position: fixed;
+      bottom: 25px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      display: flex;
+    }
+
+    .nav-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .nav-icon {
+      width: 30px;
+      height: 30px;
+      opacity: 0.75;
+      transition: opacity 0.3s;
+    }
+
+    .nav-icon:hover {
+      opacity: 1;
+    }
+
+    .stacked-wrapper {
+      display: flex;
+      flex-direction: column;
+    }
+
+
+  </style>
+</head>
+<body>
+
+<a class="home-link" href="https://pavan-net.work">
+  <img src="https://img.icons8.com/sf-regular/48/home-page.png" alt="Home">
+</a>
+
+<div class="stacked-wrapper" id="slides">
+  <section class="slide" id="slide-0"><div class="slide-content" style="background-image: url('https://lh3.googleusercontent.com/d/17xFrp097A682F2E3pKF7UaOYu6t1gUGu');"></div></section>
+  <section class="slide" id="slide-1"><div class="slide-content" style="background-image: url('https://lh3.googleusercontent.com/d/1l4AN-CA8gjiXmwGoqrv_SkRXRENodjDv');"></div></section>
+  <section class="slide" id="slide-2"><div class="slide-content" style="background-image: url('https://lh3.googleusercontent.com/d/1CzohgBw9DhjA-rWe6x8f-dqpwPZO6F5l');"></div></section>
+  <section class="slide" id="slide-3"><div class="slide-content" style="background-image: url('https://lh3.googleusercontent.com/d/1B8A-3yRTuDGZ129T7lG_1ib8dwpl8iTf');"></div></section>
+  <section class="slide" id="slide-4"><div class="slide-content" style="background-image: url('https://lh3.googleusercontent.com/d/14StmxTHRzqP8dhWtjWvNeTiB29DWdGQe');"></div></section>
+  <section class="slide" id="slide-5"><div class="slide-content" style="background-image: url('https://lh3.googleusercontent.com/d/1czMUuLCYG1SYaPAzfwBwfMTVAy9K40C9');"></div></section>
+  <section class="slide" id="slide-6"><div class="slide-content" style="background-image: url('https://lh3.googleusercontent.com/d/1fV5T0ALAE-lyZbUo6pmHBZVpUHeh5f45');"></div></section>
+  <section class="slide" id="slide-7"><div class="slide-content" style="background-image: url('https://lh3.googleusercontent.com/d/165rhj7tpetAqHh2xLkNJXd3C7jn-Mvry');"></div></section>
+  <section class="slide" id="slide-8"><div class="slide-content" style="background-image: url('https://lh3.googleusercontent.com/d/1BF-g2cNJo_pI8YLKIeAOnEjnm9xRR0QE');"></div></section>
+  <section class="slide" id="slide-9"><div class="slide-content" style="background-image: url('https://lh3.googleusercontent.com/d/1LgOZhB0hofbrQTUvc-A0CYBIegdQxxqF');"></div></section>
+  <section class="slide" id="slide-10"><div class="slide-content" style="background-image: url('https://lh3.googleusercontent.com/d/1bEGxxsO29fnqZEeTjOdq-TxRO0PY3Y0h');"></div></section>
+  <section class="slide" id="slide-11"><div class="slide-content" style="background-image: url('https://lh3.googleusercontent.com/d/1maMLm1ptnBfnUdp-kHaBVLr6ewqE_LnX');"></div></section>
+  <section class="slide" id="slide-12"><div class="slide-content" style="background-image: url('https://lh3.googleusercontent.com/d/1gjKL1xSJkHYKiBhcOFW7tz-qfw5HuM0v');"></div></section>
+  <section class="slide" id="slide-13"><div class="slide-content" style="background-image: url('https://lh3.googleusercontent.com/d/1Uj4_e8d0VwDu7DPOMdFf27FZZSkNQ1Ef');"></div></section>
+  <section class="slide" id="slide-14"><div class="slide-content" style="background-image: url('https://lh3.googleusercontent.com/d/1VeEVg7VjVwPrJHoy8fLMSIYKB4Jc4hYN');"></div></section>
+  <section class="slide" id="slide-15"><div class="slide-content" style="background-image: url('https://lh3.googleusercontent.com/d/1iGD5IYrK1rdrrdypMEhWIwIban5bTUVg');"></div></section>
+  <section class="slide" id="slide-16"><div class="slide-content" style="background-image: url('https://lh3.googleusercontent.com/d/17yLA3cBBnciQbLknQMaWr9-PMlbE6pYj');"></div></section>
+  <section class="slide" id="slide-17"><div class="slide-content" style="background-image: url('https://lh3.googleusercontent.com/d/1ffepDsPIo86vjv9P_j0lkm69_PtFRAS_');"></div></section>
+  <section class="slide" id="slide-18"><div class="slide-content" style="background-image: url('https://lh3.googleusercontent.com/d/1UgGChCWcjGYwp8MsAFdmgW-7CEaDb9Sj');"></div></section>
+  <section class="slide" id="slide-19"><div class="slide-content" style="background-image: url('https://lh3.googleusercontent.com/d/1ZxpX1rXIGkdhESF8F--VU9g0w5XWCdb4');"></div></section>
+  <section class="slide" id="slide-20"><div class="slide-content" style="background-image: url('https://lh3.googleusercontent.com/d/1BDKAyVMYXBV7ZVF6xCjHYtxx4MIlS7zg');"></div></section>
+  <section class="slide" id="slide-21"><div class="slide-content" style="background-image: url('https://lh3.googleusercontent.com/d/1UFPgdKLY5U1_FwEgFufmNEPXVP4HHQdS');"></div></section>
+  <section class="slide" id="slide-22"><div class="slide-content" style="background-image: url('https://lh3.googleusercontent.com/d/1hD-8HWmdp9tKCln5xTrnq-tr_-SIbb8H');"></div></section>
+  <section class="slide" id="slide-23"><div class="slide-content" style="background-image: url('https://lh3.googleusercontent.com/d/1iWjX1rDpuSmHa82dUm1Cuwlt2vwFOnMP');"></div></section>
+</div>
+
+<div class="nav">
+  <button onclick="nextSlide()" class="nav-button">
+    <img src="https://img.icons8.com/ios-filled/100/long-arrow-down.png" alt="Next" class="nav-icon">
+  </button>
+</div>
+
+<script>
+  document.addEventListener('contextmenu', event => event.preventDefault());
+  document.addEventListener('keydown', event => {
+    if (event.ctrlKey && (event.key === 'u' || event.key === 's')) {
+      event.preventDefault();
+    }
+  });
+  document.addEventListener("gesturestart", function (e) {
+    e.preventDefault();
+  });
+
+  const slides = document.querySelectorAll('.slide');
+  let isAnimating = false;
+  const SCROLL_DURATION = 500;
+
+  function getCurrentIndex() {
+    return Math.floor(window.scrollY / window.innerHeight);
+  }
+
+  function nextSlide() {
+    if (isAnimating) return;
+    const currentIndex = getCurrentIndex();
+    if (currentIndex >= slides.length - 1) return;
+
+    isAnimating = true;
+    const nextIndex = currentIndex + 1;
+    const targetY = nextIndex * window.innerHeight;
+
+    window.scrollTo({
+      top: targetY,
+      behavior: 'smooth'
+    });
+
+    setTimeout(() => {
+      isAnimating = false;
+    }, SCROLL_DURATION);
+  }
+</script>
+
+
+</body>
+</html>
