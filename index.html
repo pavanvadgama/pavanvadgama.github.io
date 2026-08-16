@@ -274,7 +274,7 @@
 
         #tile1 { width: 268px; height: 150px; background-image: url('https://lh3.googleusercontent.com/d/13PeOgSdkZsJittnEKnShjZ6OaK0LK9NG'); } /* STP */
         #tile2 { width: 389px; height: 252px; background-image: url('https://lh3.googleusercontent.com/d/1DV9-E6emc0Zvn8kkmiKJ_CX8LlZ4TN15'); } /* COW */
-        #tile3 { width: 150px; height: 225px; background-image: url('https://lh3.googleusercontent.com/d/16pyN0N02bhYOJJIGlBfBI7dDDfuaY2Mt'); } /* HOLY COW */
+        #tile3 { width: 133px; height: 200px; background-image: url('https://lh3.googleusercontent.com/d/16pyN0N02bhYOJJIGlBfBI7dDDfuaY2Mt'); } /* HOLY COW */
         #tile4 { width: 250px; height: 189px; background-image: url('https://lh3.googleusercontent.com/d/1DZV8lstpNt1vjKdQS0fQgU5n3uF4DKKk'); } /* OAS (160x212) */
         #tile5 { width: 118px; height: 118px; background-image: url('https://lh3.googleusercontent.com/d/1AURwjO5we5pIs34gzh-O8-s2HQhjssEh'); } /* MOA */
         #tile6 { width: 189px; height: 160px; background-image: url('https://lh3.googleusercontent.com/d/19QO7pxkTV4__PQTNNOZ-oI7vicjcXtiP'); } /* DEM */
@@ -288,6 +288,7 @@
         #tile14 { width: 118px; height: 89px; background-image: url('https://lh3.googleusercontent.com/d/1RI1CQeZaQ3zV3aGVoPr4r5tw7lR-JVUq'); }  /* POE */
         #tile15 { width: 89px; height: 118px; background-image: url('https://lh3.googleusercontent.com/d/1TC4z9cnKzc5FTOA8TjGIQdobZIe76xw6'); }  /* NEU */
         #tile16 { width: 250px; height: 138px; background-image: url('https://lh3.googleusercontent.com/d/11--GOwMde7wbJEZkgVfDw1KNQefooyQQ'); }  /* SSZ */ 
+        #tile17 { width: 167px; height: 225px; background-image: url('https://lh3.googleusercontent.com/d/1g1cJD5_2QyJpxFQy5mEu2Kke8lVjZ4m5'); } /* PORTO */
 
         @media (max-width: 768px) and (orientation: portrait) {
             #nameContainer {
@@ -389,7 +390,7 @@
 
             #tile1 { width: 27vw !important; aspect-ratio: 300 / 168 !important; height: auto !important; } /* STP */
             #tile2 { width: 39vw !important; aspect-ratio: 450 / 291 !important; height: auto !important; } /* COW */
-            #tile3 { width: 15vw !important; aspect-ratio: 167 / 250 !important; height: auto !important; } /* HOLY COW */
+            #tile3 { width: 15vw !important; aspect-ratio: 150 /225 !important; height: auto !important; } /* HOLY COW */
             #tile4 { width: 25vw !important; aspect-ratio: 236 / 177 !important; height: auto !important; } /* OAS */
             #tile5 { width: 12vw !important; aspect-ratio: 130 / 130 !important; height: auto !important; } /* MOA */
             #tile6 { width: 19vw !important; aspect-ratio: 211 / 178 !important; height: auto !important; } /* DEM */
@@ -402,7 +403,8 @@
             #tile13 { width: 15vw !important; aspect-ratio: 150 / 90 !important; height: auto !important; } /* ZHC */
             #tile14 { width: 12vw !important; aspect-ratio: 921 / 670 !important; height: auto !important; } /* POE */
             #tile15 { width: 9vw !important; aspect-ratio: 99 / 132 !important; height: auto !important; } /* NEU */
-            #tile16 { width: 25vw !important; aspect-ratio: 250 / 138 !important; height: auto !important; } /* SSZ */            
+            #tile16 { width: 25vw !important; aspect-ratio: 250 / 138 !important; height: auto !important; } /* SSZ */  
+            #tile17 { width: 15vw !important; aspect-ratio: 187 / 250 !important; height: auto !important; } /* PORTO */          
 
             
         }
@@ -448,6 +450,7 @@
     <div id="tile14" class="tile"><span>POE&nbsp;  "The Poiesis of Miesian Corners" in Pidgin Magazine, no. 32, 2024 <br><a href="https://www.pidgin.press/issues/p/pidgin-32" target="_blank" class="tap-link">pidgin.press/32</a></span></div>
     <div id="tile15" class="tile"><span>NEU&nbsp;  Berlin-Neukölln Apartment Renovation, 2025</span></div>
     <div id="tile16" class="tile"><span>SSZ&nbsp;  Strahlenschutzzentrum Adaptive Reuse, Berlin-Lichtenberg - Professional work with ZOOMARCHITEKTEN, 2024- <br><a href="https://zoomarchitekten.de/projekte/#neue-gartenstadt-waldowallee" target="_blank" class="tap-link">zoomarchitekten.de/projekte/#neue-gartenstadt-waldowallee</a></span></div>
+    <div id="tile17" class="tile"><span>PORTO&nbsp;  Design Biennale 2025-2026 <br> Time is Present: Designing the Common <br><a href="https://www.portodesignbiennale.pt/en/2025/time-is-present-designing-the-common" target="_blank" class="tap-link">portodesignbiennale.pt</a></span></div>
 
     <div id="nameContainer">
         <span id="name">Pavan Vadgama</span>
@@ -1260,7 +1263,8 @@
             ['tile3', 'tile8'],
             ['tile10', 'tile2'],
             ['tile10', 'tile3'], 
-            ['tile6', 'tile11']
+            ['tile6', 'tile11'],
+            ['tile3', 'tile17']
         ];
 
         let lines = {};
@@ -1289,7 +1293,7 @@
         }
 
         let tiles = [];
-        let tileIds = ['tile1', 'tile2', 'tile3', 'tile4', 'tile5', 'tile6', 'tile7', 'tile8', 'tile9', 'tile10', 'tile11', 'tile12', 'tile13', 'tile14', 'tile15', 'tile16'];
+        let tileIds = ['tile1', 'tile2', 'tile3', 'tile4', 'tile5', 'tile6', 'tile7', 'tile8', 'tile9', 'tile10', 'tile11', 'tile12', 'tile13', 'tile14', 'tile15', 'tile16', 'tile17'];
         tileIds.forEach(id => tiles.push(new MovingTile(document.getElementById(id), tiles, updateLines)));
 
         function collisionLoop() {
